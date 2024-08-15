@@ -10,7 +10,7 @@ public class ApplicationController {
 
     @PostMapping("/save")
     @ResponseBody
-    public BaseResponse<Object> createApplication(@RequestBody Application application) {
+    public BaseResponse createApplication(@RequestBody Application application) {
         return BaseResponse.success(null);
     }
 }

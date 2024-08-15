@@ -1,4 +1,4 @@
-package com.rcszh.framework.lowcode.entity;
+package com.rcszh.framework.lowcode.entity.base;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

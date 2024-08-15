@@ -1,6 +1,6 @@
 package com.rcszh.framework.lowcode.controller;
 
-import com.rcszh.framework.lowcode.entity.FromDataStructure;
+import com.rcszh.framework.lowcode.entity.FromDataTable;
 import com.rcszh.framework.lowcode.service.FromDataStructureService;
 import com.rcszh.framework.lowcode.vo.BaseResponse;
 import jakarta.annotation.Resource;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/fromDataStructure")
-public class FromDataStructureController {
+public class FromDataTableController {
     @Resource
     private FromDataStructureService fromDataStructureService;
 
     @PostMapping("/save")
     @ResponseBody
-    public BaseResponse<Object> saveStructure(@RequestBody FromDataStructure fromDataStructure) {
-        fromDataStructureService.saveOneFromDataStructure(fromDataStructure);
+    public BaseResponse saveStructure(@RequestBody FromDataTable fromDataTable) {
+        fromDataStructureService.saveOneFromDataStructure(fromDataTable);
         return BaseResponse.success(null);
     }
 }
