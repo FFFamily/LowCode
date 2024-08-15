@@ -5,7 +5,7 @@ package com.rcszh.framework.lowcode.entity.base;
  */
 public class BaseDataProperty {
     // 配置标题
-    private String title;
+    private String key;
     /**
      * 配置值类型
      * {@link com.rcszh.framework.lowcode.enums.BaseDataPropertyValueTypeEnum} 对应枚举

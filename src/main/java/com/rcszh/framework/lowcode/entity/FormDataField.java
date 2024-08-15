@@ -22,14 +22,16 @@ public class FormDataField extends BaseEntity {
     // 字段编码
     @NotNull
     private String code;
-    // 组件id
-    private Integer moduleId;
+    // 组件类型
+    private Integer moduleType;
+    // 数据类型（由组件类型决定）
+    private Integer dataType;
     // 状态
     private Integer status;
     // 描述
     private String description;
-    // 数据属性
-    private Object dataProperty;
-    // 样式属性
-    private Object styleProperty;
+    // 数据属性(JSON)
+    private String dataProperty;
+    // 样式属性(JSON)
+    private String styleProperty;
 }

@@ -42,6 +42,15 @@ public class FormDataFieldController {
         return BaseResponse.success(formDataFieldService.delOneFormDataField(formDataFieldDto));
     }
 
+    /**
+     * 查询数据模型字段
+     */
+    @PostMapping("/info/{id}")
+    public BaseResponse getFieldInfo(@PathVariable String id) {
+        return BaseResponse.success(formDataFieldService.getOneFormDataDetailInfoById(id));
+    }
+
+
 
 
 }

@@ -6,6 +6,7 @@ import com.rcszh.framework.lowcode.entity.FormDataField;
 import com.rcszh.framework.lowcode.exceptions.BizException;
 import com.rcszh.framework.lowcode.mapper.FormDataFieldMapper;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +29,27 @@ public class FormDataFieldService {
         }
         formDataFieldMapper.insert(formDataFieldDto);
     }
-
     /**
      * 条件查询表单数据字段列表
      */
     public List<FormDataField> getFieldQueryList(FormDataField formDataFieldDto) {
         return formDataFieldMapper.selectList(getBaseLambdaQueryWrapper(formDataFieldDto.getFromDataTableId())
                 .eq(formDataFieldDto.getName() != null,FormDataField::getName,formDataFieldDto.getName()));
+    }
+    /**
+     * 删除
+     */
+    public Object delOneFormDataField(BaseFormDataFieldDto formDataFieldDto) {
+        // todo 这里的删除要确认是要要强制删除数据库表单信息，目前是假删除
+        return formDataFieldMapper.deleteById(formDataFieldDto);
+    }
+
+    /**
+     * @param id              数据字段id
+     * @return 数据字段详情信息
+     */
+    public FormDataField getOneFormDataDetailInfoById(String id) {
+        return formDataFieldMapper.selectById(id);
     }
 
 
@@ -48,11 +63,4 @@ public class FormDataFieldService {
         return queryWrapper;
     }
 
-    /**
-     * 删除
-     */
-    public Object delOneFormDataField(BaseFormDataFieldDto formDataFieldDto) {
-        // todo 这里的删除要确认是要要强制删除数据库表单信息，目前是假删除
-        return formDataFieldMapper.deleteById(formDataFieldDto);
-    }
 }
