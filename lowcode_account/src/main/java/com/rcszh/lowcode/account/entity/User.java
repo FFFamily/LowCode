@@ -1,13 +1,22 @@
 package com.rcszh.lowcode.account.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.rcszh.lowcode.common.entity.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * 用户对象
  */
+@Getter
+@Setter
 public class User extends BaseEntity {
+    @TableId(type = IdType.AUTO)
+    private String id;
     /**
      * 租户编号
      */

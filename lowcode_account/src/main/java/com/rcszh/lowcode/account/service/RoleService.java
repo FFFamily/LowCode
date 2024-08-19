@@ -7,6 +7,8 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService {
     @Resource
@@ -24,5 +26,16 @@ public class RoleService {
 
     public void insertRole(Role role) {
 
+    }
+
+    /**
+     * 根据角色id列表查询
+     */
+    public List<Role> findRoleByIds(List<Long> roleIds) {
+        if (roleIds == null || roleIds.isEmpty()) {
+            return List.of();
+        }
+        return roleMapper.selectList(new LambdaQueryWrapper<Role>()
+                .in(Role::getId, roleIds));
     }
 }

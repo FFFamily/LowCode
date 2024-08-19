@@ -14,10 +14,8 @@ import java.io.Serial;
 public class Dept extends BaseEntity {
     @Serial
     private static final long serialVersionUID = 1L;
-
     /** 租户编号 */
     private String tenantCode;
-
     /** 父部门ID */
     private Long parentId;
     /** 父部门名称 */
@@ -26,10 +24,8 @@ public class Dept extends BaseEntity {
     private String ancestors;
     /** 部门名称 */
     private String name;
-
     /** 显示顺序 */
     private String orderNum;
-
     /** 负责人 */
     private String leader;
 
