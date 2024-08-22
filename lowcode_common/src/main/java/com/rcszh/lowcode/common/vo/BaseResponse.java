@@ -2,29 +2,26 @@ package com.rcszh.lowcode.common.vo;
 
 import com.rcszh.lowcode.common.exception.ExceptionEnum;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class BaseResponse {
     /**
      * 响应代码
      */
-    private String code;
+    private Long code;
 
     /**
      * 响应消息
      */
     private String message;
-
     /**
      * 响应结果
      */
-    private Object result;
-
-    public BaseResponse() {
-    }
-
+    private Object data;
 
     /**
      * 成功
@@ -40,7 +37,7 @@ public class BaseResponse {
         BaseResponse rb = new BaseResponse();
         rb.setCode(ExceptionEnum.SUCCESS.getResultCode());
         rb.setMessage(ExceptionEnum.SUCCESS.getResultMsg());
-        rb.setResult(data);
+        rb.setData(data);
         return rb;
     }
 
@@ -51,18 +48,18 @@ public class BaseResponse {
         BaseResponse rb = new BaseResponse();
         rb.setCode(errorInfo.getResultCode());
         rb.setMessage(errorInfo.getResultMsg());
-        rb.setResult(null);
+        rb.setData(null);
         return rb;
     }
 
     /**
      * 失败
      */
-    public static BaseResponse error(String code, String message) {
+    public static BaseResponse error(Long code, String message) {
         BaseResponse rb = new BaseResponse();
         rb.setCode(code);
         rb.setMessage(message);
-        rb.setResult(null);
+        rb.setData(null);
         return rb;
     }
 
@@ -71,9 +68,9 @@ public class BaseResponse {
      */
     public static BaseResponse error( String message) {
         BaseResponse rb = new BaseResponse();
-        rb.setCode("-1");
+        rb.setCode(ExceptionEnum.INTERNAL_SERVER_ERROR.getResultCode());
         rb.setMessage(message);
-        rb.setResult(null);
+        rb.setData(null);
         return rb;
     }
 

@@ -1,7 +1,9 @@
-package com.rcszh.lowcode.framework.config;
+package com.rcszh.lowcode.framework.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.rcszh.lowcode.framework.module.TenantContextHolder;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,16 +16,14 @@ import org.springframework.stereotype.Component;
 public class CustomTenantHandler implements TenantLineHandler {
     @Override
     public Expression getTenantId() {
-//        // 假设有一个租户上下文，能够从中获取当前用户的租户
-//        Long tenantId = TenantContextHolder.getCurrentTenantId();
-//        // 返回租户ID的表达式，LongValue 是 JSQLParser 中表示 bigint 类型的 class
-//        return new LongValue(tenantId);;
-        return null;
+        // 假设有一个租户上下文，能够从中获取当前用户的租户
+        String tenantCode = TenantContextHolder.getCurrentTenantCode();
+        return new StringValue(tenantCode);
     }
 
     @Override
     public String getTenantIdColumn() {
-        return "tenant_id";
+        return "tenant_code";
     }
 
     @Override

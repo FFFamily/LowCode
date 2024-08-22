@@ -1,9 +1,8 @@
-package com.rcszh.lowcode.framework.config;
+package com.rcszh.lowcode.framework.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import jakarta.annotation.Resource;
-import org.mybatis.spring.annotation.MapperScan;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,5 @@
 package com.rcszh.lowcode.admin.vo;
 
-import com.rcszh.lowcode.account.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +11,14 @@ import java.util.List;
 public class LoginUserInfoVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private User userInfo;
+    /**
+     * 用户
+     */
+    private User user;
+    /**
+     * 认证信息
+     */
+    private String token;
     /**
      * 拥有的权限
      */

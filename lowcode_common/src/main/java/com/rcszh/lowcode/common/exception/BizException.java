@@ -20,7 +20,7 @@ public class BizException extends RuntimeException{
     /**
      * 错误码
      */
-    protected String errorCode;
+    protected Long errorCode;
     /**
      * 错误信息
      */
@@ -36,14 +36,14 @@ public class BizException extends RuntimeException{
         this.errorMsg = errorMsg;
     }
 
-    public BizException(String errorCode, String errorMsg) {
-        super(errorCode);
+    public BizException(Long errorCode, String errorMsg) {
+        super(errorMsg);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
 
-    public BizException(String errorCode, String errorMsg, Throwable cause) {
-        super(errorCode, cause);
+    public BizException(Long errorCode, String errorMsg, Throwable cause) {
+        super(errorMsg, cause);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }

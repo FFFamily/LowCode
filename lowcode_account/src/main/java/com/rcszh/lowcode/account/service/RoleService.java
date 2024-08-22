@@ -1,10 +1,8 @@
 package com.rcszh.lowcode.account.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rcszh.lowcode.account.entity.Role;
 import com.rcszh.lowcode.account.mapper.RoleMapper;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +35,12 @@ public class RoleService {
         }
         return roleMapper.selectList(new LambdaQueryWrapper<Role>()
                 .in(Role::getId, roleIds));
+    }
+
+    /**
+     * 查询角色列表
+     */
+    public List<Role> selectRoleList(Role role) {
+        return roleMapper.selectList(null);
     }
 }
