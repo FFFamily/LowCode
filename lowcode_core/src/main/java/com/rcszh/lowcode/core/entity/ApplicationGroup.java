@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.core.entity;
 
-import com.rcszh.framework.lowcode.entity.base.BaseEntity;
+
+import com.rcszh.lowcode.common.entity.BaseEntity;
 
 /**
  * 应用分组

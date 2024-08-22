@@ -11,8 +11,7 @@ import java.util.List;
  * 
  * @author ruoyi
  */
-public interface SysRoleMenuMapper
-{
+public interface SysRoleMenuMapper {
     /**
      * 查询菜单使用数量
      * 

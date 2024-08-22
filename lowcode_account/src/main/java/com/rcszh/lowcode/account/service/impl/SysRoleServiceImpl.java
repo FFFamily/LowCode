@@ -15,10 +15,10 @@ import com.rcszh.lowcode.common.annotation.DataScope;
 import com.rcszh.lowcode.common.constant.UserConstants;
 import com.rcszh.lowcode.common.entity.LoginUser;
 import com.rcszh.lowcode.common.exception.ServiceException;
-import com.rcszh.lowcode.common.utils.RoleUtil;
+import com.rcszh.lowcode.account.utils.RoleUtil;
 import com.rcszh.lowcode.common.utils.SecurityUtils;
 import com.rcszh.lowcode.common.utils.StringUtils;
-import com.rcszh.lowcode.common.utils.UserUtil;
+import com.rcszh.lowcode.account.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,7 +180,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public void checkRoleDataScope(Long roleId) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (!UserUtil.idAdmin(loginUser.getUserId(),loginUser.getUserType())) {
+        if (!UserUtil.isAdmin(loginUser)) {
             SysRole role = new SysRole();
             role.setId(roleId);
             List<SysRole> roles = selectRoleList(role);

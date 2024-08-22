@@ -1,6 +1,8 @@
 package com.rcszh.lowcode.account.entity.core;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.rcszh.lowcode.common.entity.BaseTenantEntity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,6 +25,7 @@ public class SysDept extends BaseTenantEntity {
     /**
      * 部门ID
      */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

@@ -4,6 +4,7 @@ import com.rcszh.lowcode.account.entity.SysPost;
 import com.rcszh.lowcode.account.mapper.SysPostMapper;
 import com.rcszh.lowcode.account.mapper.SysUserPostMapper;
 import com.rcszh.lowcode.account.service.ISysPostService;
+import com.rcszh.lowcode.common.constant.UserConstants;
 import com.rcszh.lowcode.common.exception.ServiceException;
 import com.rcszh.lowcode.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class SysPostServiceImpl implements ISysPostService {
 
     @Autowired
     private SysUserPostMapper userPostMapper;
-
-    @Autowired
-    private SnowIdConfig snowIdConfig;
+//
+//    @Autowired
+//    private SnowIdConfig snowIdConfig;
 
     /**
      * 查询岗位信息集合
@@ -160,9 +161,8 @@ public class SysPostServiceImpl implements ISysPostService {
      * @return 结果
      */
     @Override
-    public int insertPost(SysPost post)
-    {
-        post.setPostId(snowIdConfig.getSnowId());
+    public int insertPost(SysPost post) {
+//        post.setPostId(snowIdConfig.getSnowId());
         return postMapper.insertPost(post);
     }
 

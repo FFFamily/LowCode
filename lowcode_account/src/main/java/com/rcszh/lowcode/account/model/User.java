@@ -3,9 +3,12 @@ package com.rcszh.lowcode.account.model;
 import com.rcszh.lowcode.account.entity.core.SysDept;
 import com.rcszh.lowcode.account.entity.core.SysRole;
 import com.rcszh.lowcode.account.entity.core.SysUser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-
+@Getter
+@Setter
 public class User extends SysUser {
     /**
      * 部门对象

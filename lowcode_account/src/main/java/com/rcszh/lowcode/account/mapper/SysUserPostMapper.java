@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.account.mapper;
 
-import com.ruoyi.system.domain.SysUserPost;
+
+import com.rcszh.lowcode.account.entity.SysUserPost;
 
 import java.util.List;
 

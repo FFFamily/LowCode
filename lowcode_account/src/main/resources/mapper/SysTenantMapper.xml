@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rcszh.lowcode.account.mapper.SysTenantMapper">
+
+    <resultMap type="com.rcszh.lowcode.account.entity.core.SysTenant" id="SysTenantResult">
+        <result property="id" column="tenant_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="sysDept" javaType="com.rcszh.lowcode.account.entity.core.SysDept" resultMap="deptResult" column="dept_id">
+        </association>
+        <association property="sysUser" javaType="com.rcszh.lowcode.account.entity.core.SysUser" resultMap="userResult" column="user_id">
+        </association>
+    </resultMap>
+    <resultMap id="deptResult" type="com.rcszh.lowcode.account.entity.core.SysDept">
+        <id     property="id"     column="dept_id"     />
+        <result property="deptName"   column="dept_name"   />
+        <result property="leader"     column="leader"      />
+        <result property="phone"      column="phone"       />
+        <result property="email"      column="email"       />
+    </resultMap>
+    <resultMap id="userResult" type="com.rcszh.lowcode.account.entity.core.SysUser">
+        <id     property="id"       column="user_id"      />
+        <result property="userName"     column="user_name"    />
+        <result property="nickName"     column="nick_name"    />
+        <result property="email"        column="email"        />
+        <result property="phoneNumber"  column="phone_number"  />
+        <result property="sex"          column="sex"          />
+        <result property="avatar"       column="avatar"       />
+    </resultMap>
+
+
+    <sql id="selectSysTenantVo">
+        select t.tenant_id,
+               t.user_id,
+               t.dept_id,
+               t.order_num,
+               t.remark,
+               t.status,
+               t.del_flag,
+               t.create_by,
+               t.create_time,
+               t.update_by,
+               t.update_time,
+               d.dept_name,
+               d.leader,
+               d.phone,
+               d.email,
+               su.user_name,
+               su.nick_name,
+               su.email as user_email,
+               su.phone_number,
+               su.sex,
+               su.avatar
+        from sys_tenant t
+                 left join sys_dept d on t.dept_id = d.dept_id
+                 left join sys_user su on t.user_id = su.user_id
+    </sql>
+
+    <select id="selectSysTenantList" parameterType="com.rcszh.lowcode.account.entity.core.SysTenant" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        <where>
+            <if test="userId != null ">and t.user_id = #{userId}</if>
+            <if test="deptId != null ">and t.dept_id = #{deptId}</if>
+            <if test="orderNum != null ">and t.order_num = #{orderNum}</if>
+            <if test="status != null  and status != ''">and t.status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSysTenantByTenantId" parameterType="Long" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where t.tenant_id = #{tenantId}
+    </select>
+
+    <insert id="insertSysTenant" parameterType="com.rcszh.lowcode.account.entity.core.SysTenant" useGeneratedKeys="true" keyProperty="tenantId">
+        insert into sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysTenant" parameterType="com.rcszh.lowcode.account.entity.core.SysTenant">
+        update sys_tenant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where tenant_id = #{tenantId}
+    </update>
+
+    <delete id="deleteSysTenantByTenantId" parameterType="Long">
+        delete
+        from sys_tenant
+        where tenant_id = #{tenantId}
+    </delete>
+
+    <delete id="deleteSysTenantByTenantIds" parameterType="String">
+        delete from sys_tenant where tenant_id in
+        <foreach item="tenantId" collection="array" open="(" separator="," close=")">
+            #{tenantId}
+        </foreach>
+    </delete>
+</mapper>

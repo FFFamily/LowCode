@@ -21,7 +21,7 @@ public class SysMenu extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 菜单ID */
-    private Long menuId;
+    private Long id;
 
     /** 菜单名称 */
     private String menuName;

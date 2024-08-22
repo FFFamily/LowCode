@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.account.mapper;
 
-import com.ruoyi.common.core.domain.entity.SysMenu;
+
+import com.rcszh.lowcode.account.entity.core.SysMenu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

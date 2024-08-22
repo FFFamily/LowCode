@@ -14,7 +14,7 @@ import com.rcszh.lowcode.common.annotation.Log;
 import com.rcszh.lowcode.common.controller.BaseController;
 import com.rcszh.lowcode.common.enums.BusinessType;
 import com.rcszh.lowcode.common.utils.SecurityUtils;
-import com.rcszh.lowcode.common.utils.UserUtil;
+import com.rcszh.lowcode.account.utils.UserUtil;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -70,13 +70,13 @@ public class SysUserController extends BaseController {
         SysUser user = userService.selectUserById(userId);
         String userType = user.getType();
         SysRole sysRole = new SysRole();
-        if (!UserUtil.idAdmin(userId, userType)) {
+        if (!UserUtil.isAdmin(userId, userType)) {
             sysRole.setTenantId(user.getTenantId());
         }
         List<SysRole> roles = roleService.selectRoleList(sysRole);
 
         SysPost sysPost = new SysPost();
-        if (!UserUtil.idAdmin(userId, userType)) {
+        if (!UserUtil.isAdmin(userId, userType)) {
             sysPost.setTenantId(user.getTenantId());
         }
         List<SysPost> posts = postService.selectPostList(sysPost);
@@ -87,7 +87,7 @@ public class SysUserController extends BaseController {
             SysUser sysUser = userService.selectUserById(userId);
             result.put("user", sysUser);
             result.put("postIds", postService.selectPostListByUserId(userId));
-            result.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+//            result.put("roleIds", sysUser.getRoles().stream().map(SysRole::getId).collect(Collectors.toList()));
         }
         return BaseResponse.success(result);
     }
@@ -186,7 +186,7 @@ public class SysUserController extends BaseController {
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         HashMap<Object, Object> result = new HashMap<>();
         result.put("user", user);
-        result.put("roles", UserUtil.idAdmin(user.getId(), user.getType()) ? roles : roles.stream().filter(r -> r.getTenantId().equals(user.getTenantId())).collect(Collectors.toList()));
+        result.put("roles", UserUtil.isAdmin(user.getId(), user.getType()) ? roles : roles.stream().filter(r -> r.getTenantId().equals(user.getTenantId())).collect(Collectors.toList()));
         return BaseResponse.success(result);
     }
 

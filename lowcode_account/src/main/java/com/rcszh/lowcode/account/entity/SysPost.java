@@ -1,6 +1,8 @@
 package com.rcszh.lowcode.account.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.rcszh.lowcode.common.entity.BaseTenantEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +19,7 @@ public class SysPost extends BaseTenantEntity {
     private static final long serialVersionUID = 1L;
 
     /** 岗位序号 */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long postId;
 
     /** 岗位编码 */

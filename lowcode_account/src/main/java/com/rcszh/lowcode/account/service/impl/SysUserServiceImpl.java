@@ -8,14 +8,14 @@ import com.rcszh.lowcode.account.entity.SysUserRole;
 import com.rcszh.lowcode.account.entity.core.SysRole;
 import com.rcszh.lowcode.account.entity.core.SysUser;
 import com.rcszh.lowcode.account.mapper.*;
-import com.rcszh.lowcode.account.service.ISysConfigService;
 import com.rcszh.lowcode.account.service.ISysUserService;
 import com.rcszh.lowcode.common.annotation.DataScope;
 import com.rcszh.lowcode.common.constant.UserConstants;
 import com.rcszh.lowcode.common.exception.ServiceException;
+import com.rcszh.lowcode.common.utils.BeanValidators;
 import com.rcszh.lowcode.common.utils.SecurityUtils;
 import com.rcszh.lowcode.common.utils.StringUtils;
-import com.rcszh.lowcode.common.utils.UserUtil;
+import com.rcszh.lowcode.account.utils.UserUtil;
 import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +51,8 @@ public class SysUserServiceImpl implements ISysUserService {
     @Autowired
     private SysUserPostMapper userPostMapper;
 
-    @Autowired
-    private ISysConfigService configService;
+//    @Autowired
+//    private ISysConfigService configService;
 
     @Autowired
     protected Validator validator;
@@ -209,7 +209,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void checkUserAllowed(SysUser user)
     {
-        if (StringUtils.isNotNull(user.getId()) && UserUtil.idAdmin(user.getId(),user.getType()))
+        if (StringUtils.isNotNull(user.getId()) && UserUtil.isAdmin(user.getId(),user.getType()))
         {
             throw new ServiceException("不允许操作超级管理员用户");
         }
@@ -223,7 +223,7 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public void checkUserDataScope(Long userId)
     {
-        if (!UserUtil.idAdmin(SecurityUtils.getLoginUser())) {
+        if (!UserUtil.isAdmin(SecurityUtils.getLoginUser())) {
             SysUser user = new SysUser();
             user.setId(userId);
             List<SysUser> users = selectUserList(user);
@@ -242,9 +242,8 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional
-    public int insertUser(SysUser user)
-    {
-        user.setId(snowIdConfig.getSnowId());
+    public int insertUser(SysUser user) {
+//        user.setId(snowIdConfig.getSnowId());
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
@@ -369,9 +368,8 @@ public class SysUserServiceImpl implements ISysUserService {
      * 
      * @param user 用户对象
      */
-    public void insertUserRole(SysUser user)
-    {
-        this.insertUserRole(user.getId(), user.getRoleIds());
+    public void insertUserRole(SysUser user) {
+//        this.insertUserRole(user.getId(), user.getRoleIds());
     }
 
     /**
@@ -379,22 +377,20 @@ public class SysUserServiceImpl implements ISysUserService {
      * 
      * @param user 用户对象
      */
-    public void insertUserPost(SysUser user)
-    {
-        Long[] posts = user.getPostIds();
-        if (StringUtils.isNotEmpty(posts))
-        {
-            // 新增用户与岗位管理
-            List<SysUserPost> list = new ArrayList<SysUserPost>(posts.length);
-            for (Long postId : posts)
-            {
-                SysUserPost up = new SysUserPost();
-                up.setId(user.getId());
-                up.setPostId(postId);
-                list.add(up);
-            }
-            userPostMapper.batchUserPost(list);
-        }
+    public void insertUserPost(SysUser user) {
+//        Long[] posts = user.getPostIds();
+//        if (StringUtils.isNotEmpty(posts)) {
+//            // 新增用户与岗位管理
+//            List<SysUserPost> list = new ArrayList<SysUserPost>(posts.length);
+//            for (Long postId : posts)
+//            {
+//                SysUserPost up = new SysUserPost();
+//                up.setId(user.getId());
+//                up.setPostId(postId);
+//                list.add(up);
+//            }
+//            userPostMapper.batchUserPost(list);
+//        }
     }
 
     /**
@@ -412,7 +408,7 @@ public class SysUserServiceImpl implements ISysUserService {
             for (Long roleId : roleIds)
             {
                 SysUserRole ur = new SysUserRole();
-                ur.setId(userId);
+                ur.setUserId(userId);
                 ur.setRoleId(roleId);
                 list.add(ur);
             }
@@ -447,9 +443,10 @@ public class SysUserServiceImpl implements ISysUserService {
     @Transactional
     public int deleteUserByIds(Long[] userIds)
     {
-        for (Long userId : userIds)
-        {
-            checkUserAllowed(new SysUser(userId));
+        for (Long userId : userIds) {
+            SysUser sysUser = new SysUser();
+            sysUser.setId(userId);
+            checkUserAllowed(sysUser);
             checkUserDataScope(userId);
         }
         // 删除用户与角色关联
@@ -478,7 +475,8 @@ public class SysUserServiceImpl implements ISysUserService {
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        String password = configService.selectConfigByKey("sys.user.initPassword");
+        String password = "123456";
+//        String password = configService.selectConfigByKey("sys.user.initPassword");
         for (SysUser user : userList)
         {
             try
