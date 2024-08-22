@@ -1,6 +1,8 @@
 package com.rcszh.lowcode.account.service;
 
-import com.ruoyi.system.domain.SysConfig;
+
+
+import com.rcszh.lowcode.account.entity.SysConfig;
 
 import java.util.List;
 
