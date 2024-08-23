@@ -7,12 +7,13 @@ spring:
     username: root
     password: 123456
 
+
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  mapper-locations: classpath*:mapper/*Mapper.xml
   # 全局逻辑删除逻辑
   global-config:
     db-config:
@@ -24,3 +25,13 @@ pagehelper:
   propertyName: propertyValue
   reasonable: false
   defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
+
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30

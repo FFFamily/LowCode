@@ -23,7 +23,7 @@ public class CustomTenantHandler implements TenantLineHandler {
 
     @Override
     public String getTenantIdColumn() {
-        return "tenant_code";
+        return "tenant_id";
     }
 
     @Override
@@ -31,4 +31,5 @@ public class CustomTenantHandler implements TenantLineHandler {
         // 根据需要返回是否忽略该表
         return false;
     }
+
 }

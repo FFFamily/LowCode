@@ -29,10 +29,10 @@ public class SysUser extends BaseTenantEntity {
      * 部门ID
      */
     private Long deptId;
-    /**
-     * 租户id
-     */
-    private Long tenantId;
+//    /**
+//     * 租户id
+//     */
+//    private Long tenantId;
     /**
      * 用户账号
      */

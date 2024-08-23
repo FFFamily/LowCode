@@ -14,42 +14,39 @@ import java.util.List;
 @Getter
 @Setter
 public class LoginUser implements UserDetails {
+    private String password;
+    private String username;
     private Long userId;
     private Long deptId;
     private String userType;
     private Long tenantId;
+    private String token;
+    private Long expireTime;
+    private Long loginTime;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return "";
-    }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
+
 }

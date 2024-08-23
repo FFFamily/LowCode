@@ -11,7 +11,6 @@ import com.rcszh.lowcode.account.mapper.SysUserMapper;
 import com.rcszh.lowcode.account.model.CreateTenantBody;
 import com.rcszh.lowcode.account.service.ISysTenantService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

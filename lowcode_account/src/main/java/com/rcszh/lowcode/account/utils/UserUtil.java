@@ -18,7 +18,7 @@ public class UserUtil {
      * 判断当前用户是否为管理员
      */
     public static boolean isAdmin(Long userId,String userType){
-        return userId!=null&& UserType.SuperAdmin.getCode().equals(userType);
+        return userId!=null && UserType.SuperAdmin.getCode().equals(userType);
     }
     /**
      * 判断当前用户是否为管理员

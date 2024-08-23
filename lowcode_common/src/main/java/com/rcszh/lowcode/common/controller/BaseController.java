@@ -6,6 +6,7 @@ import com.rcszh.lowcode.common.entity.LoginUser;
 import com.rcszh.lowcode.common.entity.RequestPageInfo;
 import com.rcszh.lowcode.common.module.TableSupport;
 import com.rcszh.lowcode.common.utils.SecurityUtils;
+import com.rcszh.lowcode.common.vo.BaseResponse;
 
 public class BaseController {
     /**
@@ -25,5 +26,19 @@ public class BaseController {
         if (!SecurityUtils.isAdmin(loginUser.getUserId(),loginUser.getUserType())){
             tenantEntity.setTenantId(SecurityUtils.getTenantId());
         }
+    }
+
+    /**
+     * 返回成功消息
+     */
+    public BaseResponse success(Object data) {
+        return BaseResponse.success(data);
+    }
+    /**
+     * 返回失败消息
+     */
+    public BaseResponse error(String message)
+    {
+        return BaseResponse.error(message);
     }
 }
