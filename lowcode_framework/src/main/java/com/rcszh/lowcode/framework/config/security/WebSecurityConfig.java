@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/login", "/register", "/captchaImage")
                     .permitAll()
                     .anyRequest()
-                    .authenticated();
+                    .permitAll();
         });
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(new UnauthorizedHandler()));
