@@ -1,25 +1,20 @@
 package com.rcszh.lowcode.framework.service;
 
-import cn.hutool.http.useragent.UserAgent;
+
 import com.rcszh.lowcode.common.entity.LoginUser;
+import com.rcszh.lowcode.common.utils.IdUtils;
 import com.rcszh.lowcode.common.utils.StringUtils;
-import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.common.utils.ip.AddressUtils;
-import com.ruoyi.common.utils.ip.IpUtils;
-import com.ruoyi.common.utils.uuid.IdUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
 
 @Service
 public class TokenService {

@@ -2,25 +2,17 @@ package com.rcszh.lowcode.admin.service;
 
 import com.rcszh.lowcode.account.entity.core.SysUser;
 import com.rcszh.lowcode.account.service.ISysUserService;
+import com.rcszh.lowcode.common.enums.UserStatus;
+import com.rcszh.lowcode.common.exception.ServiceException;
+import com.rcszh.lowcode.common.utils.SecurityUtils;
 import com.rcszh.lowcode.framework.config.security.context.AuthenticationContextHolder;
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.enums.UserStatus;
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
-import com.ruoyi.common.exception.user.UserPasswordRetryLimitExceedException;
-import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.common.utils.StringUtils;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * 用户认证逻辑
@@ -64,10 +56,9 @@ public class AdminUserDetailsService implements UserDetailsService {
         if (!matches(user, password)) {
 //            retryCount = retryCount + 1;
 //            redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
-            throw new UserPasswordNotMatchException();
-        }
-        else
-        {
+//            throw new UserPasswordNotMatchException();
+            throw new RuntimeException();
+        } else {
             clearLoginRecordCache(username);
         }
     }

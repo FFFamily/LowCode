@@ -14,10 +14,7 @@ import com.rcszh.lowcode.common.utils.StringUtils;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.framework.config.security.context.AuthenticationContextHolder;
 import com.rcszh.lowcode.framework.service.TokenService;
-import com.ruoyi.common.constant.CacheConstants;
-import com.ruoyi.common.exception.user.*;
-import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.ip.IpUtils;
+
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +61,7 @@ public class SysLoginController {
         // 验证码校验
         validateCaptcha(userName, code, uuid);
         // 登录前置校验
-        loginPreCheck(userName, password);
+//        loginPreCheck(userName, password);
         // 用户验证
         Authentication authentication = null;
         try {
@@ -145,34 +142,34 @@ public class SysLoginController {
     }
 
 
-    /**
-     * 登录前置校验
-     * @param username 用户名
-     * @param password 用户密码
-     */
-    private void loginPreCheck(String username, String password) {
-        // 用户名或密码为空 错误
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            throw new UserNotExistsException();
-        }
-        // 密码如果不在指定范围内 错误
-        if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
-        {
-            throw new UserPasswordNotMatchException();
-        }
-        // 用户名不在指定范围内 错误
-        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
-        {
-            throw new UserPasswordNotMatchException();
-        }
-        // IP黑名单校验
-//        String blackStr = configService.selectConfigByKey("sys.login.blackIPList");
-//        if (IpUtils.isMatchedIp(blackStr, IpUtils.getIpAddr())) {
-//            throw new BlackListException();
+//    /**
+//     * 登录前置校验
+//     * @param username 用户名
+//     * @param password 用户密码
+//     */
+//    private void loginPreCheck(String username, String password) {
+//        // 用户名或密码为空 错误
+//        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+//            throw new UserNotExistsException();
 //        }
-    }
+//        // 密码如果不在指定范围内 错误
+//        if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
+//                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
+//        {
+//            throw new UserPasswordNotMatchException();
+//        }
+//        // 用户名不在指定范围内 错误
+//        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
+//                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
+//        {
+//            throw new UserPasswordNotMatchException();
+//        }
+//        // IP黑名单校验
+////        String blackStr = configService.selectConfigByKey("sys.login.blackIPList");
+////        if (IpUtils.isMatchedIp(blackStr, IpUtils.getIpAddr())) {
+////            throw new BlackListException();
+////        }
+//    }
 
     /**
      * 记录登录信息

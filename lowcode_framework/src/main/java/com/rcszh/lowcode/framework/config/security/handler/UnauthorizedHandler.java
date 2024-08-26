@@ -17,6 +17,8 @@ import java.io.Serializable;
 public class UnauthorizedHandler implements AuthenticationEntryPoint, Serializable{
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("{\"code\":\"" + "403" + "\",\"error\":\"Forbidden\",\"message\":\"您无权访问此资源\"}");
     }
 }

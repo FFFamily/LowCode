@@ -4,8 +4,6 @@ import com.rcszh.lowcode.account.entity.core.SysUser;
 import com.rcszh.lowcode.account.service.ISysMenuService;
 import com.rcszh.lowcode.account.service.ISysRoleService;
 import com.rcszh.lowcode.account.utils.UserUtil;
-import com.ruoyi.common.core.domain.entity.SysRole;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
