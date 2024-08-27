@@ -3,6 +3,7 @@ package com.rcszh.lowcode.framework.config.mybatis;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.rcszh.lowcode.framework.module.TenantContextHolder;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.StringValue;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,9 @@ public class CustomTenantHandler implements TenantLineHandler {
     @Override
     public Expression getTenantId() {
         // 假设有一个租户上下文，能够从中获取当前用户的租户
-        String tenantCode = TenantContextHolder.getCurrentTenantCode();
-        return new StringValue(tenantCode);
+        Long tenantCode = TenantContextHolder.getCurrentTenantCode();
+//        return new StringValue(tenantCode);
+        return new LongValue(tenantCode);
     }
 
     @Override
