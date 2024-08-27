@@ -47,14 +47,14 @@ export const constantRoutes = [
   },
 
   {
-    path: '/form',
+    path: '/data_source',
     component: Layout,
     meta: { title: '数据源', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'index',
         name: 'Form',
-        component: () => import('@/views/form/index'),
+        component: () => import('@/views/data_source/index'),
         meta: { title: '数据源', icon: 'el-icon-s-help' }
       }
     ]
