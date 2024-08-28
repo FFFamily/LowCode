@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@TableName("data_source")
+@TableName("core_data_source")
 public class CoreDataSource extends BaseTenantEntity {
     @TableId(type = IdType.AUTO)
     private Long id;

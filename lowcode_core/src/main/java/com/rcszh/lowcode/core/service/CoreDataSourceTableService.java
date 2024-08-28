@@ -1,5 +1,6 @@
 package com.rcszh.lowcode.core.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.data_source.CoreDataSourceTable;
 import com.rcszh.lowcode.core.mapper.CoreDataSourceTableMapper;
 import jakarta.annotation.Resource;
@@ -14,7 +15,7 @@ public class CoreDataSourceTableService {
         coreDataSourceTableMapper.insert(coreDataSourceTable);
     }
 
-    public Object getAllDataSource() {
-        return coreDataSourceTableMapper.selectList(null);
+    public Object getAllDataSource(Long sourceId) {
+        return coreDataSourceTableMapper.selectList(new LambdaQueryWrapper<CoreDataSourceTable>().eq(CoreDataSourceTable::getTableName, sourceId));
     }
 }

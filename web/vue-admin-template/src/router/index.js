@@ -56,6 +56,13 @@ export const constantRoutes = [
         name: 'Form',
         component: () => import('@/views/data_source/index'),
         meta: { title: '数据源', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'field',
+        name: 'Field',
+        component: () => import('@/views/data_source/field'),
+        hidden: true,
+        meta: { title: '数据表', icon: 'el-icon-s-help' }
       }
     ]
   },

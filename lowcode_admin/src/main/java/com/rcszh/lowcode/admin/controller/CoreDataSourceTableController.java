@@ -16,9 +16,9 @@ public class CoreDataSourceTableController {
     private CoreDataSourceTableService coreDataSourceTableService;
 
     @ResponseBody
-    @GetMapping("/list")
-    public BaseResponse datasourceList(){
-        return BaseResponse.success(coreDataSourceTableService.getAllDataSource());
+    @GetMapping("/list/{sourceId}")
+    public BaseResponse datasourceList(@PathVariable Long sourceId){
+        return BaseResponse.success(coreDataSourceTableService.getAllDataSource(sourceId));
     }
 
     @ResponseBody
