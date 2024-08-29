@@ -14,6 +14,7 @@ public class CoreDataSourceController {
     @Resource
     private CoreDataSourceService coreDataSourceService;
 
+
     @ResponseBody
     @GetMapping("/list")
     public BaseResponse datasourceList(){

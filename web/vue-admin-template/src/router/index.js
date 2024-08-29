@@ -38,8 +38,8 @@ export const constantRoutes = [
     meta: { title: '基础信息', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
+        path: 'example',
+        name: 'Example',
         component: () => import('@/views/application/index'),
         meta: { title: '应用管理', icon: 'table' }
       }
@@ -53,14 +53,21 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        name: 'Form',
+        name: 'DataSource',
         component: () => import('@/views/data_source/index'),
         meta: { title: '数据源', icon: 'el-icon-s-help' }
       },
       {
         path: 'field',
-        name: 'Field',
-        component: () => import('@/views/data_source/field'),
+        name: 'DataSourceField',
+        component: () => import('@/views/data_source/field.vue'),
+        hidden: true,
+        meta: { title: '数据表字段', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'table',
+        name: 'DataSourceTable',
+        component: () => import('@/views/data_source/table.vue'),
         hidden: true,
         meta: { title: '数据表', icon: 'el-icon-s-help' }
       }

@@ -1,23 +1,12 @@
 <template>
   <div class="app-container">
     <p>接收到的参数值：{{ $route.params.data }}</p>
-    <el-dropdown>
-      <el-button type="primary" @click="dataSourceTableDialogVisible = true">
-        添加数据表字段<i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>文本字段</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+    <el-button @click="dataSourceTableDialogVisible = true">添加数据表</el-button>
     <el-table :data="list" style="width: 100%">
       <el-table-column prop="id" label="ID" width="180"></el-table-column>
-      <el-table-column prop="name" label="字段名称" width="180"></el-table-column>
-      <el-table-column prop="fieldName" label="字段标识"></el-table-column>
-      <el-table-column prop="fieldType" label="字段类型"></el-table-column>
-      <el-table-column prop="fieldComment" label="字段描述"></el-table-column>
-      <el-table-column prop="fieldDefault" label="字段默认值"></el-table-column>
-      <el-table-column prop="fieldLength" label="字段长度"></el-table-column>
-      <el-table-column prop="fieldIndex" label="字段索引"></el-table-column>
+      <el-table-column prop="name" label="数据源名称" width="180"></el-table-column>
+      <el-table-column prop="type" label="数据源类型"></el-table-column>
+      <el-table-column prop="status" label="数据源状态"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template v-slot="scope">
           <el-button @click="goToFieldPage(scope.row.id)" type="text" size="small">配置字段</el-button>
@@ -48,36 +37,36 @@
 </template>
 
 <script>
-  import {getDataSourceFieldList,saveDataSourceField} from "@/api/data_source/dataSourceField";
+  import {getDataSourceTableList,saveDataSourceTable} from "@/api/data_source/dataSourceTable";
   export default {
     data() {
       return {
         list: [],
         tableForm: {},
-        tableId : this.$route.params.data,
+        sourceId : this.$route.params.data,
         dataSourceTableDialogVisible: false
       }
     },
     created() {
-      if(this.tableId){
-        this.getList(this.tableId)
+      if(this.sourceId){
+        this.getList(this.sourceId)
       }else{
-        this.$router.push({ name: 'DataSource'})
+        this.$router.push({ name: 'DataSourceField'})
       }
 
     },
     methods: {
       goToFieldPage(id) {
-
+        this.$router.push({ name: 'DataSourceField', params: { data: id }})
       },
       getList(sourceId) {
-        getDataSourceFieldList(sourceId).then(response => {
+        getDataSourceTableList(sourceId).then(response => {
           this.list = response.data
         })
       },
       onSubmit(){
         this.tableForm.codeDataSourceId = this.sourceId
-        saveDataSourceField(this.tableForm).then(response => {
+        saveDataSourceTable(this.tableForm).then(response => {
           this.dataSourceTableDialogVisible = false
           this.tableForm = {}
           this.getList(this.sourceId);

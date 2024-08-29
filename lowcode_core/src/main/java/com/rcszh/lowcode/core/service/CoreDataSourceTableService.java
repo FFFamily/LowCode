@@ -16,6 +16,6 @@ public class CoreDataSourceTableService {
     }
 
     public Object getAllDataSource(Long sourceId) {
-        return coreDataSourceTableMapper.selectList(new LambdaQueryWrapper<CoreDataSourceTable>().eq(CoreDataSourceTable::getTableName, sourceId));
+        return coreDataSourceTableMapper.selectList(new LambdaQueryWrapper<CoreDataSourceTable>().eq(CoreDataSourceTable::getCodeDataSourceId, sourceId));
     }
 }

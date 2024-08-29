@@ -8,7 +8,7 @@
       <el-table-column prop="status" label="数据源状态"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template v-slot="scope">
-          <el-button @click="goToFieldPage(scope.row.id)" type="text" size="small">配置</el-button>
+          <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -66,8 +66,8 @@ export default {
         this.list = response.data
       })
     },
-    goToFieldPage(id) {
-      this.$router.push({ name: 'Field', params: { data: id }})
+    goToTablePage(id) {
+      this.$router.push({ name: 'DataSourceTable', params: { data: id }})
     },
     onSubmit() {
       saveDataSource(this.coreDataSourceForm).then(response => {
