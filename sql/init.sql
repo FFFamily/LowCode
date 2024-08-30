@@ -41,6 +41,7 @@ create table core_data_source_field
     field_name    varchar(255) null,
     field_type    varchar(255) null,
     field_comment varchar(255) null,
+    field_length  int null ,
     field_default varchar(255) null,
     field_index   varchar(255) null,
     tenant_id     int          null,

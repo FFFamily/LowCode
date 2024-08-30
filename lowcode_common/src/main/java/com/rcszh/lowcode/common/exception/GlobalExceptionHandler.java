@@ -35,6 +35,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public BaseResponse exceptionHandler(HttpServletRequest req, Exception e){
         logger.error("未知异常！原因是:",e);
-        return BaseResponse.error(ExceptionEnum.INTERNAL_SERVER_ERROR);
+        return BaseResponse.error(ExceptionEnum.INTERNAL_SERVER_ERROR.getResultMsg()+e.getMessage());
     }
 }

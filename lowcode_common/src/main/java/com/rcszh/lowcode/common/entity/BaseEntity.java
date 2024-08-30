@@ -17,30 +17,30 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    /**
-     * 创建者
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private String createBy;
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-    /**
-     * 更新者
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
-    /**
-     * 更新时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-    /**
-     * 备注
-     */
-    private String remark;
+//    /**
+//     * 创建者
+//     */
+//    @TableField(fill = FieldFill.INSERT)
+//    private String createBy;
+//    /**
+//     * 创建时间
+//     */
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @TableField(fill = FieldFill.INSERT)
+//    private Date createTime;
+//    /**
+//     * 更新者
+//     */
+//    @TableField(fill = FieldFill.INSERT_UPDATE)
+//    private String updateBy;
+//    /**
+//     * 更新时间
+//     */
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @TableField(fill = FieldFill.INSERT_UPDATE)
+//    private Date updateTime;
+//    /**
+//     * 备注
+//     */
+//    private String remark;
 }
