@@ -111,7 +111,7 @@ public class SysUserController extends BaseController {
         }
         SysDept sysDept = deptService.selectDeptById(user.getDeptId());
         user.setTenantId(sysDept.getTenantId());
-        user.setCreateBy(SecurityUtils.getUsername());
+//        user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return BaseResponse.success(userService.insertUser(user));
     }
@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
         } else if (user.getEmail() != null && !userService.checkEmailUnique(user)) {
             return BaseResponse.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUpdateBy(SecurityUtils.getUsername());
+//        user.setUpdateBy(SecurityUtils.getUsername());
         return BaseResponse.success(userService.updateUser(user));
     }
 
@@ -159,7 +159,7 @@ public class SysUserController extends BaseController {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getId());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        user.setUpdateBy(SecurityUtils.getUsername());
+//        user.setUpdateBy(SecurityUtils.getUsername());
         return BaseResponse.success(userService.resetPwd(user));
     }
 
@@ -172,7 +172,7 @@ public class SysUserController extends BaseController {
     public BaseResponse changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getId());
-        user.setUpdateBy(SecurityUtils.getUsername());
+//        user.setUpdateBy(SecurityUtils.getUsername());
         return BaseResponse.success(userService.updateUserStatus(user));
     }
 

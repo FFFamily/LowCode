@@ -23,7 +23,7 @@ public class CoreDataSourceField extends BaseTenantEntity {
     /**
      * 字段组件类型
      */
-    private Integer type;
+    private String type;
     /**
      * 字段组件名称
      */

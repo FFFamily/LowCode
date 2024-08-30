@@ -36,7 +36,7 @@ create table core_data_source_field
 (
     id            int auto_increment primary key ,
     table_id      int          null,
-    type          int          null,
+    type          varchar(255)          null,
     name          varchar(255) null,
     field_name    varchar(255) null,
     field_type    varchar(255) null,

@@ -487,7 +487,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 {
                     BeanValidators.validateWithException(validator, user);
                     user.setPassword(SecurityUtils.encryptPassword(password));
-                    user.setCreateBy(operName);
+//                    user.setCreateBy(operName);
                     userMapper.insertUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 导入成功");
@@ -498,7 +498,7 @@ public class SysUserServiceImpl implements ISysUserService {
                     checkUserAllowed(u);
                     checkUserDataScope(u.getId());
                     user.setId(u.getId());
-                    user.setUpdateBy(operName);
+//                    user.setUpdateBy(operName);
                     userMapper.updateUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 更新成功");
