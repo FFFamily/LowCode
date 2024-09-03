@@ -1,7 +1,7 @@
-<!--<template>-->
-<!--  <div class="app-container">-->
-<!--  </div>-->
-<!--</template>-->
+<template>
+  <div class="app-container">
+  </div>
+</template>
 
 <script >
 import React from 'react'
