@@ -83,7 +83,7 @@ export const constantRoutes = [
       {
         path: 'show',
         name: 'Show',
-        component: () => import('@/views/tree/index.vue'),
+        component: () => import('@/views/show/index'),
         meta: { title: '配置中心', icon: 'table' }
       }
     ]
