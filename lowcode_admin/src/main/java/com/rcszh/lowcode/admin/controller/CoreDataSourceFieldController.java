@@ -3,6 +3,7 @@ package com.rcszh.lowcode.admin.controller;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.entity.data_source.CoreDataSource;
 import com.rcszh.lowcode.core.entity.data_source.CoreDataSourceField;
+import com.rcszh.lowcode.core.requests.FieldCreateRequest;
 import com.rcszh.lowcode.core.service.CoreDataSourceFieldService;
 import com.rcszh.lowcode.core.service.CoreDataSourceService;
 import com.rcszh.lowcode.core.service.CoreDataSourceTableService;
@@ -25,7 +26,7 @@ public class CoreDataSourceFieldController {
 
     @ResponseBody
     @PostMapping("/save")
-    public BaseResponse saveDatasource(@RequestBody CoreDataSourceField coreDataSourceField){
+    public BaseResponse saveDatasource(@RequestBody FieldCreateRequest coreDataSourceField){
         coreDataSourceFieldService.createOneDataSourceField(coreDataSourceField);
         return BaseResponse.success();
     }

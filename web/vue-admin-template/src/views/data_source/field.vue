@@ -6,7 +6,9 @@
         添加数据表字段<i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
       <el-dropdown-menu>
-        <el-dropdown-item command="text">文本字段</el-dropdown-item>
+        <el-dropdown-item command="input">文本</el-dropdown-item>
+        <el-dropdown-item command="number">数值</el-dropdown-item>
+        <el-dropdown-item command="radio">单选框</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-table :data="list" style="width: 100%">
@@ -33,7 +35,28 @@
       :before-close="handleClose">
       <el-form ref="form" :model="fieldForm" label-width="90px">
         <el-form-item v-for="item in fieldFormHtml.html" :label="item.label" >
-            <el-input v-show="item.type === 'input'"  v-model=item.propValue></el-input>
+            <el-input v-if="item.type === 'input'"  v-model=item.propValue></el-input>
+            <el-switch v-else-if="item.type === 'switch'" v-model=item.propValue class="ml-2" style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"/>
+            <el-input-number  v-else-if="item.type === 'number'" v-model=item.propValue />
+            <div v-else-if="item.type === 'input.list'">
+              <el-form
+                ref="formRef"
+                style="max-width: 600px"
+                label-width="auto"
+                class="demo-dynamic">
+                <el-form-item
+                  v-for="(enumValue, index) in item.propValue"
+                  :label="'枚举'">
+                  <el-input v-model="enumValue.value" />
+                  <el-button class="mt-2" @click.prevent="removeDomain(enumValue,item.propValue)">
+                    Delete
+                  </el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button @click="addDomain(item.propValue)">新增枚举</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -76,16 +99,29 @@
           this.list = response.data
         })
       },
+       removeDomain(item,arr)  {
+        const index = arr.indexOf(item)
+        if (index !== -1) {
+          arr.splice(index, 1)
+        }
+      },
+
+       addDomain (arr)  {
+         arr.push({
+          key: Date.now(),
+          value: '',
+        })
+      },
       onSubmit(){
         this.fieldForm.tableId = this.tableId
-        console.log(this.fieldFormHtml)
+        // console.log(this.fieldFormHtml)
         const obj = arrayToObject(this.fieldFormHtml.html.map(_ => _.prop),this.fieldFormHtml.html.map(_ => _.propValue))
         let form = {
           ...this.fieldForm,
           ...this.fieldFormHtml.formData,
           ...obj
         }
-        //console.log(form)
+        console.log(form)
         saveDataSourceField(form).then(response => {
           this.dataSourceFieldDialogVisible = false
           this.fieldForm = {}
@@ -102,7 +138,7 @@
       handleCommand(command) {
         this.dataSourceFieldDialogVisible = true
         this.fieldFormHtml = generateTableFieldInfo(command)
-        //console.log(this.fieldFormHtml)
+        console.log(this.fieldFormHtml)
       }
     }
   }

@@ -22,8 +22,10 @@ public class CoreDataSourceField extends BaseTenantEntity {
     private Long tableId;
     /**
      * 字段组件类型
+     * type: input、text...
      */
     private String type;
+
     /**
      * 字段组件名称
      */
@@ -34,16 +36,18 @@ public class CoreDataSourceField extends BaseTenantEntity {
     private String fieldName;
     /**
      * 字段类型
+     * schema type string、object、array...
      */
     private String fieldType;
+    /**
+     * 字段配置
+     */
+    private String options;
     /**
      * 字段描述
      */
     private String fieldComment;
-    /**
-     * 字段默认值
-     */
-    private String fieldDefault;
+
     /**
      * 字段长度
      */
@@ -52,4 +56,6 @@ public class CoreDataSourceField extends BaseTenantEntity {
      * 字段索引
      */
     private String fieldIndex;
+
+    //以下和UI字段渲染相关
 }

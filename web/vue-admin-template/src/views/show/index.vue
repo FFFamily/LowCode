@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <component  v-for="item in schemaList" :is='inpp' :info="item"></component>
+    <component  v-for="item in schemaList" :is='item.options["x-component"]' :info="item"></component>
   </div>
 </template>
 
@@ -29,6 +29,9 @@ export default {
     getTableField(){
       getDataSourceFieldList(tableId).then(response => {
         this.schemaList = response.data
+        this.schemaList.forEach(item => {
+          item.options = JSON.parse(item.options)
+        })
         console.log(this.schemaList)
       })
     },

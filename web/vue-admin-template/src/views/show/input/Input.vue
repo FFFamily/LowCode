@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      input: this.info.a
+      inputValue: this.info.options["default"]
     }
   },
   props:{
@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <el-input v-model="input" placeholder="请输入内容"></el-input>
+  <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
 </template>
 
 <style scoped lang="scss">

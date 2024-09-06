@@ -1,0 +1,5 @@
+{
+  // UI 组件类型：Input，用于前端选择渲染组件
+  "x-component": "Input|",
+  "default": "默认值"
+}

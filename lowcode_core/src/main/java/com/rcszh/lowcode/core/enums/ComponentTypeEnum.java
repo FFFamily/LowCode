@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum BaseDataPropertyValueTypeEnum {
+public enum ComponentTypeEnum {
     INPUT("input"), // 文本输入框
     SWITCH_BUTTON("switch_button"), // 开关按钮
     ;
