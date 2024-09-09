@@ -7,6 +7,7 @@ import com.rcszh.lowcode.core.enums.ComponentTypeEnum;
 import com.rcszh.lowcode.core.requests.FieldCreateRequest;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class SchemaOptionUtil {
@@ -19,6 +20,16 @@ public class SchemaOptionUtil {
             switch (componentTypeEnum){
                 case INPUT -> {
                     obj.set("x-component", "Input");
+                    return obj.toString();
+                }
+                case NUMBER -> {
+                    obj.set("x-component", "Input_  Number");
+                    return obj.toString();
+                }
+                case RADIO -> {
+                    List<Object> enumValue = request.getEnumValues();
+                    obj.set("x-component", "Radio");
+                    obj.set("enumValue", enumValue);
                     return obj.toString();
                 }
             }

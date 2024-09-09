@@ -47,12 +47,12 @@
                 <el-form-item
                   v-for="(enumValue, index) in item.propValue"
                   :label="'枚举'">
+                  <el-input v-model="enumValue.label" />
                   <el-input v-model="enumValue.value" />
-                  <el-button class="mt-2" @click.prevent="removeDomain(enumValue,item.propValue)">
-                    Delete
-                  </el-button>
+                  <el-button class="mt-2" @click.prevent="removeDomain(enumValue,item.propValue)">Delete</el-button>
                 </el-form-item>
                 <el-form-item>
+
                   <el-button @click="addDomain(item.propValue)">新增枚举</el-button>
                 </el-form-item>
               </el-form>

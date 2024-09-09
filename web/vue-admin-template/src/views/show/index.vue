@@ -7,17 +7,18 @@
 <script>
 import {getDataSourceFieldList} from '@/api/data_source/dataSourceField.js'
 import Input from '../show/input/Input.vue'
+import Input_Number from '../show/input/Input_Number.vue'
 const sourceId = 0;
 const tableId = 2;
 export default {
   data() {
     return {
-      schemaList:[],
-      inpp:'Input'
+      schemaList:[]
     }
   },
   components:{
-    Input
+    Input,
+    Input_Number
   },
   watch: {
 

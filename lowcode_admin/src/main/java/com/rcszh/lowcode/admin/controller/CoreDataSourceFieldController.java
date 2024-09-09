@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class CoreDataSourceFieldController {
     @Resource
     private CoreDataSourceFieldService coreDataSourceFieldService;
-    @Resource
-    private CoreDataSourceTableService coreDataSourceTableService;
 
     @ResponseBody
     @GetMapping("/list/{tableId}")
