@@ -9,8 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.rcszh.lowcode</groupId>
-    <artifactId>lowcode_core</artifactId>
+    <artifactId>lowcode_orm</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,16 +17,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.rcszh.lowcode</groupId>
-            <artifactId>lowcode_common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.rcszh.framework</groupId>
-            <artifactId>lowcode_orm</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>

@@ -22,6 +22,7 @@
         <module>lowcode_common</module>
         <module>lowcode_account</module>
         <module>lowcode_framework</module>
+        <module>lowcode_orm</module>
     </modules>
     <properties>
         <java.version>21</java.version>

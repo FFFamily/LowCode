@@ -1,11 +1,8 @@
 package com.rcszh.lowcode.admin.controller;
 
 import com.rcszh.lowcode.common.vo.BaseResponse;
-import com.rcszh.lowcode.core.entity.data_source.CoreDataSource;
-import com.rcszh.lowcode.core.entity.data_source.CoreDataSourceTable;
-import com.rcszh.lowcode.core.service.CoreDataSourceFieldService;
-import com.rcszh.lowcode.core.service.CoreDataSourceService;
-import com.rcszh.lowcode.core.service.CoreDataSourceTableService;
+import com.rcszh.lowcode.core.entity.form.FormTable;
+import com.rcszh.lowcode.core.service.FormTableService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,18 +10,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/data_source/table")
 public class CoreDataSourceTableController {
     @Resource
-    private CoreDataSourceTableService coreDataSourceTableService;
+    private FormTableService formTableService;
 
     @ResponseBody
     @GetMapping("/list/{sourceId}")
     public BaseResponse datasourceList(@PathVariable Long sourceId){
-        return BaseResponse.success(coreDataSourceTableService.getAllDataSource(sourceId));
+        return BaseResponse.success(formTableService.getAllDataSource(sourceId));
     }
+
 
     @ResponseBody
     @PostMapping("/save")
-    public BaseResponse saveDatasource(@RequestBody CoreDataSourceTable coreDataSourceTable){
-        coreDataSourceTableService.createOneDataSourceTable(coreDataSourceTable);
+    public BaseResponse saveDatasource(@RequestBody FormTable formTable){
+        formTableService.createOneDataSourceTable(formTable);
         return BaseResponse.success();
     }
 
