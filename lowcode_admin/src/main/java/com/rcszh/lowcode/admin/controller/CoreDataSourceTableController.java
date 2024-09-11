@@ -22,7 +22,7 @@ public class CoreDataSourceTableController {
     @ResponseBody
     @PostMapping("/save")
     public BaseResponse saveDatasource(@RequestBody FormTable formTable){
-        formTableService.createOneDataSourceTable(formTable);
+//        formTableService.createOneDataSourceTable(formTable);
         return BaseResponse.success();
     }
 

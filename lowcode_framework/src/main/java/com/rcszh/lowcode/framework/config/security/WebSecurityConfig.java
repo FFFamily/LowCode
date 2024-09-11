@@ -48,15 +48,29 @@ public class WebSecurityConfig {
         // 关闭 csrf
         http.csrf(AbstractHttpConfigurer::disable);
 
+//        http.authorizeHttpRequests((authorizeHttpRequests) -> {
+//            authorizeHttpRequests
+//                    .requestMatchers("/login", "/register", "/captchaImage")
+//                    .permitAll()
+//                    .anyRequest()
+//                    .authenticated();
+//        });
         http.authorizeHttpRequests((authorizeHttpRequests) -> {
             authorizeHttpRequests
+                    // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                     .requestMatchers("/login", "/register", "/captchaImage")
                     .permitAll()
+                    // 静态资源，可匿名访问
+                    .requestMatchers(HttpMethod.GET, "/", "/*.html", "/**.html", "/**.css", "/**.js", "/profile/**")
+                    .permitAll()
+                    .requestMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**")
+                    .permitAll()
+                    // 除上面外的所有请求全部需要鉴权认证
                     .anyRequest()
-                    .permitAll();
+                    .authenticated();
         });
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(new UnauthorizedHandler()));
+        http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(unauthorizedHandler));
 //        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -69,6 +83,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) throws Exception {
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         //将编写的UserDetailsService注入进来
         provider.setUserDetailsService(userDetailsService);
