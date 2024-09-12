@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -30,10 +32,11 @@ public class ORM {
     private static final String TABLE_NAME_KEY = KEY_PREFIX+"tableName"+KEY_SUFFIX;
     private static final String COLUMN_NAME_KEY = KEY_PREFIX+"columnName"+KEY_SUFFIX;
     private static final String COLUMN_VALUE_KEY = KEY_PREFIX+"columnValue"+KEY_SUFFIX;
+    private static final String COLUMN_KEY = KEY_PREFIX+"column"+KEY_SUFFIX;
     // 生成业务模型对应的数据库表
     private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+" ( id varchar(50) not null primary key ) ";
     // 查询
-    private static final String SELECT_ALL_SQL = "SELECT * FROM "+ TABLE_NAME_KEY;
+    private static final String SELECT_ALL_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY;
     // 更新
     private static final String UPDATE_ONE_SQL = "UPDATE "+TABLE_NAME_KEY+" SET "+COLUMN_NAME_KEY+"="+COLUMN_VALUE_KEY+" WHERE id = "+ID_KEY;
     // 添加
@@ -47,6 +50,11 @@ public class ORM {
      */
     private String tableName;
     /**
+     * 表字段
+     */
+    @Setter
+    private String columns;
+    /**
      * key映射
      */
     @Setter
@@ -59,13 +67,23 @@ public class ORM {
         ORM orm = new ORM();
         orm.setJdbcTemplate(SpringUtil.getBean(JdbcTemplate.class));
         orm.setMapping(new HashMap<>());
+        // 默认查询所有字段
+        orm.setColumns("*");
         return orm;
     }
 
-
-
+    public ORM columns(String... column){
+        this.columns = String.join(",",column);
+        return this;
+    }
 
     public ORM tableName(String tableName) {
+        String regex = "^\\w+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(tableName);
+        if (!matcher.matches()) {
+            throw new RuntimeException("错误的表信息");
+        }
         this.tableName = tableName;
         return this;
     }

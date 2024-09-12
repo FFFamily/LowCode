@@ -23,7 +23,7 @@ public class SchemaOptionUtil {
                     return obj.toString();
                 }
                 case NUMBER -> {
-                    obj.set("x-component", "Input_  Number");
+                    obj.set("x-component", "Input_Number");
                     return obj.toString();
                 }
                 case RADIO -> {

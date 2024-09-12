@@ -1,5 +1,6 @@
 package com.rcszh.lowcode.admin.controller.show;
 
+import com.rcszh.lowcode.admin.dto.ShowListRequest;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.service.DynamicTableService;
 import jakarta.annotation.Resource;
@@ -17,8 +18,8 @@ public class ShowController {
     private DynamicTableService dynamicTableService;
 
     @ResponseBody
-    @GetMapping("/list/{tableName}")
-    public BaseResponse list(@PathVariable String tableName){
+    @PostMapping("/list/{tableName}")
+    public BaseResponse list(@RequestBody ShowListRequest request,@PathVariable String tableName){
         return BaseResponse.success(dynamicTableService.getRealTableDataList(tableName));
     }
 

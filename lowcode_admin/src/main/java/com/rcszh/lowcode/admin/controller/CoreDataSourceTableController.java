@@ -2,7 +2,7 @@ package com.rcszh.lowcode.admin.controller;
 
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.entity.form.FormTable;
-import com.rcszh.lowcode.core.service.FormTableService;
+import com.rcszh.lowcode.core.service.form.FormTableService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 

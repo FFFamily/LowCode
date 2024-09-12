@@ -7,12 +7,15 @@ import com.rcszh.lowcode.common.entity.BaseTenantEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 与表单关联的数据库信息
+ */
 @Getter
 @Setter
-@TableName("core_data_source_table")
-public class FormTable extends BaseTenantEntity {
-    @TableId(type = IdType.AUTO)
-    private Long id;
+@TableName("form_table")
+public class FormTable  {
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String id;
     /**
      * 关联的表单Id
      */
@@ -26,7 +29,7 @@ public class FormTable extends BaseTenantEntity {
      */
     private String tableName;
     /**
-     * 数据库类型: 主表、从表
+     * 数据库类型: 主表、子表
      */
     private String type;
 

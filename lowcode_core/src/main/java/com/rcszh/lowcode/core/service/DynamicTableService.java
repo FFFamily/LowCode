@@ -1,5 +1,6 @@
 package com.rcszh.lowcode.core.service;
 
+import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
 import com.rcszh.lowcode.orm.ORM;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,16 @@ public class DynamicTableService {
      * @return 获取所有业务对象列表数据
      */
     public List<Map<String, Object>> getRealTableDataList(String tableName) {
+        return ORM.orm().tableName(tableName).selectList();
+    }
+
+    /**
+     * @param tableName 业务对象数据库表名
+     * @return 获取所有业务对象列表数据
+     */
+    public List<Map<String, Object>> getRealTableDataListByConfig(List<ViewFormConfig> listViewFormConfigs,String tableName) {
+        // 展示配置
+
         return ORM.orm().tableName(tableName).selectList();
     }
     /**

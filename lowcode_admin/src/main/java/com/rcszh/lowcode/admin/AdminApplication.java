@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 
 @SpringBootApplication(scanBasePackages = {"com.rcszh.lowcode.**","cn.hutool.extra.spring"})
-@MapperScan({"com.rcszh.lowcode.*.mapper"})
+@MapperScan({"com.rcszh.lowcode.*.mapper.**"})
 //@ComponentScan(basePackages={"cn.hutool.extra.spring"})
 @Import(cn.hutool.extra.spring.SpringUtil.class)
 public class AdminApplication {
