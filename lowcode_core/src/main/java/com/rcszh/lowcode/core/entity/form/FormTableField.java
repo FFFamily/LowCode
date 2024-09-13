@@ -34,6 +34,10 @@ public class FormTableField {
      * 字段组件类型
      * type: input、text...
      */
+    private String interfaceType;
+    /**
+     * 对应数据库类型
+     */
     private String type;
     /**
      * 字段组件名称

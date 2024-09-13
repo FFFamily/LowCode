@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.FormDataField;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
+import com.rcszh.lowcode.orm.ORM;
+import com.rcszh.lowcode.orm.SqlFieldConfig;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -65,5 +67,17 @@ public class FormTableFieldService {
     public Map<String, List<FormTableField>> getFieldByFormIdToMap(String formId) {
         List<FormTableField> formTableFields = formTableFieldMapper.selectList(new LambdaQueryWrapper<FormTableField>().eq(FormTableField::getFormId, formId));
         return formTableFields.stream().collect(Collectors.groupingBy(FormTableField::getFormTableId));
+    }
+
+    public void createField(String tableName, List<FormTableField> formTableFields) {
+        formTableFields.forEach(formTableField -> formTableFieldMapper.insert(formTableField));
+        // 更新真实的数据库字段
+        ORM.orm().tableName(tableName).updateTable(formTableFields.stream().map(item -> {
+            SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
+            sqlFieldConfig.setFieldName(item.getCode());
+            sqlFieldConfig.setFieldType(item.getType());
+            sqlFieldConfig.setIsNull(true);
+            return sqlFieldConfig;
+        }).collect(Collectors.toList()));
     }
 }

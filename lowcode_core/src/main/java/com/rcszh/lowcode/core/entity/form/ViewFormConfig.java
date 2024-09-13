@@ -36,12 +36,13 @@ public class ViewFormConfig {
     private String showConfig;
     /**
      * 配置信息
-     * 显示配置：[{fieldId:字段,fieldName:字段名称,fieldType:字段组件类型}]
-     * 搜索设置：[{fieldId:字段,fieldName:字段名称,fieldType:字段组件类型}]
-     * 排序设置：[{fieldId:字段,fieldName:字段名称,fieldType:字段组件类型,order: 排序}]
+     * 显示配置：[{fieldCode:字段编码,fieldName:字段名称,fieldType:字段组件类型}]
+     * 搜索设置：[{fieldCode:字段编码,fieldName:字段名称,fieldType:字段组件类型}]
+     * 排序设置：[{fieldCode:字段编码,fieldName:字段名称,fieldType:字段组件类型,order: 排序}]
      * 筛选设置：待定
      * 按钮设置：[{buttonId:按钮id}]
      * 基础设置：待定
+     * 页面配置
      */
     private String options;
 

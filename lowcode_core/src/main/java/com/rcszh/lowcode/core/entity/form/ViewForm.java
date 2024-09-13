@@ -19,4 +19,8 @@ public class ViewForm {
      * 类型：详情|列表
      */
     private String type;
+    /**
+     * 系统类型:SystemTypeEnum
+     */
+    private String systemType;
 }

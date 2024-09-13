@@ -36,7 +36,8 @@ public class ORM {
     // 生成业务模型对应的数据库表
     private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+" ( id varchar(50) not null primary key ) ";
     // 查询
-    private static final String SELECT_ALL_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY;
+//    private static final String SELECT_ALL_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY;
+    private static final String SELECT_ALL_SQL = "SELECT * FROM "+ TABLE_NAME_KEY;
     // 更新
     private static final String UPDATE_ONE_SQL = "UPDATE "+TABLE_NAME_KEY+" SET "+COLUMN_NAME_KEY+"="+COLUMN_VALUE_KEY+" WHERE id = "+ID_KEY;
     // 添加
@@ -72,6 +73,9 @@ public class ORM {
         return orm;
     }
 
+    /**
+     * 列
+     */
     public ORM columns(String... column){
         this.columns = String.join(",",column);
         return this;
@@ -95,6 +99,19 @@ public class ORM {
     public void createTemplateTable(){
         mapping.put(TABLE_NAME_KEY, tableName);
         String sql = SqlUtil.replaceSQL(CREATE_TABLE_SQL, mapping);
+        System.out.println("执行的SQL："+sql);
+        jdbcTemplate.execute(sql);
+    }
+
+    /**
+     * 创建基础的模版数据表
+     */
+    public void updateTable(List<SqlFieldConfig> sqlFieldConfigs){
+        mapping.put(TABLE_NAME_KEY, tableName);
+        String Alter_TABLE_SQL = "ALTER TABLE";
+        String ADD_FIELD_SQL = "ADD COLUMN";
+        String collect = sqlFieldConfigs.stream().map(item -> ADD_FIELD_SQL+" "+SqlUtil.convertFieldConfigToSql(item)).collect(Collectors.joining(","));
+        String sql = Alter_TABLE_SQL+" "+tableName+" "+collect;
         System.out.println("执行的SQL："+sql);
         jdbcTemplate.execute(sql);
     }

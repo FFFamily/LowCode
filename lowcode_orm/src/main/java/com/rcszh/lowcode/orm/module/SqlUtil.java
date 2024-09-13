@@ -1,8 +1,12 @@
 package com.rcszh.lowcode.orm.module;
 
+import com.rcszh.lowcode.orm.SqlFieldConfig;
+import com.rcszh.lowcode.orm.enums.SqlFieldTypeEnum;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +26,18 @@ public class SqlUtil {
         m.appendTail(sb);
         return sb.toString();
     }
+
+    /**
+     * 将SQL字段配置转变为真实的SQL语句
+     */
+    public static String convertFieldConfigToSql(SqlFieldConfig sqlFieldConfig) {
+        StringBuilder sb = new StringBuilder();
+        Optional.ofNullable(sqlFieldConfig.getFieldName()).ifPresent(value -> sb.append("`").append(value).append("` "));
+        Optional.ofNullable(sqlFieldConfig.getFieldType()).ifPresent(value -> sb.append(SqlFieldTypeEnum.getSqlFieldTypeEnum(value).getSqlType()));
+        Optional.ofNullable(sqlFieldConfig.getIsNull()).ifPresent(value -> sb.append(value ? "null " : "not null"));
+        return sb.toString();
+    }
+
 
     /**
      * 拼接查询参数

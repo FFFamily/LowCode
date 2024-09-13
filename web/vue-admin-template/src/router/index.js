@@ -49,13 +49,13 @@ export const constantRoutes = [
   {
     path: '/data_source',
     component: Layout,
-    meta: { title: '数据源', icon: 'el-icon-s-help' },
+    meta: { title: '表单设计', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'index',
         name: 'DataSource',
         component: () => import('@/views/data_source/index'),
-        meta: { title: '数据源', icon: 'el-icon-s-help' }
+        meta: { title: '表单设计', icon: 'el-icon-s-help' }
       },
       {
         path: 'field',
@@ -83,7 +83,7 @@ export const constantRoutes = [
       {
         path: 'show',
         name: 'Show',
-        component: () => import('@/views/show/index'),
+        component: () => import('@/views/show/list.vue'),
         meta: { title: '配置中心', icon: 'table' }
       }
     ]

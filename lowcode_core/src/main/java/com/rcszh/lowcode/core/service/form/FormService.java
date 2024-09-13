@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.form.*;
 import com.rcszh.lowcode.core.enums.FormTableTypeEnum;
+import com.rcszh.lowcode.core.enums.SystemTypeEnum;
 import com.rcszh.lowcode.core.enums.ViewFormTypeEnum;
 import com.rcszh.lowcode.core.mapper.form.FormMapper;
 import com.rcszh.lowcode.core.service.view.ViewFormConfigService;
@@ -12,6 +13,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +82,7 @@ public class FormService {
      * 获取所有的
      */
     public List<ViewForm> getViewFormInfo(String formId) {
-        return viewFormService.findAllConfigByFormId(formId);
+        return viewFormService.findAllByFormId(formId);
     }
 
     /**
@@ -93,19 +95,34 @@ public class FormService {
         formMapper.updateById(form);
         // 更新表单表
         formTableService.batchUpdateFormTable(formInfo.getFormTables());
+        // 更新表单字段信息
+        Map<String, List<FormTableField>> fields = formInfo.getFields();
+        for (Map.Entry<String, List<FormTableField>> entry : fields.entrySet()) {
+            String tableId = entry.getKey();
+            FormTable formTable = formInfo.getFormTables().stream().filter(item -> item.getId().equals(tableId)).findFirst().orElse(null);
+            if (formTable == null) {
+                throw new RuntimeException("字段表格不正确");
+            }
+            // 拿到对应的库表名称
+            String tableName = formTable.getTableName();
+            formTableFieldService.createField(tableName,entry.getValue());
+        }
         // 生成对应的视图
-        List<ViewForm> configs = viewFormService.findAllConfigByFormId(form.getId());
+        List<ViewForm> configs = viewFormService.findAllByFormId(form.getId());
         if (configs == null || configs.isEmpty()) {
             // 添加查询视图
             ViewForm viewForm = new ViewForm();
             viewForm.setFormId(form.getId());
             viewForm.setName("默认查看视图");
             viewForm.setType(ViewFormTypeEnum.VIEW_PAGE.getType());
+            viewForm.setSystemType(SystemTypeEnum.BUILT_IN.getType());
             viewFormService.createViewFormConfig(viewForm);
             // 添加列表视图
+            viewForm = new ViewForm();
             viewForm.setFormId(form.getId());
             viewForm.setName("默认列表视图");
             viewForm.setType(ViewFormTypeEnum.LIST_PAGE.getType());
+            viewForm.setSystemType(SystemTypeEnum.BUILT_IN.getType());
             viewFormService.createViewFormConfig(viewForm);
         }
     }
@@ -116,4 +133,5 @@ public class FormService {
     public List<ViewFormConfig> getViewFormConfigById(String viewFormId) {
         return viewFormConfigService.findAllConfigById(viewFormId);
     }
+
 }

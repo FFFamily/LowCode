@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ViewFormConfigSystemTypeEnum {
+public enum SystemTypeEnum {
     // 内置
     BUILT_IN("builtin"),
     // 自定义
