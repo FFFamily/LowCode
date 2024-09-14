@@ -69,6 +69,54 @@ create table core_data_source_table
     remark              varchar(255) null
 );
 
+create table dsadas
+(
+    id varchar(50) not null
+        primary key
+);
+
+create table form
+(
+    id                varchar(100) not null
+        primary key,
+    name              varchar(100) null,
+    code              varchar(100) null,
+    type              varchar(100) null,
+    view_form_id      varchar(100) null,
+    view_list_form_id varchar(100) null
+);
+
+create table form_table
+(
+    id         varchar(100) not null
+        primary key,
+    form_id    varchar(100) null,
+    name       varchar(100) null,
+    table_name varchar(100) null,
+    type       varchar(100) null
+);
+
+create table form_table_field
+(
+    id             varchar(100) not null,
+    form_id        varchar(100) null,
+    form_table_id  varchar(100) null,
+    code           varchar(100) null,
+    type           varchar(100) null,
+    interface_type varchar(100) null,
+    name           varchar(100) null,
+    status         varchar(100) null,
+    options        json         null,
+    description    varchar(100) null,
+    field_index    varchar(100) null
+);
+
+create table sadas
+(
+    id varchar(50) not null
+        primary key
+);
+
 create table sys_role
 (
     id             bigint auto_increment comment '角色ID'
@@ -120,6 +168,28 @@ create table sys_user
 create table uuu
 (
     id varchar(50) not null
+        primary key
+);
+
+create table view_form
+(
+    id          varchar(100) null,
+    form_id     varchar(100) null,
+    type        varchar(100) null,
+    name        varchar(100) null,
+    system_type varchar(100) null
+);
+
+create table view_form_config
+(
+    view_form_id varchar(100) null,
+    type         varchar(100) null,
+    name         varchar(100) null,
+    system_type  varchar(100) null,
+    is_show      varchar(100) null,
+    show_config  json         null,
+    options      json         null,
+    id           varchar(100) not null
         primary key
 );
 
