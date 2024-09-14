@@ -53,4 +53,11 @@ public class ViewFormService {
         // 拿到视图对应的配置
         return viewFormConfigService.findAllConfigById(viewForm.getId());
     }
+
+    /**
+     * 新增视图
+     */
+    public void addViewForm(ViewForm viewForm) {
+        viewFormMapper.insert(viewForm);
+    }
 }

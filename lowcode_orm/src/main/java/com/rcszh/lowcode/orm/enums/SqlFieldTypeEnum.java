@@ -17,5 +17,6 @@ public enum SqlFieldTypeEnum {
                 return sqlFieldTypeEnum;
             }
         }
+        throw new RuntimeException("错误字段类型");
     }
 }

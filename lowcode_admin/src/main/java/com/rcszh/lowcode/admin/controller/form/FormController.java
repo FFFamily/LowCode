@@ -2,9 +2,11 @@ package com.rcszh.lowcode.admin.controller.form;
 
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.entity.form.FormInfo;
+import com.rcszh.lowcode.core.entity.form.ViewForm;
 import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
 import com.rcszh.lowcode.core.service.form.FormService;
 import com.rcszh.lowcode.core.service.view.ViewFormConfigService;
+import com.rcszh.lowcode.core.service.view.ViewFormService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class FormController {
     @Resource
     private FormService formService;
+    @Resource
+    private ViewFormService viewFormService;
     @Resource
     private ViewFormConfigService viewFormConfigService;
 
@@ -65,7 +69,7 @@ public class FormController {
     }
 
     /**
-     * 获取表单视图
+     * 更新表单视图配置
      */
     @ResponseBody
     @PostMapping("/updateViewConfig")
@@ -73,4 +77,15 @@ public class FormController {
         viewFormConfigService.updateViewFormConfig(viewFormConfig);
         return BaseResponse.success();
     }
+
+    /**
+     * 新增表单视图
+     */
+    @ResponseBody
+    @PostMapping("/addViewForm")
+    public BaseResponse addViewForm(@RequestBody ViewForm viewForm){
+        viewFormService.addViewForm(viewForm);
+        return BaseResponse.success();
+    }
+
 }

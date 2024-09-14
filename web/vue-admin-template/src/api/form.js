@@ -32,15 +32,30 @@ export function getFormInfo(data) {
 
 export function getView(data) {
   return request({
-    url: `${pre}/getFormInfo/${data}`,
+    url: `${pre}/getView/${data}`,
     method: 'get',
+  })
+}
+export function addView(data) {
+  return request({
+    url: `${pre}/addViewForm`,
+    method: 'post',
+    data
   })
 }
 
 export function getViewConfig(data) {
   return request({
-    url: `${pre}/getFormInfo/${data}`,
+    url: `${pre}/getViewConfig/${data}`,
     method: 'get',
+  })
+}
+
+export function updateViewConfig(data) {
+  return request({
+    url: `${pre}/updateViewConfig`,
+    method: 'post',
+    data
   })
 }
 

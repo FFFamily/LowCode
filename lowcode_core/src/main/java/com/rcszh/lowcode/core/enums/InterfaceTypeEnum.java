@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ComponentTypeEnum {
+public enum InterfaceTypeEnum {
     INPUT("input"), // 文本输入框
     NUMBER("number"), // 数值
     RADIO("radio"), // 单选框

@@ -3,6 +3,7 @@ package com.rcszh.lowcode.core.service.form;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.FormDataField;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
+import com.rcszh.lowcode.core.enums.FormTableFieldStatusEnum;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
 import com.rcszh.lowcode.orm.ORM;
 import com.rcszh.lowcode.orm.SqlFieldConfig;
@@ -69,15 +70,29 @@ public class FormTableFieldService {
         return formTableFields.stream().collect(Collectors.groupingBy(FormTableField::getFormTableId));
     }
 
+    /**
+     * 生成数据库字段配置信息，同时生成真实库表字段
+     */
     public void createField(String tableName, List<FormTableField> formTableFields) {
-        formTableFields.forEach(formTableField -> formTableFieldMapper.insert(formTableField));
         // 更新真实的数据库字段
-        ORM.orm().tableName(tableName).updateTable(formTableFields.stream().map(item -> {
-            SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
-            sqlFieldConfig.setFieldName(item.getCode());
-            sqlFieldConfig.setFieldType(item.getType());
-            sqlFieldConfig.setIsNull(true);
-            return sqlFieldConfig;
+        ORM.orm().tableName(tableName).updateTable(formTableFields.stream()
+                // 过滤出新创建的字段
+                .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
+                .map(item -> {
+                    SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
+                    sqlFieldConfig.setFieldName(item.getCode());
+                    sqlFieldConfig.setFieldType(item.getType());
+                    sqlFieldConfig.setIsNull(true);
+                    return sqlFieldConfig;
         }).collect(Collectors.toList()));
+        formTableFields.forEach(formTableField -> {
+            if (formTableField.getId() != null){
+                formTableFieldMapper.updateById(formTableField);
+            }else {
+                // 若是新增字段那么需要更新其状态
+                formTableField.setStatus(FormTableFieldStatusEnum.PUBLISHED.getStatus());
+                formTableFieldMapper.insert(formTableField);
+            }
+        });
     }
 }

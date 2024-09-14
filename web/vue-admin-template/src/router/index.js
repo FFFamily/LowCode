@@ -70,6 +70,20 @@ export const constantRoutes = [
         component: () => import('@/views/data_source/table.vue'),
         hidden: true,
         meta: { title: '数据表', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'viewForm',
+        name: 'ViewForm',
+        component: () => import('@/views/data_source/viewForm.vue'),
+        hidden: true,
+        meta: { title: '视图列表', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'viewConfig',
+        name: 'ViewConfig',
+        component: () => import('@/views/data_source/viewFormConfig.vue'),
+        hidden: true,
+        meta: { title: '视图列表', icon: 'el-icon-s-help' }
       }
     ]
   },

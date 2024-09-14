@@ -34,7 +34,7 @@ public class SqlUtil {
         StringBuilder sb = new StringBuilder();
         Optional.ofNullable(sqlFieldConfig.getFieldName()).ifPresent(value -> sb.append("`").append(value).append("` "));
         Optional.ofNullable(sqlFieldConfig.getFieldType()).ifPresent(value -> sb.append(SqlFieldTypeEnum.getSqlFieldTypeEnum(value).getSqlType()));
-        Optional.ofNullable(sqlFieldConfig.getIsNull()).ifPresent(value -> sb.append(value ? "null " : "not null"));
+        Optional.ofNullable(sqlFieldConfig.getIsNull()).ifPresent(value -> sb.append(value ? " null " : " not null "));
         return sb.toString();
     }
 

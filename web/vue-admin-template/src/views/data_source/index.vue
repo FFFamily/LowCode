@@ -9,7 +9,7 @@
         <template v-slot="scope">
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单设计</el-button>
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单配置</el-button>
-          <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">查看视图</el-button>
+          <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">查看视图</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,6 +68,9 @@ export default {
     },
     goToTablePage(id) {
       this.$router.push({ name: 'DataSourceTable', params: { data: id }})
+    },
+    goViewConfigPage(id){
+      this.$router.push({ name: 'ViewForm', params: { data: id }})
     },
     onSubmit() {
       let table = this.coreDataSourceForm.formTables

@@ -107,9 +107,12 @@ public class ORM {
      * 创建基础的模版数据表
      */
     public void updateTable(List<SqlFieldConfig> sqlFieldConfigs){
+        if (sqlFieldConfigs == null || sqlFieldConfigs.isEmpty()){
+            return;
+        }
         mapping.put(TABLE_NAME_KEY, tableName);
         String Alter_TABLE_SQL = "ALTER TABLE";
-        String ADD_FIELD_SQL = "ADD COLUMN";
+        String ADD_FIELD_SQL = "ADD ";
         String collect = sqlFieldConfigs.stream().map(item -> ADD_FIELD_SQL+" "+SqlUtil.convertFieldConfigToSql(item)).collect(Collectors.joining(","));
         String sql = Alter_TABLE_SQL+" "+tableName+" "+collect;
         System.out.println("执行的SQL："+sql);

@@ -14,7 +14,7 @@ export default {
     return {
       formId:"3f9d4d2d90c138e83858db0ea560454c",
       type:"list_page",
-      tableName:'uuu',
+      tableName:'dsadas',
       config:{},
       showConfig: [],
       tableList: []

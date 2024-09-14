@@ -3,50 +3,33 @@
     <p>当前表单：{{ $route.params.data }}</p>
     <el-button @click="releaseForm" type="text" size="small">发布</el-button>
     <el-button @click="opendialogVisible" type="text" size="small">添加表</el-button>
-
-
-<!--    <el-button @click="dataSourceTableDialogVisible = true">添加数据表</el-button>-->
-<!--    <el-table :data="formInfo" style="width: 100%">-->
-<!--      <el-table-column prop="id" label="ID" width="180"></el-table-column>-->
-<!--      <el-table-column prop="name" label="数据源名称" width="180"></el-table-column>-->
-<!--      <el-table-column prop="type" label="数据源类型"></el-table-column>-->
-<!--      <el-table-column prop="status" label="数据源状态"></el-table-column>-->
-<!--      <el-table-column fixed="right" label="操作" width="100">-->
-<!--        <template v-slot="scope">-->
-<!--          <el-button @click="goToFieldPage(scope.row.id)" type="text" size="small">配置字段</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--    </el-table>-->
-<!--    <el-dialog-->
-<!--      title="添加数据表"-->
-<!--      :visible.sync="dataSourceTableDialogVisible"-->
-<!--      width="30%"-->
-<!--      :before-close="handleClose">-->
-<!--      <el-form ref="form" :model="tableForm" label-width="90px">-->
-<!--        <el-form-item label="数据库名称">-->
-<!--          <el-input v-model="tableForm.name"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="数据库类型">-->
-<!--          <el-input v-model="tableForm.type"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="数据库标识">-->
-<!--          <el-input v-model="tableForm.tableName"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item>-->
-<!--          <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--    </el-dialog>-->
     <el-tabs  class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="表单信息" name="first">{{ formInfo.form }}</el-tab-pane>
       <el-tab-pane label="数据模型" name="second">
         <el-table :data="formInfo.formTables" style="width: 100%">
           <el-table-column type="expand">
-            <template #default="props">
-              <el-table :data="props.row.fields" :border="childBorder">
-                <el-table-column label="字段编码" prop="name" />
-                <el-table-column label="类型" prop="state" />
-                <el-table-column label="名称" prop="city" />
+            <template  v-slot="scope">
+              <el-table :data="scope.row.fields" :border="true">
+                <el-table-column label="组件编码"  >
+                  <template v-slot="scope">
+                    <el-input type="text" v-model="scope.row.code"/>
+                  </template>
+                </el-table-column>
+                <el-table-column label="组件名称" prop="name" >
+                  <template v-slot="scope">
+                    <el-input type="text" v-model="scope.row.name"/>
+                  </template>
+                </el-table-column>
+                <el-table-column label="组件类型"  >
+                  <template v-slot="scope">
+                    <el-input type="text" v-model="scope.row.interfaceType"/>
+                  </template>
+                </el-table-column>
+                <el-table-column label="字段类型"  >
+                  <template v-slot="scope">
+                    <el-input type="text" v-model="scope.row.type"/>
+                  </template>
+                </el-table-column>
               </el-table>
             </template>
           </el-table-column>
@@ -55,7 +38,7 @@
           <el-table-column prop="type" label="类型" />
           <el-table-column fixed="right" label="操作" width="100">
             <template v-slot="scope">
-              <el-button type="text" size="small">配置</el-button>
+              <el-button @click="addField(scope.row)" type="text" size="small">添加字段</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -68,6 +51,7 @@
 <script>
   import {saveDataSourceTable} from "@/api/data_source/dataSourceTable";
   import {getFormInfo,release} from '@/api/form'
+  import {map} from "core-js/internals/array-iteration";
   export default {
     data() {
       return {
@@ -84,11 +68,20 @@
       }else{
         this.$router.push({ name: 'DataSourceField'})
       }
-
     },
     methods: {
-      goToFieldPage(id) {
-        this.$router.push({ name: 'DataSourceField', params: { data: id }})
+      addField(table){
+        this.$nextTick(() => {
+          table.fields?.push({
+            name:"name",
+            code:"code",
+            interfaceType:"Input",
+            type:"String",
+            formId:table.formId,
+            formTableId:table.id,
+            status:"created"
+          })
+        })
       },
       opendialogVisible(){
         this.dialogVisible = true
@@ -98,13 +91,28 @@
         console.log(tab, event)
       },
       releaseForm(){
-        release(this.formInfo).then(response => {
-          alert(response)
+        let fields = {}
+        this.formInfo.formTables.forEach(item => {
+          fields[item.id] = item.fields
+        })
+        console.log(fields)
+        this.formInfo.fields = fields
+        console.log(this.formInfo)
+        release({...this.formInfo}).then(response => {
+          this.$message.success("发布成功")
         });
       },
       getformInfo(formId) {
         getFormInfo(formId).then(response => {
           this.formInfo = response.data
+          let mapper = this.formInfo.fields
+          this.formInfo.formTables.forEach(item => {
+            if (mapper[item.id]){
+              item.fields = mapper[item.id]
+            }else {
+              item.fields = item.fields || [];
+            }
+          })
         })
       },
       onSubmit(){

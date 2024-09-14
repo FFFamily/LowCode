@@ -4,8 +4,10 @@ import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.form.*;
 import com.rcszh.lowcode.core.enums.FormTableTypeEnum;
+import com.rcszh.lowcode.core.enums.InterfaceTypeEnum;
 import com.rcszh.lowcode.core.enums.SystemTypeEnum;
 import com.rcszh.lowcode.core.enums.ViewFormTypeEnum;
+import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
 import com.rcszh.lowcode.core.mapper.form.FormMapper;
 import com.rcszh.lowcode.core.service.view.ViewFormConfigService;
 import com.rcszh.lowcode.core.service.view.ViewFormService;
@@ -27,6 +29,8 @@ public class FormService {
     @Resource
     private FormTableFieldService formTableFieldService;
     @Resource
+    private FormTableFieldMapper formTableFieldMapper;
+    @Resource
     private ViewFormService viewFormService;
     @Resource
     private FormMapper formMapper;
@@ -45,7 +49,7 @@ public class FormService {
         }
         Form oldForm = formMapper.selectOne(new LambdaQueryWrapper<Form>().eq(Form::getCode, form.getCode()));
         if (oldForm != null) {
-            throw new RuntimeException("已存在");
+            throw new RuntimeException("对应编码的表单已创建");
         }
         formMapper.insert(form);
         // 创建表单对应的库表信息
@@ -55,6 +59,16 @@ public class FormService {
         formTable.setFormId(form.getId());
         formTable.setType(FormTableTypeEnum.MAIN.getType());
         formTableService.createFormData(formTable);
+        // 由于默认会自带一个ID字段，所以要补充ID字段信息
+        FormTableField formTableField = new FormTableField();
+        formTableField.setFormId(form.getId());
+        formTableField.setFormTableId(formTable.getId());
+        formTableField.setCode("id");
+        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
+        formTableField.setName("ID");
+        formTableField.setType("String");
+        formTableField.setStatus("published");
+        formTableFieldMapper.insert(formTableField);
     }
 
     /**
