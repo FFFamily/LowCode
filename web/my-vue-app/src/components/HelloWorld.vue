@@ -1,14 +1,15 @@
 <template>
-  <button @click="handleClick" :class="buttonClass">
-    <slot></slot>
-  </button>
-  <el-radio v-model="radio" label="1">备选项</el-radio>
-  <el-radio v-model="radio" label="2">备选项</el-radio>
+  <fc-designer ref="designer" height="100vh" />
 </template>
 
 <script>
+import FcDesigner from "@form-create/designer";
+import { ref } from 'vue';
+// 可以在此处获取设计器实例或进行其他操作
+const designer = ref(null);
 export default {
   name: 'MyButton',
+  components: {FcDesigner},
   data(){
     return{
       radio: '1'
@@ -28,10 +29,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-/* 组件的样式 */
-button {
-  /* 样式规则 */
-}
-</style>

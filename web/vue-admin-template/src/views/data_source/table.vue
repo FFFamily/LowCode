@@ -79,7 +79,8 @@
             type:"String",
             formId:table.formId,
             formTableId:table.id,
-            status:"created"
+            status:"created",
+            options:"{\"x-component\":\"Input\"}"
           })
         })
       },

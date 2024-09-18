@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.core.service.form;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.dto.FormInfo;
 import com.rcszh.lowcode.core.entity.form.*;
@@ -18,6 +19,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +73,9 @@ public class FormService {
         formTableField.setName("ID");
         formTableField.setType("String");
         formTableField.setStatus("published");
+        HashMap<Object, Object> options = new HashMap<>();
+        options.put("x-component","Input");
+        formTableField.setOptions(JSONUtil.parse(options).toString());
         formTableFieldMapper.insert(formTableField);
     }
 

@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@form-create/designer": "^3.2.5",
+    "@form-create/element-ui": "^3.2.7",
     "element-plus": "^2.8.1",
     "vue": "^3.4.37"
   },

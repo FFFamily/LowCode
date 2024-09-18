@@ -9,7 +9,7 @@
         <template v-slot="scope">
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单设计</el-button>
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单配置</el-button>
-          <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">查看视图</el-button>
+          <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">视图配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -26,12 +26,12 @@
           <el-form-item label="表单编码">
             <el-input v-model="coreDataSourceForm.form.code"></el-input>
           </el-form-item>
-          <el-form-item label="表单类型">
-            <el-input v-model="coreDataSourceForm.form.type"></el-input>
-          </el-form-item>
-          <el-form-item label="表名">
-            <el-input v-model="coreDataSourceForm.formTables.name"></el-input>
-          </el-form-item>
+<!--          <el-form-item label="表单类型">-->
+<!--            <el-input v-model="coreDataSourceForm.form.type"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="表名">-->
+<!--            <el-input v-model="coreDataSourceForm.formTables.name"></el-input>-->
+<!--          </el-form-item>-->
           <el-form-item label="表编码">
             <el-input v-model="coreDataSourceForm.formTables.tableName"></el-input>
           </el-form-item>

@@ -7,9 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ViewFormConfigTypeEnum {
     // 按钮配置
-    BUTTON("button"),
+    BUTTON("button","按钮配置"),
     // 显示配置
-    SHOW("show"),
+    SHOW("show","显示配置"),
     ;
     private final String type;
+    private final String name;
 }

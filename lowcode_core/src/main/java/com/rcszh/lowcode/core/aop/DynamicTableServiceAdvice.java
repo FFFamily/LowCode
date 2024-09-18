@@ -1,5 +1,6 @@
 package com.rcszh.lowcode.core.aop;
 
+import com.rcszh.lowcode.core.entity.action.FormAction;
 import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.service.action.FormActionService;
 import com.rcszh.lowcode.core.service.action.FormConditionService;
@@ -11,6 +12,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Aspect
@@ -36,7 +38,7 @@ public class DynamicTableServiceAdvice {
         String formId = (String) joinPoint.getArgs()[0];
         String actionType = (String) joinPoint.getArgs()[1];
         List<FormCondition> condition = formConditionService.findConditionByFormId(formId,actionType);
-        formActionService.findActionByConditionToMap(condition.stream().map(item -> item.getId()).toList());
+        HashMap<String, FormAction> actionByConditionToMap = formActionService.findActionByConditionToMap(condition.stream().map(FormCondition::getId).toList());
         for (FormCondition formCondition : condition) {
 
         }

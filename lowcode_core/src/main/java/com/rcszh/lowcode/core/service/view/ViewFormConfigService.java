@@ -1,6 +1,8 @@
 package com.rcszh.lowcode.core.service.view;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rcszh.lowcode.common.constant.CommonConstant;
+import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
 import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import com.rcszh.lowcode.core.enums.SystemTypeEnum;
 import com.rcszh.lowcode.core.enums.ViewFormConfigTypeEnum;
@@ -38,16 +40,25 @@ public class ViewFormConfigService {
     }
     /**
      * 首次创建列表视图配置
+     * 首次创建会生成的配置有：列表渲染配置、列表按钮配置
      */
     public void createListPageConfig(String viewFormId) {
         // 列表显示配置
         ViewFormConfig addviewFormConfig = new ViewFormConfig();
         addviewFormConfig.setViewFormId(viewFormId);
         addviewFormConfig.setType(ViewFormConfigTypeEnum.SHOW.getType());
-        addviewFormConfig.setName("列设置");
+        addviewFormConfig.setName(ViewFormConfigTypeEnum.SHOW.getName());
         addviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
-        addviewFormConfig.setIsShow("Y");
+        addviewFormConfig.setIsShow(CommonConstant.YES);
         viewFormConfigMapper.insert(addviewFormConfig);
+        // 列表按钮配置
+        ViewFormConfig buttonviewFormConfig = new ViewFormConfig();
+        buttonviewFormConfig.setViewFormId(viewFormId);
+        buttonviewFormConfig.setType(ViewFormConfigTypeEnum.BUTTON.getType());
+        buttonviewFormConfig.setName(ViewFormConfigTypeEnum.BUTTON.getName());
+        buttonviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
+        buttonviewFormConfig.setIsShow(CommonConstant.YES);
+        viewFormConfigMapper.insert(buttonviewFormConfig);
     }
 
     /**

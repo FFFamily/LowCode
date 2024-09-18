@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-button v-for="item in showButtonConfig" @click = "buttonAction(item.buttonType)">{{item.buttonName}}</el-button>
       <el-table :data="tableList">
           <el-table-column v-for="item in showConfig" :prop="item.fieldCode" :key="item.fieldCode" :label="item.fieldName" ></el-table-column>
       </el-table>
@@ -12,11 +13,13 @@ import {list,config} from '@/api/show'
 export default {
   data() {
     return {
-      formId:"3f9d4d2d90c138e83858db0ea560454c",
+      formId:"f7f70be639bc6557f43ebafe844d3809",
       type:"list_page",
-      tableName:'dsadas',
+      tableName:'user',
+      // 视图配置
       config:{},
       showConfig: [],
+      showButtonConfig:[],
       tableList: []
     }
   },
@@ -34,6 +37,8 @@ export default {
           for(var i=0;i<response.data.length;i++){
             if(response.data[i].type === "show"){
               this.showConfig = JSON.parse(response.data[i].options)
+            }else if(response.data[i].type === "button"){
+              this.showButtonConfig = JSON.parse(response.data[i].options)
             }
           }
         })
@@ -44,6 +49,14 @@ export default {
         console.log(this.tableList)
       })
       console.log(this.tableList)
+    },
+    buttonAction(buttonType){
+      if(buttonType === "add"){
+        console.log("新增")
+        this.$router.push({ name: 'VIEW', params: { formId: this.formId }})
+      }else if(buttonType === "del"){
+        console.log("删除")
+      }
     }
   }
 }

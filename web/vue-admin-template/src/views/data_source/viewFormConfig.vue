@@ -39,6 +39,21 @@
           </el-table>
         <el-button @click="saveConfig()">保存</el-button>
       </el-drawer>
+
+
+    <el-drawer :visible.sync="listButtonConfigRadio" title="列表按钮配置" :with-header="true">
+      <!--        {{columnShowFieldList}}-->
+      <span>目前按钮配置都是假配置</span>
+      <el-table :data="buttonShowFieldList" style="width: 100%">
+        <el-table-column prop="buttonName" label="按钮名称" ></el-table-column>
+        <el-table-column prop="name" label="是否展示" >
+          <template v-slot="scope">
+            <el-switch v-model="scope.row.isShow" class="ml-2" style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"/>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button @click="saveButtonConfig()">保存</el-button>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -49,7 +64,12 @@ export default {
       viewFormConfigListId : this.$route.params.data,
       formId : this.$route.params.formId,
       viewFormConfigList:[],
+      // 按钮配置
+      buttonShowFieldList:[],
+      // 列表渲染配置页面开关
       columnShowConfigRadio:false,
+      // 列表按钮配置页面开关
+      listButtonConfigRadio:false,
       columnShowFieldList:[],
       viewFormConfig:{}
     }
@@ -88,6 +108,24 @@ export default {
           alert("保存成功")
       })
     },
+    saveButtonConfig(){
+      let options = [];
+      this.buttonShowFieldList.forEach(item=>{
+        if(item.isShow){
+          options.push({
+            buttonName:item.buttonName,
+            buttonType:item.buttonType,
+          })
+        }
+      })
+      if (options.length > 0){
+        this.viewFormConfig.options = JSON.stringify(options)
+      }
+      console.log(this.viewFormConfig)
+      updateViewConfig(this.viewFormConfig).then(response => {
+        alert("保存成功")
+      })
+    },
     showConfigRadio(viewConfig){
       if (viewConfig.type === "show"){
         getFormInfo(this.formId).then(response => {
@@ -98,6 +136,18 @@ export default {
           })
           this.columnShowConfigRadio = true;
         })
+      }else if(viewConfig.type === "button"){
+        this.buttonShowFieldList = this.buttonShowFieldList.concat([
+          {
+            buttonName:"新增",
+            buttonType:"add"
+          },
+          {
+            buttonName:"删除",
+            buttonType:"del"
+          }
+        ])
+        this.listButtonConfigRadio = true
       }
       this.viewFormConfig = viewConfig;
     },
