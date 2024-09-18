@@ -1,4 +1,4 @@
-package com.rcszh.lowcode.core.entity.form;
+package com.rcszh.lowcode.core.entity.view;
 
 import lombok.Data;
 

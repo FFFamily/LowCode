@@ -1,9 +1,9 @@
 package com.rcszh.lowcode.admin.controller.form;
 
 import com.rcszh.lowcode.common.vo.BaseResponse;
-import com.rcszh.lowcode.core.entity.form.FormInfo;
-import com.rcszh.lowcode.core.entity.form.ViewForm;
-import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
+import com.rcszh.lowcode.core.entity.dto.FormInfo;
+import com.rcszh.lowcode.core.entity.view.ViewForm;
+import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import com.rcszh.lowcode.core.service.form.FormService;
 import com.rcszh.lowcode.core.service.view.ViewFormConfigService;
 import com.rcszh.lowcode.core.service.view.ViewFormService;

@@ -1,4 +1,4 @@
-package com.rcszh.lowcode.admin.controller;
+package com.rcszh.lowcode.admin.controller.user;
 
 
 import com.rcszh.lowcode.account.entity.core.SysMenu;
@@ -6,11 +6,9 @@ import com.rcszh.lowcode.account.entity.core.SysUser;
 import com.rcszh.lowcode.account.service.ISysMenuService;
 import com.rcszh.lowcode.account.service.module.SysPermissionService;
 import com.rcszh.lowcode.admin.dto.LoginRequest;
-import com.rcszh.lowcode.common.constant.UserConstants;
 import com.rcszh.lowcode.common.entity.LoginUser;
 import com.rcszh.lowcode.common.exception.ServiceException;
 import com.rcszh.lowcode.common.utils.SecurityUtils;
-import com.rcszh.lowcode.common.utils.StringUtils;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.framework.config.security.context.AuthenticationContextHolder;
 import com.rcszh.lowcode.framework.service.TokenService;
@@ -19,13 +17,11 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 登录验证

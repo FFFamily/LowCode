@@ -1,8 +1,10 @@
-package com.rcszh.lowcode.core.entity.form;
+package com.rcszh.lowcode.core.entity.dto;
 
+import com.rcszh.lowcode.core.entity.form.Form;
+import com.rcszh.lowcode.core.entity.form.FormTable;
+import com.rcszh.lowcode.core.entity.form.FormTableField;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

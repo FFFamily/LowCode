@@ -1,6 +1,6 @@
 package com.rcszh.lowcode.admin.dto;
 
-import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
+import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import lombok.Data;
 
 import java.util.List;

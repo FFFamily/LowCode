@@ -39,7 +39,7 @@ public class ShowController {
     @ResponseBody
     @PostMapping("/add/{tableName}")
     public BaseResponse add(@PathVariable String tableName,@RequestBody HashMap<String,Object> tableInfo){
-        dynamicTableService.addRealTableData(tableName,tableInfo);
+        dynamicTableService.addDynamicTableData(tableName,tableInfo);
         return BaseResponse.success();
     }
 

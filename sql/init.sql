@@ -193,3 +193,15 @@ create table view_form_config
         primary key
 );
 
+create table form_action
+(
+    ac_type     varchar(100) null,
+    ac_resource varchar(100) null,
+    ac_target   varchar(100) null,
+    ac_config   varchar(100) null,
+    id          varchar(100) not null
+        primary key
+);
+
+
+

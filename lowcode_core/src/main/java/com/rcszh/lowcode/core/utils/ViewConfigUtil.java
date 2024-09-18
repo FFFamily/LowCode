@@ -1,7 +1,6 @@
 package com.rcszh.lowcode.core.utils;
 
-import cn.hutool.json.JSONUtil;
-import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
+import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 
 import java.util.List;
 

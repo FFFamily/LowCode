@@ -1,5 +1,5 @@
 
-package com.rcszh.lowcode.admin.controller;
+package com.rcszh.lowcode.admin.controller.user;
 
 
 import com.github.pagehelper.PageInfo;
