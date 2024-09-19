@@ -19,16 +19,21 @@ public class FormActionService {
     @Resource
     private FormActionConditionMapper formActionConditionMapper;
     public void addAction(FormAction formAction) {
+        if (formAction.getAcResource().equals(formAction.getAcTarget())){
+            throw new RuntimeException("源表单不能和动作表单相同");
+        }
         formActionMapper.insert(formAction);
     }
 
     /**
-     *
-     * @param formConditionList
+     * 根据动作条件查询对应的动作
      * @return Map{key:formConditionId,value:Action}
      */
     public HashMap<String, List<FormAction>> findActionByConditionToMap(List<String> formConditionList) {
         // 中间表数据
+        if (formConditionList == null || formConditionList.isEmpty()) {
+            return new HashMap<>();
+        }
         List<FormActionCondition> formActionConditions = formActionConditionMapper.selectList(new LambdaQueryWrapper<FormActionCondition>()
                 .in(FormActionCondition::getConditionId, formConditionList));
         HashMap<String, String> mapping = formActionConditions.stream().reduce(new HashMap<String, String>(), (prev, curr) -> {

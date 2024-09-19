@@ -2,12 +2,14 @@ package com.rcszh.lowcode.core.entity.action;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
  * 表单触发条件（场景）
  */
 @Data
+@TableName("form_condition")
 public class FormCondition {
     @TableId(type = IdType.ASSIGN_ID)
     private String id;

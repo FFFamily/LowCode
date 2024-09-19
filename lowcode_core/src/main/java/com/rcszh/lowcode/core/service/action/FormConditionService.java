@@ -22,11 +22,25 @@ public class FormConditionService {
     }
 
     /**
-     * 根绝表单Id查询动作场景
+     * 根绝表单Id以及类型查询动作场景
      */
-    public List<FormCondition> findConditionByFormId(String formId, String type) {
+    public List<FormCondition> findConditionByFormIdAndType(String formId, String type) {
         return formConditionMapper.selectList(new LambdaQueryWrapper<FormCondition>()
                 .eq(FormCondition::getFormId, formId)
                 .eq(FormCondition::getCdType, type));
+    }
+
+    /**
+     * 根绝表单Id查询动作场景
+     */
+    public List<FormCondition> findConditionByFormId(String formId) {
+        return formConditionMapper.selectList(new LambdaQueryWrapper<FormCondition>().eq(FormCondition::getFormId, formId));
+    }
+
+    /**
+     * 获取所有
+     */
+    public List<FormCondition> findAllCondition() {
+        return formConditionMapper.selectList(null);
     }
 }

@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 表单动作触发条件类型枚举
+ * 动态表操作类型枚举
  */
 @Getter
 @AllArgsConstructor
-public enum FormConditionTypeEnum {
-    // 数据触发
-    DATA("data"),
+public enum DynamicTableActionTypeEnum {
     ;
     private final String type;
 }

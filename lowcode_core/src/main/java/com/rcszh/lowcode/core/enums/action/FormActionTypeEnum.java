@@ -1,4 +1,4 @@
-package com.rcszh.lowcode.core.enums;
+package com.rcszh.lowcode.core.enums.action;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

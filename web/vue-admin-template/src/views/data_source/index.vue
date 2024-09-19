@@ -5,10 +5,11 @@
       <el-table-column prop="name" label="表单名称" width="180"></el-table-column>
       <el-table-column prop="code" label="表单编码" width="180"></el-table-column>
       <el-table-column prop="type" label="表单类型"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作">
         <template v-slot="scope">
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单设计</el-button>
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单配置</el-button>
+          <el-button @click="goToActionPage(scope.row.id)" type="text" size="small">动作配置</el-button>
           <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">视图配置</el-button>
         </template>
       </el-table-column>
@@ -71,6 +72,9 @@ export default {
     },
     goViewConfigPage(id){
       this.$router.push({ name: 'ViewForm', params: { data: id }})
+    },
+    goToActionPage(id){
+      this.$router.push({ name: 'FormAction', params: { data: id }})
     },
     onSubmit() {
       let table = this.coreDataSourceForm.formTables

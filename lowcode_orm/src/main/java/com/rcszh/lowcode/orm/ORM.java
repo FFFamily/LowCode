@@ -133,7 +133,7 @@ public class ORM {
      * 添加单个数据
      * @param tableInfo 表数据
      */
-    public void insert(HashMap<String, Object> tableInfo){
+    public void insert(Map<String, Object> tableInfo){
         mapping.put(TABLE_NAME_KEY, tableName);
         mapping.put(COLUMN_NAME_KEY, String.join(",", tableInfo.keySet()));
         mapping.put(COLUMN_VALUE_KEY,tableInfo.values().stream().map(Object::toString).collect(Collectors.joining(",")));
@@ -146,7 +146,7 @@ public class ORM {
      * 更新单个数据
      * @param tableInfo 表数据
      */
-    public void update(HashMap<String, Object> tableInfo){
+    public void update(Map<String, Object> tableInfo){
         mapping.put(TABLE_NAME_KEY, tableName);
         mapping.put(COLUMN_NAME_KEY, String.join(",", tableInfo.keySet()));
         mapping.put(COLUMN_VALUE_KEY,tableInfo.values().stream().map(Object::toString).collect(Collectors.joining(",")));

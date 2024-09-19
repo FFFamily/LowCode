@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.admin.service;
 
 import com.rcszh.lowcode.core.entity.action.FormAction;
+import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.entity.dto.FormActionInfo;
 import com.rcszh.lowcode.core.mapper.action.FormActionMapper;
 import com.rcszh.lowcode.core.service.action.FormActionConditionService;
@@ -39,5 +40,19 @@ public class AdminActionService {
      */
     public void addFormAction(FormAction formAction) {
         formActionService.addAction(formAction);
+    }
+
+    /**
+     * 获取所有的动作条件场景
+     */
+    public List<FormCondition> getAllCondition() {
+        return formConditionService.findAllCondition();
+    }
+
+    /**
+     * 获取对应表单的动作条件
+     */
+    public List<FormCondition> getConditionListByFormId(String formId) {
+        return formConditionService.findConditionByFormId(formId);
     }
 }

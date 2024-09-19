@@ -1,13 +1,13 @@
 package com.rcszh.lowcode.admin.controller.show;
 
-import com.rcszh.lowcode.admin.dto.ShowListRequest;
 import com.rcszh.lowcode.common.vo.BaseResponse;
-import com.rcszh.lowcode.core.enums.ViewFormTypeEnum;
+import com.rcszh.lowcode.core.enums.action.FormActionTypeEnum;
 import com.rcszh.lowcode.core.service.DynamicTableService;
 import com.rcszh.lowcode.core.service.view.ViewFormService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -39,14 +39,14 @@ public class ShowController {
     @ResponseBody
     @PostMapping("/add/{tableName}")
     public BaseResponse add(@PathVariable String tableName,@RequestBody HashMap<String,Object> tableInfo){
-        dynamicTableService.addDynamicTableData(tableName,tableInfo);
+        dynamicTableService.doActionToDynamicTable(tableName, FormActionTypeEnum.INSERT.getType(),tableInfo);
         return BaseResponse.success();
     }
 
     @ResponseBody
     @GetMapping("/del/{tableName}/{fieldId}")
     public BaseResponse del(@PathVariable String tableName,@PathVariable String fieldId){
-        dynamicTableService.deleteDynamicTableData(tableName,fieldId);
+        dynamicTableService.doActionToDynamicTable(tableName,FormActionTypeEnum.DELETE.getType(), Collections.singletonMap(DynamicTableService.ID_KEY,fieldId));
         return BaseResponse.success();
     }
 
@@ -59,7 +59,7 @@ public class ShowController {
     @ResponseBody
     @PostMapping("/update/{tableName}")
     public BaseResponse update(@PathVariable String tableName,@RequestBody HashMap<String,Object> tableInfo){
-        dynamicTableService.updateDynamicTableData(tableName,tableInfo);
+        dynamicTableService.doActionToDynamicTable(tableName,FormActionTypeEnum.UPDATE.getType(),tableInfo);
         return BaseResponse.success();
     }
 

@@ -2,7 +2,6 @@ package com.rcszh.lowcode.core.service.view;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.common.constant.CommonConstant;
-import com.rcszh.lowcode.core.entity.form.ViewFormConfig;
 import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import com.rcszh.lowcode.core.enums.SystemTypeEnum;
 import com.rcszh.lowcode.core.enums.ViewFormConfigTypeEnum;

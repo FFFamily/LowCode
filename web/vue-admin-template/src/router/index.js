@@ -61,29 +61,31 @@ export const constantRoutes = [
         path: 'field',
         name: 'DataSourceField',
         component: () => import('@/views/data_source/field.vue'),
-        hidden: true,
         meta: { title: '数据表字段', icon: 'el-icon-s-help' }
       },
       {
         path: 'table',
         name: 'DataSourceTable',
         component: () => import('@/views/data_source/table.vue'),
-        hidden: true,
         meta: { title: '数据表', icon: 'el-icon-s-help' }
       },
       {
         path: 'viewForm',
         name: 'ViewForm',
         component: () => import('@/views/data_source/viewForm.vue'),
-        hidden: true,
         meta: { title: '视图列表', icon: 'el-icon-s-help' }
       },
       {
         path: 'viewConfig',
         name: 'ViewConfig',
         component: () => import('@/views/data_source/viewFormConfig.vue'),
-        hidden: true,
         meta: { title: '视图列表', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'formAction',
+        name: 'FormAction',
+        component: () => import('@/views/data_source/formAction.vue'),
+        meta: { title: '动作列表', icon: 'el-icon-s-help' }
       }
     ]
   },

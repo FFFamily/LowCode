@@ -10,10 +10,23 @@ import java.util.Objects;
  */
 @Data
 public class FormActionConfigSchema {
+    /**
+     * 数据配置
+     */
     private List<DetailTableSchema> dataList;
     @Data
-    private static class DetailTableSchema {
-        private String fieldId;
+    public static class DetailTableSchema {
+        /**
+         * 字段名
+         */
+        private String fieldName;
+        /**
+         * 赋值方式: FormActionAssignmentModeEnum
+         */
+        private String assignmentMode;
+        /**
+         * 字段值
+         */
         private String fieldValue;
     }
 }

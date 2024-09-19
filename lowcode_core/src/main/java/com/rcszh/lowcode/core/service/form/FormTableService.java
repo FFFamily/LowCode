@@ -86,4 +86,11 @@ public class FormTableService {
             formTableMapper.updateById(formTable);
         });
     }
+
+    /**
+     * 通过数据库表查询对应的表单库表信息
+     */
+    public FormTable getFormTableByTableName(String formTableName) {
+        return formTableMapper.selectOne(new LambdaQueryWrapper<FormTable>().eq(FormTable::getTableName, formTableName));
+    }
 }
