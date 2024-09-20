@@ -3,7 +3,6 @@
     <el-button @click="dataSourceDialogVisible = true">添加</el-button>
     <el-table :data="list" style="width: 100%">
       <el-table-column prop="name" label="表单名称" width="180"></el-table-column>
-      <el-table-column prop="code" label="表单编码" width="180"></el-table-column>
       <el-table-column prop="type" label="表单类型"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template v-slot="scope">
@@ -18,23 +17,19 @@
       <el-dialog
         title="创建表单"
         :visible.sync="dataSourceDialogVisible"
-        width="30%"
+        width="50%"
         :before-close="handleClose">
         <el-form ref="form" :model="coreDataSourceForm" label-width="90px">
           <el-form-item label="表单名称">
             <el-input v-model="coreDataSourceForm.form.name"></el-input>
           </el-form-item>
           <el-form-item label="表单编码">
-            <el-input v-model="coreDataSourceForm.form.code"></el-input>
-          </el-form-item>
-<!--          <el-form-item label="表单类型">-->
-<!--            <el-input v-model="coreDataSourceForm.form.type"></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="表名">-->
-<!--            <el-input v-model="coreDataSourceForm.formTables.name"></el-input>-->
-<!--          </el-form-item>-->
-          <el-form-item label="表编码">
             <el-input v-model="coreDataSourceForm.formTables.tableName"></el-input>
+          </el-form-item>
+          <el-form-item label="表单类型">
+              <el-select v-model="coreDataSourceForm.form.type" placeholder="请选择">
+                <el-option key="normal" label="普通表单" value="normal"></el-option>
+              </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -79,14 +74,14 @@ export default {
     onSubmit() {
       let table = this.coreDataSourceForm.formTables
       this.coreDataSourceForm.formTables = [table]
+      console.log(this.coreDataSourceForm)
       create(this.coreDataSourceForm).then(response => {
         this.dataSourceDialogVisible = false
-        this.coreDataSourceForm = {}
+        this.getList()
         this.$message({
           message: '创建成功',
           type: 'success'
         })
-        this.getList()
       })
     },
     handleClose(done) {

@@ -1,15 +1,18 @@
 package com.rcszh.lowcode.core.service.form;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.FormDataField;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.enums.FormTableFieldStatusEnum;
+import com.rcszh.lowcode.core.enums.InterfaceTypeEnum;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
 import com.rcszh.lowcode.orm.ORM;
 import com.rcszh.lowcode.orm.SqlFieldConfig;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,8 +78,10 @@ public class FormTableFieldService {
      */
     public void createField(String tableName, List<FormTableField> formTableFields) {
         // 更新真实的数据库字段
-        ORM.orm().tableName(tableName).updateTable(formTableFields.stream()
+        ORM.orm().tableName(tableName)
+                .updateTable(formTableFields.stream()
                 // 过滤出新创建的字段
+                // 只会生成 已保存||已创建 状态的字段
                 .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
                 .map(item -> {
                     SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
@@ -94,5 +99,36 @@ public class FormTableFieldService {
                 formTableFieldMapper.insert(formTableField);
             }
         });
+    }
+
+    /**
+     * 生成初始化字段
+     * 当表单创建时默认自带的字段
+     */
+    public void generateInitFields(String formId, String formTableId) {
+        FormTableField formTableField = new FormTableField();
+        formTableField.setFormId(formId);
+        formTableField.setFormTableId(formTableId);
+        formTableField.setCode("id");
+        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
+        formTableField.setName("ID");
+        formTableField.setType("String");
+        formTableField.setStatus("published");
+        HashMap<Object, Object> options = new HashMap<>();
+        options.put("x-component","Input");
+        formTableField.setOptions(JSONUtil.parse(options).toString());
+        formTableFieldMapper.insert(formTableField);
+        formTableField.setCode("createBy");
+        formTableField.setName("创建人");
+        formTableFieldMapper.insert(formTableField);
+        formTableField.setCode("createAt");
+        formTableField.setName("创建时间");
+        formTableFieldMapper.insert(formTableField);
+        formTableField.setCode("updateBy");
+        formTableField.setName("更新人");
+        formTableFieldMapper.insert(formTableField);
+        formTableField.setCode("updateAt");
+        formTableField.setName("更新时间");
+        formTableFieldMapper.insert(formTableField);
     }
 }

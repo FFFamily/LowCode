@@ -1,5 +1,20 @@
 <template>
   <div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form :inline="true" :model="selectForm" class="demo-form-inline">
+        <el-form-item label="表单">
+          <el-select v-model="selectForm.formId" @change="selectChange" placeholder="已发布的表单">
+            <el-option v-for="item in formList" :label="item.name" :value="item.id" ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="showList">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
     <el-button v-for="item in showButtonConfig" @click = "buttonAction(item.buttonType)">{{item.buttonName}}</el-button>
       <el-table :data="tableList">
           <el-table-column v-for="item in showConfig" :prop="item.fieldCode" :key="item.fieldCode" :label="item.fieldName" ></el-table-column>
@@ -9,30 +24,47 @@
 
 <script >
 import {list,config} from '@/api/show'
-
+import {all,getFormInfo} from '@/api/form'
 export default {
   data() {
     return {
-      formId:"f7f70be639bc6557f43ebafe844d3809",
-      type:"list_page",
-      tableName:'user',
       // 视图配置
       config:{},
       showConfig: [],
       showButtonConfig:[],
-      tableList: []
+      tableList: [],
+      dialogVisible: true,
+      selectForm:{
+        type:"list_page"
+      },
+      formList:[]
     }
   },
   watch: {
 
   },
   created() {
-    this.getTableConfig()
-    this.getTable()
+    this.getAllForm()
   },
   methods: {
+    showList(){
+      this.dialogVisible = false
+      this.getTableConfig()
+      this.getTable()
+    },
+    getAllForm(){
+      all().then(response => {
+        this.formList = response.data
+      })
+    },
+    selectChange(formId){
+      this.selectForm.formId = formId;
+      getFormInfo(formId).then(response => {
+        this.selectForm.tableName = response.data.formTables[0].tableName
+      })
+    },
     getTableConfig(){
-        config(this.formId,this.type).then(response => {
+        config(this.selectForm.formId,this.selectForm.type).then(response => {
           this.config = response.data
           for(var i=0;i<response.data.length;i++){
             if(response.data[i].type === "show"){
@@ -44,11 +76,10 @@ export default {
         })
     },
     getTable(){
-      list(this.tableName).then(response => {
+      list(this.selectForm.tableName).then(response => {
         this.tableList = response.data
         console.log(this.tableList)
       })
-      console.log(this.tableList)
     },
     buttonAction(buttonType){
       if(buttonType === "add"){

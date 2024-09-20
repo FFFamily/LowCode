@@ -1,9 +1,8 @@
 <template>
   <div class="app-container">
-    <p>当前表单：{{ $route.params.data }}</p>
     <el-button @click="releaseForm" type="text" size="small">发布</el-button>
     <el-button @click="opendialogVisible" type="text" size="small">添加表</el-button>
-    <el-tabs  class="demo-tabs" @tab-click="handleClick">
+    <el-tabs  v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="表单信息" name="first">{{ formInfo.form }}</el-tab-pane>
       <el-tab-pane label="数据模型" name="second">
         <el-table :data="formInfo.formTables" style="width: 100%">
@@ -27,7 +26,12 @@
                 </el-table-column>
                 <el-table-column label="字段类型"  >
                   <template v-slot="scope">
-                    <el-input type="text" v-model="scope.row.type"/>
+                    <el-input :disabled="true" type="text" v-model="scope.row.type"/>
+                  </template>
+                </el-table-column>
+                <el-table-column label="字段状态"  >
+                  <template v-slot="scope">
+                    <el-input :disabled="true" type="text" v-model="scope.row.status"/>
                   </template>
                 </el-table-column>
               </el-table>
@@ -55,6 +59,8 @@
   export default {
     data() {
       return {
+        // 当前标签页
+        activeName: 'second',
         formInfo: {},
         tableForm: {},
         dialogVisible : false,
@@ -64,7 +70,7 @@
     },
     created() {
       if(this.formId){
-        this.getformInfo(this.formId)
+        this.getFormInfo(this.formId)
       }else{
         this.$router.push({ name: 'DataSourceField'})
       }
@@ -86,24 +92,22 @@
       },
       opendialogVisible(){
         this.dialogVisible = true
-        console.log(this.dialogVisible)
       },
       handleClick(tab,event) {
-        console.log(tab, event)
+
       },
       releaseForm(){
         let fields = {}
         this.formInfo.formTables.forEach(item => {
           fields[item.id] = item.fields
         })
-        console.log(fields)
         this.formInfo.fields = fields
-        console.log(this.formInfo)
         release({...this.formInfo}).then(response => {
           this.$message.success("发布成功")
+          this.getFormInfo(this.formId)
         });
       },
-      getformInfo(formId) {
+      getFormInfo(formId) {
         getFormInfo(formId).then(response => {
           this.formInfo = response.data
           let mapper = this.formInfo.fields

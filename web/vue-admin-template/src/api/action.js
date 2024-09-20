@@ -7,3 +7,10 @@ export function all(formId) {
     method: 'get'
   })
 }
+export function addFormCondition(data) {
+  return request({
+    url: `${pre}/add`,
+    method: 'post',
+    data
+  })
+}

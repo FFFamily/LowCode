@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p>当前视图：{{ $route.params.data }}</p>
-    <p>当前表单：{{ $route.params.formId }}</p>
-    <p>配置信息：{{ viewFormConfigList }}</p>
     <el-table :data="viewFormConfigList" >
       <el-table-column label="视图类型">
         <template v-slot="scope">
@@ -57,7 +54,8 @@
   </div>
 </template>
 <script>
-import {getViewConfig,addView,getFormInfo,updateViewConfig} from "@/api/form";
+import {addView,getFormInfo} from "@/api/form";
+import {getViewConfig,updateViewConfig} from "@/api/view";
 export default {
   data() {
     return {

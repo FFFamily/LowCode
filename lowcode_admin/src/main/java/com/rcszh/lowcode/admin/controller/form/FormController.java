@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class FormController {
     @Resource
     private FormService formService;
-    @Resource
-    private ViewFormService viewFormService;
-    @Resource
-    private ViewFormConfigService viewFormConfigService;
-
+    /**
+     * 创建表单
+     */
     @ResponseBody
     @PostMapping("/create")
     public BaseResponse save(@RequestBody FormInfo formInfo){
@@ -51,41 +49,4 @@ public class FormController {
     public BaseResponse getFormInfo(@PathVariable String formId){
         return BaseResponse.success(formService.getFormInfoById(formId));
     }
-    /**
-     * 获取表单视图
-     */
-    @ResponseBody
-    @GetMapping("/getView/{formId}")
-    public BaseResponse getViewFormInfo(@PathVariable String formId){
-        return BaseResponse.success(formService.getViewFormInfo(formId));
-    }
-    /**
-     * 获取表单视图
-     */
-    @ResponseBody
-    @GetMapping("/getViewConfig/{viewFormId}")
-    public BaseResponse getViewFormConfig(@PathVariable String viewFormId){
-        return BaseResponse.success(formService.getViewFormConfigById(viewFormId));
-    }
-
-    /**
-     * 更新表单视图配置
-     */
-    @ResponseBody
-    @PostMapping("/updateViewConfig")
-    public BaseResponse updateViewConfig(@RequestBody ViewFormConfig viewFormConfig){
-        viewFormConfigService.updateViewFormConfig(viewFormConfig);
-        return BaseResponse.success();
-    }
-
-    /**
-     * 新增表单视图
-     */
-    @ResponseBody
-    @PostMapping("/addViewForm")
-    public BaseResponse addViewForm(@RequestBody ViewForm viewForm){
-        viewFormService.addViewForm(viewForm);
-        return BaseResponse.success();
-    }
-
 }

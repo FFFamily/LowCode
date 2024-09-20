@@ -21,7 +21,6 @@ public class FormActionController {
      */
     @PostMapping("/add")
     public BaseResponse add(@RequestBody FormAction formAction) {
-        actionService.addFormAction(formAction);
-        return BaseResponse.success();
+        return BaseResponse.success(actionService.addFormAction(formAction));
     }
 }

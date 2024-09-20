@@ -23,19 +23,11 @@ public class ViewFormConfigService {
         // 新增按钮配置
         ViewFormConfig addviewFormConfig = new ViewFormConfig();
         addviewFormConfig.setViewFormId(viewFormId);
-        addviewFormConfig.setType(ViewFormConfigTypeEnum.BUTTON.getType());
-        addviewFormConfig.setName("新增");
+        addviewFormConfig.setType(ViewFormConfigTypeEnum.DETAIL_BUTTON.getType());
+        addviewFormConfig.setName(ViewFormConfigTypeEnum.DETAIL_BUTTON.getName());
         addviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
         addviewFormConfig.setIsShow("Y");
         viewFormConfigMapper.insert(addviewFormConfig);
-        // 编辑按钮配置
-        ViewFormConfig editviewFormConfig = new ViewFormConfig();
-        editviewFormConfig.setViewFormId(viewFormId);
-        editviewFormConfig.setType(ViewFormConfigTypeEnum.BUTTON.getType());
-        editviewFormConfig.setName("编辑");
-        editviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
-        editviewFormConfig.setIsShow("Y");
-        viewFormConfigMapper.insert(editviewFormConfig);
     }
     /**
      * 首次创建列表视图配置
@@ -45,16 +37,16 @@ public class ViewFormConfigService {
         // 列表显示配置
         ViewFormConfig addviewFormConfig = new ViewFormConfig();
         addviewFormConfig.setViewFormId(viewFormId);
-        addviewFormConfig.setType(ViewFormConfigTypeEnum.SHOW.getType());
-        addviewFormConfig.setName(ViewFormConfigTypeEnum.SHOW.getName());
+        addviewFormConfig.setType(ViewFormConfigTypeEnum.LIST_SHOW.getType());
+        addviewFormConfig.setName(ViewFormConfigTypeEnum.LIST_SHOW.getName());
         addviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
         addviewFormConfig.setIsShow(CommonConstant.YES);
         viewFormConfigMapper.insert(addviewFormConfig);
         // 列表按钮配置
         ViewFormConfig buttonviewFormConfig = new ViewFormConfig();
         buttonviewFormConfig.setViewFormId(viewFormId);
-        buttonviewFormConfig.setType(ViewFormConfigTypeEnum.BUTTON.getType());
-        buttonviewFormConfig.setName(ViewFormConfigTypeEnum.BUTTON.getName());
+        buttonviewFormConfig.setType(ViewFormConfigTypeEnum.LIST_BUTTON.getType());
+        buttonviewFormConfig.setName(ViewFormConfigTypeEnum.LIST_BUTTON.getName());
         buttonviewFormConfig.setSystemType(SystemTypeEnum.BUILT_IN.getType());
         buttonviewFormConfig.setIsShow(CommonConstant.YES);
         viewFormConfigMapper.insert(buttonviewFormConfig);

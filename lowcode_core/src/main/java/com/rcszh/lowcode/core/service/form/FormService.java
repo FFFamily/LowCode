@@ -11,6 +11,7 @@ import com.rcszh.lowcode.core.enums.FormTableTypeEnum;
 import com.rcszh.lowcode.core.enums.InterfaceTypeEnum;
 import com.rcszh.lowcode.core.enums.SystemTypeEnum;
 import com.rcszh.lowcode.core.enums.ViewFormTypeEnum;
+import com.rcszh.lowcode.core.enums.form.FormStatusEnum;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
 import com.rcszh.lowcode.core.mapper.form.FormMapper;
 import com.rcszh.lowcode.core.service.view.ViewFormConfigService;
@@ -52,31 +53,29 @@ public class FormService {
         if (form == null) {
             throw new RuntimeException();
         }
-        Form oldForm = formMapper.selectOne(new LambdaQueryWrapper<Form>().eq(Form::getCode, form.getCode()));
+        // 不能出现同名表单
+        Form oldForm = formMapper.selectOne(new LambdaQueryWrapper<Form>().eq(Form::getName, form.getName()));
         if (oldForm != null) {
-            throw new RuntimeException("对应编码的表单已创建");
+            throw new RuntimeException("已存在相同名称的表单");
         }
+        // 创建状态
+        form.setFormStatus(FormStatusEnum.CREATED.getStatus());
         formMapper.insert(form);
         // 创建表单对应的库表信息
         Assert.notNull(formInfo.getFormTables());
         // 首次创建只会生成一个主表
         FormTable formTable = formInfo.getFormTables().getFirst();
+        String tableName = formTable.getTableName();
+        FormTable oldFormTable = formTableService.getFormTableByTableName(tableName);
+        if (oldFormTable != null) {
+            throw new RuntimeException("表单编码已存在");
+        }
         formTable.setFormId(form.getId());
+        formTable.setName(form.getName());
         formTable.setType(FormTableTypeEnum.MAIN.getType());
-        formTableService.createFormData(formTable);
-        // 由于默认会自带一个ID字段，所以要补充ID字段信息
-        FormTableField formTableField = new FormTableField();
-        formTableField.setFormId(form.getId());
-        formTableField.setFormTableId(formTable.getId());
-        formTableField.setCode("id");
-        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
-        formTableField.setName("ID");
-        formTableField.setType("String");
-        formTableField.setStatus("published");
-        HashMap<Object, Object> options = new HashMap<>();
-        options.put("x-component","Input");
-        formTableField.setOptions(JSONUtil.parse(options).toString());
-        formTableFieldMapper.insert(formTableField);
+        formTableService.createFormTable(formTable);
+        // 创建对应库表的字段
+        formTableFieldService.generateInitFields(form.getId(),formTable.getId());
     }
 
     /**
@@ -100,12 +99,6 @@ public class FormService {
         return formMapper.selectList(null);
     }
 
-    /**
-     * 获取所有的
-     */
-    public List<ViewForm> getViewFormInfo(String formId) {
-        return viewFormService.findAllByFormId(formId);
-    }
 
     /**
      * 发布表单
@@ -114,6 +107,9 @@ public class FormService {
     public void releaseForm(FormInfo formInfo) {
         // 更新表单
         Form form = formInfo.getForm();
+        // 更新发布状态
+        form.setFormStatus(FormStatusEnum.PUBLISH.getStatus());
+        // 更新
         formMapper.updateById(form);
         // 更新表单表
         formTableService.batchUpdateFormTable(formInfo.getFormTables());
@@ -121,18 +117,21 @@ public class FormService {
         Map<String, List<FormTableField>> fields = formInfo.getFields();
         for (Map.Entry<String, List<FormTableField>> entry : fields.entrySet()) {
             String tableId = entry.getKey();
+            // 找到字段对应的表
             FormTable formTable = formInfo.getFormTables().stream().filter(item -> item.getId().equals(tableId)).findFirst().orElse(null);
             if (formTable == null) {
                 throw new RuntimeException("字段表格不正确");
             }
             // 拿到对应的库表名称
             String tableName = formTable.getTableName();
+            // 字段生成
             formTableFieldService.createField(tableName,entry.getValue());
         }
         // 生成对应的视图
         List<ViewForm> configs = viewFormService.findAllByFormId(form.getId());
         if (configs == null || configs.isEmpty()) {
             // 添加查询视图
+            // 添加视图的同时需要给表单绑定默认视图
             ViewForm viewForm = new ViewForm();
             viewForm.setFormId(form.getId());
             viewForm.setName("默认查看视图");
@@ -150,10 +149,9 @@ public class FormService {
     }
 
     /**
-     * 通过视图id获取配置
+     * 通过id查询
      */
-    public List<ViewFormConfig> getViewFormConfigById(String viewFormId) {
-        return viewFormConfigService.findAllConfigById(viewFormId);
+    public Form getFormById(String formId) {
+        return formMapper.selectById(formId);
     }
-
 }

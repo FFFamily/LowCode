@@ -17,6 +17,7 @@ public class ViewFormService {
     private ViewFormMapper viewFormMapper;
     @Resource
     private ViewFormConfigService viewFormConfigService;
+
     /**
      * 查询表单下的所有视图配置
      */

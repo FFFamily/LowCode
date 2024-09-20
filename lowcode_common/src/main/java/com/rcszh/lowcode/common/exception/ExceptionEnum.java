@@ -12,7 +12,7 @@ public enum ExceptionEnum {
     BODY_NOT_MATCH(4000L,"请求的数据格式不符"),
     SIGNATURE_NOT_MATCH(4001L,"请求的数字签名不匹配"),
     NOT_FOUND(4004L, "未找到该资源"),
-    INTERNAL_SERVER_ERROR(5000L, "服务器内部错误"),
+    INTERNAL_SERVER_ERROR(5000L, "服务器内部错误："),
     SERVER_BUSY(5003L,"服务器正忙，请稍后再试");
     /**
      * 错误码

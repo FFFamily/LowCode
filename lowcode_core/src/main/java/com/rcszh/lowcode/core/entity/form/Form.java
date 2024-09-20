@@ -20,19 +20,11 @@ public class Form {
      */
     private String name;
     /**
-     * 表单编码
-     */
-    private String code;
-    /**
      * 数据库类型: 普通表
      */
     private String type;
     /**
-     * 启用的视图
+     * 表单状态
      */
-    private String viewFormId;
-    /**
-     * 启用的视图
-     */
-    private String viewListFormId;
+    private String formStatus;
 }

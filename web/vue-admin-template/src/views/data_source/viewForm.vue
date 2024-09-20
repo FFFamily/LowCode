@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <p>当前表单：{{ $route.params.data }}</p>
-    <p>配置信息：{{ viewForm }}</p>
-    <el-button @click="addView">新增视图</el-button>
+  <div class="app-container">
+    <el-button  @click="addView">新增视图</el-button>
     <el-table :data="viewForm" >
       <el-table-column label="视图类型">
         <template v-slot="scope">
@@ -19,7 +17,7 @@
       <el-table-column prop="systemType" label="配置类型" />
       <el-table-column fixed="right" label="操作" width="100">
         <template v-slot="scope">
-          <el-button @click="editField(scope.row.id)" type="text" size="small">配置</el-button>
+          <el-button v-if="scope.row.id !== undefined" @click="editField(scope.row.id)" type="text" size="small">配置</el-button>
           <el-button v-if="scope.row.id === undefined" @click="onSubmit(scope.row)" type="text" size="small">保存</el-button>
         </template>
       </el-table-column>
@@ -27,7 +25,7 @@
   </div>
 </template>
 <script>
-import {getView,addView} from "@/api/form";
+import {viewList,addViewForm} from "@/api/view";
 export default {
   data() {
     return {
@@ -44,8 +42,10 @@ export default {
   },
   methods: {
     getFormView(formId){
-      getView(formId).then(response => {
+      viewList(formId).then(response => {
         this.viewForm = response.data;
+      }).catch(_ => {
+        this.$router.push({ name: 'DataSourceField'})
       })
     },
     editField(id){
@@ -58,7 +58,7 @@ export default {
       })
     },
     onSubmit(viewForm){
-      addView(viewForm).then(response => {
+      addViewForm(viewForm).then(response => {
         this.getFormView(this.formId)
       })
     }

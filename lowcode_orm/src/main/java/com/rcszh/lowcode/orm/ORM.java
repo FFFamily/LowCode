@@ -33,8 +33,17 @@ public class ORM {
     private static final String COLUMN_NAME_KEY = KEY_PREFIX+"columnName"+KEY_SUFFIX;
     private static final String COLUMN_VALUE_KEY = KEY_PREFIX+"columnValue"+KEY_SUFFIX;
     private static final String COLUMN_KEY = KEY_PREFIX+"column"+KEY_SUFFIX;
-    // 生成业务模型对应的数据库表
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+" ( id varchar(50) not null primary key ) ";
+    // 生成业务模型对应的数据库表模版
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+ """
+            (\s
+            id varchar(50) not null primary key ,
+            create_by varchar(50) null  ,
+            create_at varchar(50) null  ,
+            update_bt varchar(50) null  ,
+            update_at varchar(50) null
+            )
+           \s
+           \s""" ;
     // 查询
 //    private static final String SELECT_ALL_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY;
     private static final String SELECT_ALL_SQL = "SELECT * FROM "+ TABLE_NAME_KEY;

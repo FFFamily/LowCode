@@ -38,8 +38,9 @@ public class AdminActionService {
     /**
      * 添加动作
      */
-    public void addFormAction(FormAction formAction) {
+    public String addFormAction(FormAction formAction) {
         formActionService.addAction(formAction);
+        return formAction.getId();
     }
 
     /**

@@ -23,12 +23,10 @@ public class FormTableService {
      * 创建数据表（首次生成表单）
      * @param formTable 表单数据
      */
-    public void createFormData(FormTable formTable) {
+    public void createFormTable(FormTable formTable) {
         formTableMapper.insert(formTable);
         ORM.orm().tableName(formTable.getTableName()).createTemplateTable();
     }
-
-
 
     /**
      * 删除业务模型
@@ -92,5 +90,12 @@ public class FormTableService {
      */
     public FormTable getFormTableByTableName(String formTableName) {
         return formTableMapper.selectOne(new LambdaQueryWrapper<FormTable>().eq(FormTable::getTableName, formTableName));
+    }
+
+    /**
+     * 获取所有的表单表
+     */
+    public List<FormTable> getAllFormTable() {
+       return formTableMapper.selectList(null);
     }
 }

@@ -18,6 +18,10 @@ public class FormActionService {
     private FormActionMapper formActionMapper;
     @Resource
     private FormActionConditionMapper formActionConditionMapper;
+
+    /**
+     * 添加动作
+     */
     public void addAction(FormAction formAction) {
         if (formAction.getAcResource().equals(formAction.getAcTarget())){
             throw new RuntimeException("源表单不能和动作表单相同");
