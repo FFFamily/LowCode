@@ -69,12 +69,6 @@ create table core_data_source_table
     remark              varchar(255) null
 );
 
-create table dsadas
-(
-    id varchar(50) not null
-        primary key
-);
-
 create table form
 (
     id                varchar(100) not null
@@ -83,7 +77,38 @@ create table form
     code              varchar(100) null,
     type              varchar(100) null,
     view_form_id      varchar(100) null,
-    view_list_form_id varchar(100) null
+    view_list_form_id varchar(100) null,
+    form_status       varchar(100) null
+);
+
+create table form_action
+(
+    ac_type     varchar(100) null,
+    ac_resource varchar(100) null,
+    ac_target   varchar(100) null,
+    ac_config   json         null,
+    id          varchar(100) not null
+        primary key,
+    ac_name     varchar(100) null
+);
+
+create table form_action_condition
+(
+    id           varchar(100) not null
+        primary key,
+    action_id    varchar(100) null,
+    condition_id varchar(100) null
+);
+
+create table form_condition
+(
+    id        varchar(100) not null
+        primary key,
+    form_id   varchar(100) null,
+    cd_name   varchar(100) null,
+    cd_type   varchar(100) null,
+    cd_config json         null,
+    cd_enable varchar(100) null
 );
 
 create table form_table
@@ -109,12 +134,6 @@ create table form_table_field
     options        json         null,
     description    varchar(100) null,
     field_index    varchar(100) null
-);
-
-create table sadas
-(
-    id varchar(50) not null
-        primary key
 );
 
 create table sys_role
@@ -165,10 +184,14 @@ create table sys_user
     comment '用户信息表' charset = utf8mb3
                          row_format = DYNAMIC;
 
-create table uuu
+create table user
 (
-    id varchar(50) not null
-        primary key
+    id        varchar(50) not null
+        primary key,
+    create_by varchar(50) null,
+    create_at varchar(50) null,
+    update_bt varchar(50) null,
+    update_at varchar(50) null
 );
 
 create table view_form
@@ -192,16 +215,4 @@ create table view_form_config
     id           varchar(100) not null
         primary key
 );
-
-create table form_action
-(
-    ac_type     varchar(100) null,
-    ac_resource varchar(100) null,
-    ac_target   varchar(100) null,
-    ac_config   varchar(100) null,
-    id          varchar(100) not null
-        primary key
-);
-
-
 
