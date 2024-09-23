@@ -18,6 +18,11 @@
     <el-button v-for="item in showButtonConfig" @click = "buttonAction(item.buttonType)">{{item.buttonName}}</el-button>
       <el-table :data="tableList">
           <el-table-column v-for="item in showConfig" :prop="item.fieldCode" :key="item.fieldCode" :label="item.fieldName" ></el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template v-slot="scope">
+              <el-button @click="edit(scope.row)" type="text" size="small">查看</el-button>
+            </template>
+          </el-table-column>
       </el-table>
   </div>
 </template>
@@ -52,6 +57,9 @@ export default {
       this.getTableConfig()
       this.getTable()
     },
+    edit(data){
+      this.$router.push({ name: 'VIEW', params: { formId: this.selectForm.formId }})
+    },
     getAllForm(){
       all().then(response => {
         this.formList = response.data
@@ -67,9 +75,10 @@ export default {
         config(this.selectForm.formId,this.selectForm.type).then(response => {
           this.config = response.data
           for(var i=0;i<response.data.length;i++){
-            if(response.data[i].type === "show"){
+            if(response.data[i].type === "list_show"){
               this.showConfig = JSON.parse(response.data[i].options)
-            }else if(response.data[i].type === "button"){
+              console.log( this.showConfig)
+            }else if(response.data[i].type === "list_button"){
               this.showButtonConfig = JSON.parse(response.data[i].options)
             }
           }
@@ -78,7 +87,6 @@ export default {
     getTable(){
       list(this.selectForm.tableName).then(response => {
         this.tableList = response.data
-        console.log(this.tableList)
       })
     },
     buttonAction(buttonType){

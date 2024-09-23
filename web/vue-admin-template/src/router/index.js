@@ -47,44 +47,44 @@ export const constantRoutes = [
   },
 
   {
-    path: '/data_source',
+    path: '/form',
     component: Layout,
     meta: { title: '表单设计', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'index',
         name: 'DataSource',
-        component: () => import('@/views/data_source/index'),
+        component: () => import('@/views/form_page/index.vue'),
         meta: { title: '表单设计', icon: 'el-icon-s-help' }
       },
       {
         path: 'field',
         name: 'DataSourceField',
-        component: () => import('@/views/data_source/field.vue'),
+        component: () => import('@/views/form_page/field.vue'),
         meta: { title: '数据表字段', icon: 'el-icon-s-help' }
       },
       {
         path: 'table',
         name: 'DataSourceTable',
-        component: () => import('@/views/data_source/table.vue'),
+        component: () => import('@/views/form_page/table.vue'),
         meta: { title: '数据表', icon: 'el-icon-s-help' }
       },
       {
         path: 'viewForm',
         name: 'ViewForm',
-        component: () => import('@/views/data_source/viewForm.vue'),
+        component: () => import('@/views/form_page/viewForm.vue'),
         meta: { title: '视图列表', icon: 'el-icon-s-help' }
       },
       {
         path: 'viewConfig',
         name: 'ViewConfig',
-        component: () => import('@/views/data_source/viewFormConfig.vue'),
+        component: () => import('@/views/form_page/viewFormConfig.vue'),
         meta: { title: '视图列表', icon: 'el-icon-s-help' }
       },
       {
         path: 'formAction',
         name: 'FormAction',
-        component: () => import('@/views/data_source/formAction.vue'),
+        component: () => import('@/views/form_page/formAction.vue'),
         meta: { title: '动作列表', icon: 'el-icon-s-help' }
       }
     ]
@@ -107,6 +107,27 @@ export const constantRoutes = [
         name: 'VIEW',
         component: () => import('@/views/show/view.vue'),
         meta: { title: '查看视图', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/data_source_view',
+    component: Layout,
+    redirect: '/data_source',
+    name: 'DATA_SOURCE',
+    meta: { title: '数据源中心', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'dataSource',
+        name: 'DataSource',
+        component: () => import('@/views/data_source/index.vue'),
+        meta: { title: '数据源', icon: 'table' }
+      },
+      {
+        path: 'dataSourceConfig',
+        name: 'dataSourceConfig',
+        component: () => import('@/views/data_source/config.vue'),
+        meta: { title: '数据源配置', icon: 'table' }
       }
     ]
   },

@@ -1,6 +1,5 @@
 package com.rcszh.lowcode.core.requests;
 
-import com.rcszh.lowcode.core.entity.data_source.CoreDataSourceField;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class FieldCreateRequest extends CoreDataSourceField {
+public class FieldCreateRequest  {
     /**
      * 组件默认值
      */

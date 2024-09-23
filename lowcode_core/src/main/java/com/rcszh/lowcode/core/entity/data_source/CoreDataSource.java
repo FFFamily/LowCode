@@ -13,10 +13,28 @@ import lombok.Setter;
 public class CoreDataSource extends BaseTenantEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
+    /**
+     * 数据源名称
+     */
+    private String dsName;
+    /**
+     * 数据表名称
+     */
     private String name;
+    /**
+     * 数据源类型
+     */
     private String type;
+    /**
+     * 数据源地址
+     */
     private String url;
+    /**
+     * 数据源账号密码
+     */
     private String password;
+    /**
+     * 数据源用户名
+     */
     private String username;
-    private Integer status;
 }

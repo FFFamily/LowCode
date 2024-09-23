@@ -2,16 +2,12 @@
   <div class="app-container">
     <el-button @click="dataSourceDialogVisible = true">添加</el-button>
     <el-table :data="list" style="width: 100%">
-      <el-table-column prop="name" label="表单名称" width="180"></el-table-column>
-      <el-table-column prop="type" label="表单类型"></el-table-column>
-      <el-table-column fixed="right" label="操作">
-        <template v-slot="scope">
-          <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单设计</el-button>
-          <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单配置</el-button>
-          <el-button @click="goToActionPage(scope.row.id)" type="text" size="small">动作配置</el-button>
-          <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">视图配置</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column prop="dsName" label="数据源名称"></el-table-column>
+      <el-table-column prop="name" label="表名"></el-table-column>
+      <el-table-column prop="type" label="数据源类型"></el-table-column>
+      <el-table-column prop="url" label="数据源地址"></el-table-column>
+      <el-table-column prop="username" label="账号"></el-table-column>
+      <el-table-column prop="password" label="密码"></el-table-column>
     </el-table>
     <div>
       <el-dialog
@@ -19,18 +15,28 @@
         :visible.sync="dataSourceDialogVisible"
         width="50%"
         :before-close="handleClose">
-        <el-form ref="form" :model="coreDataSourceForm" label-width="90px">
-          <el-form-item label="表单名称">
-            <el-input v-model="coreDataSourceForm.form.name"></el-input>
+        <el-form ref="form" :model="coreDataSource" label-width="90px">
+          <el-form-item label="数据源名称">
+            <el-input v-model="coreDataSource.dsName"></el-input>
           </el-form-item>
-          <el-form-item label="表单编码">
-            <el-input v-model="coreDataSourceForm.formTables.tableName"></el-input>
+          <el-form-item label="表名">
+            <el-input v-model="coreDataSource.name"></el-input>
           </el-form-item>
-          <el-form-item label="表单类型">
-              <el-select v-model="coreDataSourceForm.form.type" placeholder="请选择">
-                <el-option key="normal" label="普通表单" value="normal"></el-option>
+          <el-form-item label="数据源类型">
+              <el-select v-model="coreDataSource.type" placeholder="请选择">
+                <el-option key="mysql" label="Mysql" value="mysql"></el-option>
               </el-select>
           </el-form-item>
+          <el-form-item label="数据源地址">
+            <el-input v-model="coreDataSource.url"></el-input>
+          </el-form-item>
+          <el-form-item label="账号">
+            <el-input v-model="coreDataSource.username"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="coreDataSource.password"></el-input>
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
           </el-form-item>
@@ -41,16 +47,13 @@
 </template>
 
 <script>
-import {all,create,release} from '@/api/form'
+import {getDataSourceList,saveDataSource} from '@/api/data_source/dataSource'
 export default {
   data() {
     return {
       list: [],
       dataSourceDialogVisible: false,
-      coreDataSourceForm: {
-        form:{},
-        formTables:{}
-      }
+      coreDataSource: {}
     }
   },
   created() {
@@ -58,24 +61,13 @@ export default {
   },
   methods: {
     getList() {
-      all().then(response => {
+      getDataSourceList().then(response => {
         this.list = response.data
       })
     },
-    goToTablePage(id) {
-      this.$router.push({ name: 'DataSourceTable', params: { data: id }})
-    },
-    goViewConfigPage(id){
-      this.$router.push({ name: 'ViewForm', params: { data: id }})
-    },
-    goToActionPage(id){
-      this.$router.push({ name: 'FormAction', params: { data: id }})
-    },
     onSubmit() {
-      let table = this.coreDataSourceForm.formTables
-      this.coreDataSourceForm.formTables = [table]
-      console.log(this.coreDataSourceForm)
-      create(this.coreDataSourceForm).then(response => {
+      console.log(this.coreDataSource)
+      saveDataSource(this.coreDataSource).then(response => {
         this.dataSourceDialogVisible = false
         this.getList()
         this.$message({

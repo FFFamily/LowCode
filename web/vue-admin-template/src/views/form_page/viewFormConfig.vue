@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="viewFormConfigList" >
-      <el-table-column label="视图类型">
+      <el-table-column label="视图配置类型">
         <template v-slot="scope">
           <span v-if="scope.row.id !== undefined">{{ scope.row.type }}</span>
           <el-input v-else type="text" v-model="scope.row.type"/>
@@ -13,7 +13,7 @@
           <el-input v-else type="text" v-model="scope.row.name"/>
         </template>
       </el-table-column>
-      <el-table-column prop="systemType" label="配置类型" />
+      <el-table-column prop="systemType" label="类型" />
       <el-table-column prop="isShow" label="是否展示" />
       <el-table-column prop="showConfig" label="显示规则" />
       <el-table-column fixed="right" label="操作" width="100">
@@ -119,22 +119,31 @@ export default {
       if (options.length > 0){
         this.viewFormConfig.options = JSON.stringify(options)
       }
-      console.log(this.viewFormConfig)
       updateViewConfig(this.viewFormConfig).then(response => {
         alert("保存成功")
       })
     },
     showConfigRadio(viewConfig){
-      if (viewConfig.type === "show"){
+      if (viewConfig.type === "list_show"){
+        this.columnShowFieldList = [];
+        let filedList = JSON.parse(viewConfig.options).map(item=> item.fieldCode);
         getFormInfo(this.formId).then(response => {
           Object.keys(response.data.fields).forEach(_ =>{
             response.data.fields[_].forEach(field=>{
-              this.columnShowFieldList.push(field)
+              if (filedList.includes(field.code)){
+                this.columnShowFieldList.push({
+                  ...field,
+                  isShow: true,
+                })
+              }else {
+                this.columnShowFieldList.push(field)
+              }
             })
           })
           this.columnShowConfigRadio = true;
         })
-      }else if(viewConfig.type === "button"){
+      }else if(viewConfig.type === "list_button"){
+        this.buttonShowFieldList = []
         this.buttonShowFieldList = this.buttonShowFieldList.concat([
           {
             buttonName:"新增",

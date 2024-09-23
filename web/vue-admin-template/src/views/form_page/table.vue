@@ -34,6 +34,11 @@
                     <el-input :disabled="true" type="text" v-model="scope.row.status"/>
                   </template>
                 </el-table-column>
+                <el-table-column label="字段配置"  >
+                  <template v-slot="scope">
+                    <el-input type="text" v-model="scope.row.options"/>
+                  </template>
+                </el-table-column>
               </el-table>
             </template>
           </el-table-column>

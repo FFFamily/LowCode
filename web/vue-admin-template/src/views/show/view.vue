@@ -3,13 +3,7 @@
     <!--内容区域-->
     <el-form ref="form" :model="submitInfo" label-width="80px">
       <el-form-item v-for="item in schemaList" :label="item.name">
-        <component v-model ="w
-
-
-
-
-
-" :is='item.options["x-component"]' :info="item"></component>
+        <component v-model ="item.inputValue" :is='item.options["x-component"]' :info="item"></component>
       </el-form-item>
     </el-form>
     <!--底部按钮区域-->
@@ -22,6 +16,7 @@ import {getFormInfo} from '@/api/form'
 import {config} from '@/api/show'
 import Input from '../show/input/Input.vue'
 import Input_Number from '../show/input/Input_Number.vue'
+import DataSourceSelect from '../show/other/DataSourceSelect.vue'
 export default {
   data() {
     return {
@@ -35,7 +30,8 @@ export default {
   },
   components: {
     Input,
-    Input_Number
+    Input_Number,
+    DataSourceSelect
   },
   watch: {},
   created() {
