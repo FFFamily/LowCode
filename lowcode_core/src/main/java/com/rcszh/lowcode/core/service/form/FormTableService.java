@@ -2,12 +2,14 @@ package com.rcszh.lowcode.core.service.form;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rcszh.lowcode.core.entity.form.FormTable;
+import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.mapper.FormTableMapper;
 import com.rcszh.lowcode.orm.ORM;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 数据表
@@ -23,9 +25,27 @@ public class FormTableService {
      * 创建数据表（首次生成表单）
      * @param formTable 表单数据
      */
-    public void createFormTable(FormTable formTable) {
+    public void initMainFormTable(FormTable formTable) {
         formTableMapper.insert(formTable);
-        ORM.orm().tableName(formTable.getTableName()).createTemplateTable();
+        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
+    }
+
+    /**
+     * 创建子数据表
+     */
+    public void initChildFormTable(String mainTableName, FormTable formTable) {
+        formTableMapper.insert(formTable);
+        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(mainTableName);
+    }
+    /**
+     * 创建数据表（首次生成表单）
+     *
+     * @param formTable       表单数据
+     * @param formTableFields
+     */
+    public void createFormTable(FormTable formTable, List<FormTableField> formTableFields) {
+        formTableMapper.insert(formTable);
+        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
     }
 
     /**
@@ -61,6 +81,7 @@ public class FormTableService {
          return formTableMapper.selectList(new LambdaQueryWrapper<FormTable>().eq(FormTable::getFormId, formId));
     }
 
+
     /**
      * 批量添加
      * @param formTables
@@ -69,9 +90,13 @@ public class FormTableService {
         formTables.forEach(formTable -> {formTableMapper.insert(formTable);});
     }
 
-    public void batchUpdateFormTable(List<FormTable> formTables) {
+    /**
+     * 添加或者更新表
+     */
+    public void batchUpdateFormTable(List<FormTable> formTables, Map<String, List<FormTableField>> fields) {
         formTables.forEach(formTable -> {
-            FormTable oldFormTable = formTableMapper.selectById(formTable.getId());
+            String formTableId = formTable.getId();
+            FormTable oldFormTable = formTableMapper.selectById(formTableId);
             if (oldFormTable == null) {
                 throw new RuntimeException("业务对象表不存在");
             }

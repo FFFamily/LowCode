@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-const pre = '/form/table'
+const pre = '/form/rule'
 
 // export function list() {
 //   return request({
@@ -8,17 +8,19 @@ const pre = '/form/table'
 //   })
 // }
 
-export function getAllFormTable() {
+export function getRuleByType(formId,type) {
   return request({
-    url: `${pre}/all`,
+    url: `${pre}/all/${type}/${formId}`,
     method: 'get'
   })
 }
 
-export function createChildTable(data) {
+
+export function addRule(type,data) {
   return request({
-    url: `${pre}/createChildTable`,
+    url: `${pre}/add/${type}`,
     method: 'post',
     data
   })
 }
+

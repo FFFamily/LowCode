@@ -7,7 +7,7 @@
       <el-table-column fixed="right" label="操作">
         <template v-slot="scope">
           <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单设计</el-button>
-          <el-button @click="goToTablePage(scope.row.id)" type="text" size="small">表单配置</el-button>
+          <el-button @click="goToRulePage(scope.row.id)" type="text" size="small">表单配置</el-button>
           <el-button @click="goToActionPage(scope.row.id)" type="text" size="small">动作配置</el-button>
           <el-button @click="goViewConfigPage(scope.row.id)" type="text" size="small">视图配置</el-button>
         </template>
@@ -64,6 +64,9 @@ export default {
     },
     goToTablePage(id) {
       this.$router.push({ name: 'DataSourceTable', params: { data: id }})
+    },
+    goToRulePage(id) {
+      this.$router.push({ name: 'FormRule', params: { data: id }})
     },
     goViewConfigPage(id){
       this.$router.push({ name: 'ViewForm', params: { data: id }})

@@ -92,6 +92,7 @@ public class FormTableFieldService {
         }).collect(Collectors.toList()));
         formTableFields.forEach(formTableField -> {
             if (formTableField.getId() != null){
+                // TODO 只能更新名称，其他的不能更新
                 formTableFieldMapper.updateById(formTableField);
             }else {
                 // 若是新增字段那么需要更新其状态
@@ -99,6 +100,26 @@ public class FormTableFieldService {
                 formTableFieldMapper.insert(formTableField);
             }
         });
+    }
+    /**
+     * 生成初始化字段
+     * 当表单创建时默认自带的字段
+     */
+    public void generateChildInitFields(String mainTable, String formId, String formTableId) {
+        generateInitFields(formId,formTableId);
+        FormTableField formTableField = new FormTableField();
+        formTableField.setFormId(formId);
+        formTableField.setFormTableId(formTableId);
+        // todo 这里的设置也是不可控制的，比如我修改了 ORM 那边的规则，忘记改这里的规则就会有问题
+        formTableField.setCode(mainTable+"_id");
+        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
+        formTableField.setName(mainTable+"_ID");
+        formTableField.setType("String");
+        formTableField.setStatus("published");
+        HashMap<Object, Object> options = new HashMap<>();
+        options.put("x-component","Input");
+        formTableField.setOptions(JSONUtil.parse(options).toString());
+        formTableFieldMapper.insert(formTableField);
     }
 
     /**

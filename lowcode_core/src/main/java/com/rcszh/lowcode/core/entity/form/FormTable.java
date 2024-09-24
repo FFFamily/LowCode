@@ -29,7 +29,7 @@ public class FormTable  {
      */
     private String tableName;
     /**
-     * 数据库类型: 主表、子表
+     * 数据库类型: 主表、明细表
      */
     private String type;
 

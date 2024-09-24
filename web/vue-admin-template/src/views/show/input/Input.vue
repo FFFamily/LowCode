@@ -7,7 +7,7 @@ export default {
     }
   },
   created() {
-    console.log(this.info);
+    // console.log(this.info);
   },
   props:{
     info:Object
@@ -17,7 +17,7 @@ export default {
 
 <template>
   <div>
-    <span>{{name}}</span>
+<!--    <span>{{name}}</span>-->
     <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
   </div>
 

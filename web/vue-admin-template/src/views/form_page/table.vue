@@ -42,12 +42,28 @@
               </el-table>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="表名" width="180" />
-          <el-table-column prop="tableName" label="编码" width="180" />
-          <el-table-column prop="type" label="类型" />
+          <el-table-column prop="name" label="表名" width="180" >
+            <template v-slot="scope">
+              <el-input v-if="scope.row.id === undefined" type="text" v-model="scope.row.name"/>
+              <span v-else>{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="tableName" label="编码" width="180" >
+            <template v-slot="scope">
+              <el-input v-if="scope.row.id === undefined" type="text" v-model="scope.row.tableName"/>
+              <span v-else>{{scope.row.tableName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="类型" >
+            <template v-slot="scope">
+              <el-input v-if="scope.row.id === undefined" type="text" v-model="scope.row.type"/>
+              <span v-else>{{scope.row.type}}</span>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
             <template v-slot="scope">
-              <el-button @click="addField(scope.row)" type="text" size="small">添加字段</el-button>
+              <el-button v-if="scope.row.id !== undefined" @click="addField(scope.row)" type="text" size="small">添加字段</el-button>
+              <el-button v-else @click="createChildTable(scope.row)" type="text" size="small">生成明细表</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -60,7 +76,7 @@
 <script>
   import {saveDataSourceTable} from "@/api/data_source/dataSourceTable";
   import {getFormInfo,release} from '@/api/form'
-  import {map} from "core-js/internals/array-iteration";
+  import {createChildTable} from '@/api/formTable'
   export default {
     data() {
       return {
@@ -97,6 +113,15 @@
       },
       opendialogVisible(){
         this.dialogVisible = true
+        this.formInfo.formTables.push({
+          formId: this.formId
+        })
+      },
+      createChildTable(data){
+        console.log(data)
+        createChildTable(data).then(res => {
+          this.getFormInfo(this.formId)
+        })
       },
       handleClick(tab,event) {
 

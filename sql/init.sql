@@ -19,7 +19,7 @@ create table core_data_source
     id          int auto_increment
         primary key,
     name        varchar(50)  null,
-    type        int          null,
+    type        varchar(100) null,
     url         varchar(255) null,
     password    varchar(255) null,
     username    varchar(255) null,
@@ -29,44 +29,24 @@ create table core_data_source
     create_time datetime     null,
     update_by   varchar(50)  null,
     update_time datetime     null,
-    remark      text         null
+    remark      text         null,
+    ds_name     varchar(100) null
 );
 
-create table core_data_source_field
+create table core_data_source_config
 (
-    id            int auto_increment
+    id            varchar(100) not null
         primary key,
-    table_id      int          null,
-    type          varchar(255) null,
     name          varchar(255) null,
-    field_name    varchar(255) null,
-    field_type    varchar(255) null,
-    field_comment varchar(255) null,
-    field_length  int          null,
-    field_default varchar(255) null,
-    field_index   varchar(255) null,
-    tenant_id     int          null,
-    create_by     int          null,
-    create_time   datetime     null,
-    update_by     int          null,
-    update_time   datetime     null,
-    options       json         null
+    sql_statement varchar(255) null
 );
 
-create table core_data_source_table
+create table core_data_source_config_link
 (
-    id                  int auto_increment
+    id                    int auto_increment
         primary key,
-    code_data_source_id int          null,
-    name                varchar(255) null,
-    type                varchar(50)  null,
-    table_name          varchar(255) null,
-    tenant_id           int          null,
-    create_by           varchar(255) null,
-    create_time         datetime     null,
-    update_by           varchar(255) null,
-    update_time         datetime     null,
-    remark              varchar(255) null
+    data_source_id        varchar(100) null,
+    data_source_config_id varchar(100) null
 );
 
 create table form
@@ -111,6 +91,15 @@ create table form_condition
     cd_enable varchar(100) null
 );
 
+create table form_show_rule
+(
+    id                 varchar(100) null,
+    name               varchar(100) null,
+    pre_condition_node varchar(100) null,
+    action             varchar(100) null,
+    form_id            varchar(100) null
+);
+
 create table form_table
 (
     id         varchar(100) not null
@@ -134,6 +123,17 @@ create table form_table_field
     options        json         null,
     description    varchar(100) null,
     field_index    varchar(100) null
+);
+
+create table role
+(
+    id        varchar(50) not null
+        primary key,
+    user_id   varchar(50) not null,
+    create_by varchar(50) null,
+    create_at varchar(50) null,
+    update_bt varchar(50) null,
+    update_at varchar(50) null
 );
 
 create table sys_role
@@ -186,12 +186,15 @@ create table sys_user
 
 create table user
 (
-    id        varchar(50) not null
+    id        varchar(50)  not null
         primary key,
-    create_by varchar(50) null,
-    create_at varchar(50) null,
-    update_bt varchar(50) null,
-    update_at varchar(50) null
+    create_by varchar(50)  null,
+    create_at varchar(50)  null,
+    update_bt varchar(50)  null,
+    update_at varchar(50)  null,
+    name      varchar(255) null,
+    age       varchar(255) null,
+    test      varchar(255) null
 );
 
 create table view_form

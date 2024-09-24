@@ -86,6 +86,12 @@ export const constantRoutes = [
         name: 'FormAction',
         component: () => import('@/views/form_page/formAction.vue'),
         meta: { title: '动作列表', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'formRule',
+        name: 'FormRule',
+        component: () => import('@/views/rule_page/index.vue'),
+        meta: { title: '表单规则', icon: 'el-icon-s-help' }
       }
     ]
   },

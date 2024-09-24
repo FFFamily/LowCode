@@ -73,7 +73,7 @@ public class FormService {
         formTable.setFormId(form.getId());
         formTable.setName(form.getName());
         formTable.setType(FormTableTypeEnum.MAIN.getType());
-        formTableService.createFormTable(formTable);
+        formTableService.initMainFormTable(formTable);
         // 创建对应库表的字段
         formTableFieldService.generateInitFields(form.getId(),formTable.getId());
     }
@@ -112,7 +112,7 @@ public class FormService {
         // 更新
         formMapper.updateById(form);
         // 更新表单表
-        formTableService.batchUpdateFormTable(formInfo.getFormTables());
+        formTableService.batchUpdateFormTable(formInfo.getFormTables(),formInfo.getFields());
         // 更新表单字段信息
         Map<String, List<FormTableField>> fields = formInfo.getFields();
         for (Map.Entry<String, List<FormTableField>> entry : fields.entrySet()) {

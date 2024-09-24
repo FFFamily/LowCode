@@ -28,15 +28,17 @@ import java.util.stream.Collectors;
 public class ORM {
     private static final String KEY_PREFIX = "${";
     private static final String KEY_SUFFIX = "!}";
-    private static final String ID_KEY = KEY_PREFIX+"id"+KEY_SUFFIX;
-    private static final String TABLE_NAME_KEY = KEY_PREFIX+"tableName"+KEY_SUFFIX;
-    private static final String COLUMN_NAME_KEY = KEY_PREFIX+"columnName"+KEY_SUFFIX;
-    private static final String COLUMN_VALUE_KEY = KEY_PREFIX+"columnValue"+KEY_SUFFIX;
-    private static final String COLUMN_KEY = KEY_PREFIX+"column"+KEY_SUFFIX;
+    private static final String ID_KEY = "${id!}";
+    private static final String TABLE_NAME_KEY ="${tableName!}";
+    private static final String COLUMN_NAME_KEY = "${columnName!}";
+    private static final String COLUMN_VALUE_KEY = "${columnValue!}";
+    private static final String COLUMN_KEY = "${column!}";
     // 生成业务模型对应的数据库表模版
     private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+ """
             (\s
-            id varchar(50) not null primary key ,
+            id varchar(50) not null primary key ,"""
+            + COLUMN_NAME_KEY+
+            """
             create_by varchar(50) null  ,
             create_at varchar(50) null  ,
             update_bt varchar(50) null  ,
@@ -105,8 +107,13 @@ public class ORM {
     /**
      * 创建基础的模版数据表
      */
-    public void createTemplateTable(){
+    public void createTemplateTable(String primaryKey){
         mapping.put(TABLE_NAME_KEY, tableName);
+        if (primaryKey != null){
+            mapping.put(COLUMN_NAME_KEY, primaryKey+"_id"+" varchar(50) not null ,");
+        }else {
+            mapping.put(COLUMN_NAME_KEY, "");
+        }
         String sql = SqlUtil.replaceSQL(CREATE_TABLE_SQL, mapping);
         System.out.println("执行的SQL："+sql);
         jdbcTemplate.execute(sql);

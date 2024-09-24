@@ -14,9 +14,11 @@
 <script>
 import {getFormInfo} from '@/api/form'
 import {config} from '@/api/show'
+import {getRuleByType} from '@/api/form_rule/formRule'
 import Input from '../show/input/Input.vue'
 import Input_Number from '../show/input/Input_Number.vue'
 import DataSourceSelect from '../show/other/DataSourceSelect.vue'
+import Table from '../show/other/Table.vue'
 export default {
   data() {
     return {
@@ -31,11 +33,13 @@ export default {
   components: {
     Input,
     Input_Number,
-    DataSourceSelect
+    DataSourceSelect,
+    Table
   },
   watch: {},
   created() {
     if(this.formId){
+      this.getFormShowRule()
       this.getFormInfo()
     }else{
       this.$router.push({ name: 'Show'})
@@ -46,9 +50,19 @@ export default {
       getFormInfo(this.formId).then(response => {
         this.form = response.data
         Object.keys(response.data.fields).forEach(field => {
-          let item = response.data.fields[field];
-          if (item){
-            this.schemaList = this.schemaList.concat(item)
+          let table =  response.data.formTables.filter(_ => _.id === field)[0];
+          console.log("对应的表为： ");
+          console.log(table)
+          if (table.type === "child"){
+            this.schemaList = this.schemaList.concat({
+              ...table,
+              options: "{\"x-component\": \"Table\"}"
+            })
+          }else {
+            let item = response.data.fields[field];
+            if (item){
+              this.schemaList = this.schemaList.concat(item)
+            }
           }
         })
         this.schemaList.forEach(item => {
@@ -57,6 +71,14 @@ export default {
       })
       config(this.formId,"view_page").then(response => {
         this.buttonSchemaList = response.data
+      })
+    },
+    getFormShowRule(){
+      getRuleByType(this.formId,"show").then(response => {
+        let showRules = response.data
+        showRules.forEach(item => {
+          let {fieldId,calculationSymbols,value} = JSON.parse(item.preConditionNode)
+        })
       })
     },
     buttonAction(item){
