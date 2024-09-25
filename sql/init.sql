@@ -14,6 +14,16 @@ create table application
     tenant_id   int          null
 );
 
+create table conpany
+(
+    id        varchar(50) not null
+        primary key,
+    create_by varchar(50) null,
+    create_at varchar(50) null,
+    update_by varchar(50) null,
+    update_at varchar(50) null
+);
+
 create table core_data_source
 (
     id          int auto_increment
@@ -125,17 +135,6 @@ create table form_table_field
     field_index    varchar(100) null
 );
 
-create table role
-(
-    id        varchar(50) not null
-        primary key,
-    user_id   varchar(50) not null,
-    create_by varchar(50) null,
-    create_at varchar(50) null,
-    update_bt varchar(50) null,
-    update_at varchar(50) null
-);
-
 create table sys_role
 (
     id             bigint auto_increment comment '角色ID'
@@ -184,7 +183,7 @@ create table sys_user
     comment '用户信息表' charset = utf8mb3
                          row_format = DYNAMIC;
 
-create table user
+create table test
 (
     id        varchar(50)  not null
         primary key,
@@ -192,9 +191,7 @@ create table user
     create_at varchar(50)  null,
     update_bt varchar(50)  null,
     update_at varchar(50)  null,
-    name      varchar(255) null,
-    age       varchar(255) null,
-    test      varchar(255) null
+    company   varchar(255) null
 );
 
 create table view_form
