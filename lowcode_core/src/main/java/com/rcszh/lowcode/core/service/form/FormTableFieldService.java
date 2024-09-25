@@ -6,12 +6,14 @@ import com.rcszh.lowcode.core.entity.FormDataField;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.enums.FormTableFieldStatusEnum;
 import com.rcszh.lowcode.core.enums.InterfaceTypeEnum;
+import com.rcszh.lowcode.core.enums.form.FormOptionsComponentEnum;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
 import com.rcszh.lowcode.orm.ORM;
 import com.rcszh.lowcode.orm.SqlFieldConfig;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,44 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class FormTableFieldService {
+    private static final List<String> filterList = new ArrayList<>();
+    static {
+        filterList.add(FormOptionsComponentEnum.TEXT.getComponent());
+    }
     @Resource
     private FormTableFieldMapper formTableFieldMapper;
-//    /**
-//     * 保存单个表单数据类型字段
-//     */
-//    public void saveOneFormDataField(FormDataField formDataFieldDto) {
-//        // 校验字段编码
-//        LambdaQueryWrapper<FormDataField> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(FormDataField::getFromDataTableId, formDataFieldDto.getFromDataTableId());
-//        queryWrapper.eq(FormDataField::getCode, formDataFieldDto.getCode());
-//        FormDataField oldFormDataField = formTableFieldMapper.selectOne(queryWrapper);
-//        if (oldFormDataField != null) {
-//            throw new BizException("重复的字段编码");
-//        }
-//        formTableFieldMapper.insert(formDataFieldDto);
-//    }
-//    /**
-//     * 条件查询表单数据字段列表
-//     */
-//    public List<FormDataField> getFieldQueryList(FormDataField formDataFieldDto) {
-//        return formTableFieldMapper.selectList(getBaseLambdaQueryWrapper(formDataFieldDto.getFromDataTableId())
-//                .eq(formDataFieldDto.getName() != null,FormDataField::getName,formDataFieldDto.getName()));
-//    }
-//    /**
-//     * 删除
-//     */
-//    public Object delOneFormDataField(BaseFormDataFieldDto formDataFieldDto) {
-//        // todo 这里的删除要确认是要要强制删除数据库表单信息，目前是假删除
-//        return formTableFieldMapper.deleteById(formDataFieldDto);
-//    }
-//
-//    /**
-//     * @param id              数据字段id
-//     * @return 数据字段详情信息
-//     */
-//    public FormDataField getOneFormDataDetailInfoById(String id) {
-//        return formTableFieldMapper.selectById(id);
-//    }
 
     /**
      * 基础的 queryWrapper
@@ -74,32 +44,55 @@ public class FormTableFieldService {
     }
 
     /**
+     * 通过表单表id获取库表字段
+     */
+    public  List<FormTableField> getFieldByTable(String formTableId) {
+        return formTableFieldMapper.selectList(new LambdaQueryWrapper<FormTableField>().eq(FormTableField::getFormTableId, formTableId));
+    }
+
+    /**
      * 生成数据库字段配置信息，同时生成真实库表字段
      */
     public void createField(String tableName, List<FormTableField> formTableFields) {
         // 更新真实的数据库字段
         ORM.orm().tableName(tableName)
-                .updateTable(formTableFields.stream()
-                // 过滤出新创建的字段
-                // 只会生成 已保存||已创建 状态的字段
-                .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
-                .map(item -> {
-                    SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
-                    sqlFieldConfig.setFieldName(item.getCode());
-                    sqlFieldConfig.setFieldType(item.getType());
-                    sqlFieldConfig.setIsNull(true);
-                    return sqlFieldConfig;
-        }).collect(Collectors.toList()));
-        formTableFields.forEach(formTableField -> {
+                .updateTable(formTableFields
+                        .stream()
+                        // 过滤出新创建的字段
+                        // 只会生成 已保存||已创建 状态的字段
+                        .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
+                        // 有些组件不用生成字段信息
+                        .filter(item -> !filterList.contains(item.getInterfaceType()))
+                        .map(item -> {
+                        SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
+                        sqlFieldConfig.setFieldName(item.getCode());
+                        sqlFieldConfig.setFieldType(item.getType());
+                        sqlFieldConfig.setIsNull(true);
+                        return sqlFieldConfig;
+            }).collect(Collectors.toList()));
+        for (FormTableField formTableField : formTableFields) {
             if (formTableField.getId() != null){
                 // TODO 只能更新名称，其他的不能更新
+                FormTableField oldFormTableField = formTableFieldMapper.selectById(formTableField.getId());
+                if (oldFormTableField == null){
+                    throw new RuntimeException("程序错误，当前字段不存在");
+                }
+                if (!oldFormTableField.getCode().equals(formTableField.getCode())){
+                    throw new RuntimeException("已发布字段编码不能被修改");
+                }
+                if (!oldFormTableField.getType().equals(formTableField.getType())){
+                    throw new RuntimeException("已发布字段类型不能被修改");
+                }
+                if (!oldFormTableField.getInterfaceType().equals(formTableField.getInterfaceType())){
+                    throw new RuntimeException("已发布字段组件类型不能被修改");
+                }
                 formTableFieldMapper.updateById(formTableField);
             }else {
                 // 若是新增字段那么需要更新其状态
                 formTableField.setStatus(FormTableFieldStatusEnum.PUBLISHED.getStatus());
                 formTableFieldMapper.insert(formTableField);
             }
-        });
+        }
     }
     /**
      * 生成初始化字段
@@ -139,16 +132,20 @@ public class FormTableFieldService {
         options.put("x-component","Input");
         formTableField.setOptions(JSONUtil.parse(options).toString());
         formTableFieldMapper.insert(formTableField);
-        formTableField.setCode("createBy");
+        formTableField.setId(null);
+        formTableField.setCode("create_by");
         formTableField.setName("创建人");
         formTableFieldMapper.insert(formTableField);
-        formTableField.setCode("createAt");
+        formTableField.setId(null);
+        formTableField.setCode("create_at");
         formTableField.setName("创建时间");
         formTableFieldMapper.insert(formTableField);
-        formTableField.setCode("updateBy");
+        formTableField.setId(null);
+        formTableField.setCode("update_by");
         formTableField.setName("更新人");
         formTableFieldMapper.insert(formTableField);
-        formTableField.setCode("updateAt");
+        formTableField.setId(null);
+        formTableField.setCode("update_at");
         formTableField.setName("更新时间");
         formTableFieldMapper.insert(formTableField);
     }

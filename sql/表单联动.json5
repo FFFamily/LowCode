@@ -1,0 +1,13 @@
+{
+  "x-component": "FormDataSelect",
+  "x-component-props": {
+    "type": "selection"
+  },
+  "business": {
+    "dataSourceFrom": {
+      "fromType": "formTableId",
+      "fromTarget": "46f856d5e44e3c5cf3198c71254399fa",
+      "fromBackValue": "#sum($id$)#"
+    }
+  }
+}

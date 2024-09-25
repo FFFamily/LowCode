@@ -19,6 +19,8 @@ import Input from '../show/input/Input.vue'
 import Input_Number from '../show/input/Input_Number.vue'
 import DataSourceSelect from '../show/other/DataSourceSelect.vue'
 import Table from '../show/other/Table.vue'
+import StaticText  from "../show/other/StaticText.vue";
+import FormDataSelect from "@/views/show/other/FormDataSelect.vue";
 export default {
   data() {
     return {
@@ -34,7 +36,9 @@ export default {
     Input,
     Input_Number,
     DataSourceSelect,
-    Table
+    Table,
+    StaticText,
+    FormDataSelect
   },
   watch: {},
   created() {
@@ -51,8 +55,8 @@ export default {
         this.form = response.data
         Object.keys(response.data.fields).forEach(field => {
           let table =  response.data.formTables.filter(_ => _.id === field)[0];
-          console.log("对应的表为： ");
-          console.log(table)
+          // console.log("对应的表为： ");
+          // console.log(table)
           if (table.type === "child"){
             this.schemaList = this.schemaList.concat({
               ...table,
@@ -67,6 +71,7 @@ export default {
         })
         this.schemaList.forEach(item => {
           item.options = JSON.parse(item.options)
+          console.log(item.options["x-component"]);
         })
       })
       config(this.formId,"view_page").then(response => {

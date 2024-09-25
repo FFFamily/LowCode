@@ -41,7 +41,7 @@ public class ORM {
             """
             create_by varchar(50) null  ,
             create_at varchar(50) null  ,
-            update_bt varchar(50) null  ,
+            update_by varchar(50) null  ,
             update_at varchar(50) null
             )
            \s

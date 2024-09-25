@@ -74,7 +74,7 @@ export default {
     getTableConfig(){
         config(this.selectForm.formId,this.selectForm.type).then(response => {
           this.config = response.data
-          for(var i=0;i<response.data.length;i++){
+          for(let i=0;i<response.data.length;i++){
             if(response.data[i].type === "list_show"){
               this.showConfig = JSON.parse(response.data[i].options)
               console.log( this.showConfig)
@@ -82,6 +82,8 @@ export default {
               this.showButtonConfig = JSON.parse(response.data[i].options)
             }
           }
+          // console.log("====列表配置信息====")
+          // console.log(this.showConfig)
         })
     },
     getTable(){
@@ -92,7 +94,7 @@ export default {
     buttonAction(buttonType){
       if(buttonType === "add"){
         console.log("新增")
-        this.$router.push({ name: 'VIEW', params: { formId: this.formId }})
+        this.$router.push({ name: 'VIEW', params: { formId: this.selectForm.formId }})
       }else if(buttonType === "del"){
         console.log("删除")
       }

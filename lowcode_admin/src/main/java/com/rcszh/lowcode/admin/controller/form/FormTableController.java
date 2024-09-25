@@ -1,9 +1,11 @@
 package com.rcszh.lowcode.admin.controller.form;
 
+import com.rcszh.lowcode.admin.dto.form.TableInfo;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.entity.dto.FormInfo;
 import com.rcszh.lowcode.core.entity.form.Form;
 import com.rcszh.lowcode.core.entity.form.FormTable;
+import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.entity.view.ViewForm;
 import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import com.rcszh.lowcode.core.enums.FormTableTypeEnum;
@@ -35,6 +37,20 @@ public class FormTableController {
     @GetMapping("/all")
     public BaseResponse all() {
         return BaseResponse.success(formTableService.getAllFormTable());
+    }
+
+    /**
+     * 表单列表
+     */
+    @ResponseBody
+    @GetMapping("/get/{tableId}")
+    public BaseResponse getTableInfo(@PathVariable String tableId) {
+        TableInfo tableInfo = new TableInfo();
+        FormTable table = formTableService.getTableById(tableId);
+        tableInfo.setTable(table);
+        List<FormTableField> fields = formTableFieldService.getFieldByTable(tableId);
+        tableInfo.setFields(fields);
+        return BaseResponse.success(tableInfo);
     }
 
     /**

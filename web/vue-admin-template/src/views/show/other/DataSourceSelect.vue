@@ -12,8 +12,8 @@ export default {
     }
   },
   created() {
-    console.log("========= 数据源");
-    console.log(this.info);
+    // console.log("========= 数据源");
+    // console.log(this.info);
   },
   props:{
     info:Object

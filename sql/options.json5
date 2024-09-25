@@ -1,9 +1,10 @@
 {
   "type": "组件类型",
   // UI 组件类型,用于前端选择渲染组件
-  // Input: 输入框 | DataSourceSelect: 数据源选择
+  // Input(输入框) | DataSourceSelect(数据源选择) | FormDataSelect(表单关联) | Text(文本)
   "x-component": "String | React.FC",
   "x-component-props": "组件属性 | String",
+//  "x-component-value": "组件值",
   "x-use-component-props": "动态组件属性",
   "action": "操作(on click 事件)",
   "x-initializer": {
@@ -21,7 +22,11 @@
   },
   // 业务配置
   business: {
-    dataSourceFrom: "数据源来源"
+    dataSourceFrom: {
+      fromType: "来源类型",
+      fromTarget: "目标",
+      fromBackValue: "来源回传值"
+    }
   }
 
 }

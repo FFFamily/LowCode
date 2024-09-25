@@ -126,7 +126,7 @@ export default {
     showConfigRadio(viewConfig){
       if (viewConfig.type === "list_show"){
         this.columnShowFieldList = [];
-        let filedList = JSON.parse(viewConfig.options).map(item=> item.fieldCode);
+        let filedList = viewConfig.options ? JSON.parse(viewConfig.options).map(item=> item.fieldCode) :[];
         getFormInfo(this.formId).then(response => {
           Object.keys(response.data.fields).forEach(_ =>{
             response.data.fields[_].forEach(field=>{

@@ -24,8 +24,6 @@ public class FormController {
         formService.createForm(formInfo);
         return BaseResponse.success();
     }
-
-
     /**
      * 表单列表
      */

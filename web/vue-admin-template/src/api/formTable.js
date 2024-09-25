@@ -15,6 +15,13 @@ export function getAllFormTable() {
   })
 }
 
+export function getTableById(data) {
+  return request({
+    url: `${pre}/get/${data}`,
+    method: 'get'
+  })
+}
+
 export function createChildTable(data) {
   return request({
     url: `${pre}/createChildTable`,
