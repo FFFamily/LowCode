@@ -1,3 +1,14 @@
+create table a_test
+(
+    id        varchar(50) not null
+        primary key,
+    test_id   varchar(50) not null,
+    create_by varchar(50) null,
+    create_at varchar(50) null,
+    update_by varchar(50) null,
+    update_at varchar(50) null
+);
+
 create table application
 (
     id          int auto_increment
@@ -12,6 +23,17 @@ create table application
     update_time timestamp    null,
     remark      text         null,
     tenant_id   int          null
+);
+
+create table bumne
+(
+    id         varchar(50) not null
+        primary key,
+    conpany_id varchar(50) not null,
+    create_by  varchar(50) null,
+    create_at  varchar(50) null,
+    update_by  varchar(50) null,
+    update_at  varchar(50) null
 );
 
 create table conpany
@@ -57,6 +79,13 @@ create table core_data_source_config_link
         primary key,
     data_source_id        varchar(100) null,
     data_source_config_id varchar(100) null
+);
+
+create table fake_user
+(
+    id       varchar(100) null,
+    username varchar(100) null,
+    dept     varchar(100) null
 );
 
 create table form
@@ -191,7 +220,11 @@ create table test
     create_at varchar(50)  null,
     update_bt varchar(50)  null,
     update_at varchar(50)  null,
-    company   varchar(255) null
+    company   varchar(255) null,
+    select_da varchar(255) null,
+    code      varchar(255) null,
+    time      varchar(255) null,
+    textgg    varchar(255) null
 );
 
 create table view_form
