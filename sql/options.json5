@@ -4,6 +4,8 @@
   // Input(输入框) | DataSourceSelect(数据源选择) | FormDataSelect(表单关联) | Text(文本)
   "x-component": "String | React.FC",
   "x-component-props": "组件属性 | String",
+  // 额外数组元素描述
+  "items": [],
 //  "x-component-value": "组件值",
   "x-use-component-props": "动态组件属性",
   "action": "操作(on click 事件)",
@@ -20,6 +22,7 @@
   "properties": {
     // 子组件配置
   },
+  "order": "Number 假字段（排序）",
   // 业务配置
   business: {
     dataSourceFrom: {

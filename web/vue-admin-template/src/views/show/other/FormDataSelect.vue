@@ -1,6 +1,7 @@
 <script>
 import {list} from "@/api/show"
 import {getTableById} from '@/api/formTable'
+import {MethodParser, hasMethod, ArgParser} from '@/utils/FormulaParser'
 export default {
   data() {
     return {
@@ -10,7 +11,8 @@ export default {
       list:[],
       columns:[],
       reload: false,
-      dynamicProps: this.info.options["x-component-props"]
+      dynamicProps: this.info.options["x-component-props"],
+      selectionRow:[]
     }
   },
   created() {
@@ -50,10 +52,13 @@ export default {
         })
       }
     },
-    RowClick(row,column,event){
+    onSubmit(){
       this.dataSourceDialogVisible = false
-      console.log(row[this.dataSourceFrom.fromBackValue])
-      this.inputValue = row.id
+      let method = this.dataSourceFrom.fromBackValue;
+      this.inputValue = hasMethod(method) ? MethodParser(method,this.selectionRow) : this.selectionRow[0][ArgParser[method]];
+    },
+    handleSelectionChange(selection){
+      this.selectionRow = selection
     }
   }
 }
@@ -67,11 +72,11 @@ export default {
     <template>
       <el-dialog title="提示" :visible.sync="dataSourceDialogVisible" width="70%">
         <template>
-          <el-table :data="list" style="width: 100%" @row-click="RowClick">
+          <el-table :data="list" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column v-bind="dynamicProps" v-if="dynamicProps"></el-table-column>
             <el-table-column  v-for="item in columns" :prop="item.propColumn" :label="item.labelColumn"></el-table-column>
           </el-table>
-          <el-button>选择</el-button>
+          <el-button @click="onSubmit">选择</el-button>
         </template>
       </el-dialog>
     </template>

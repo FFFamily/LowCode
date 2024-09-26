@@ -21,6 +21,9 @@ import DataSourceSelect from '../show/other/DataSourceSelect.vue'
 import Table from '../show/other/Table.vue'
 import StaticText  from "../show/other/StaticText.vue";
 import FormDataSelect from "@/views/show/other/FormDataSelect.vue";
+import Select from "@/views/show/other/Select.vue";
+import Upload from "@/views/show/other/Upload.vue";
+import DatePicker from "@/views/show/other/DatePicker.vue";
 export default {
   data() {
     return {
@@ -38,7 +41,10 @@ export default {
     DataSourceSelect,
     Table,
     StaticText,
-    FormDataSelect
+    FormDataSelect,
+    Select,
+    Upload,
+    DatePicker
   },
   watch: {},
   created() {

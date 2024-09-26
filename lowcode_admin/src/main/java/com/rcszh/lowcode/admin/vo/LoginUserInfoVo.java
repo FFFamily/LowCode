@@ -15,7 +15,7 @@ public class LoginUserInfoVo implements Serializable {
     /**
      * 用户
      */
-    private User user;
+    private Object user;
     /**
      * 认证信息
      */

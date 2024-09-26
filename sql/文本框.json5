@@ -1,0 +1,6 @@
+{
+  "x-component": "Input",
+  "x-component-props": {
+    "type":"textarea"
+  }
+}

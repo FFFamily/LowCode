@@ -1,5 +1,6 @@
 export const mapping = {
-  "now": now()
+  "now": now(),
+  "sum": (list) => sum(list),
 }
 /**
  * 获取当前时间
@@ -15,4 +16,12 @@ function now() {
   const minutes = String(nowDate.getMinutes()).padStart(2, '0');
   const seconds = String(nowDate.getSeconds()).padStart(2, '0');
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function sum(list){
+  let result = 0;
+  list.forEach(element => {
+    result+= Number(element);
+  })
+  return result;
 }

@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.admin.controller;
 
 
+import com.rcszh.lowcode.account.service.FakeUserService;
 import com.rcszh.lowcode.account.service.TenantService;
 
 import com.rcszh.lowcode.admin.dto.LoginRequest;
@@ -19,7 +20,8 @@ public class AdminLoginController {
 
     @Resource
     private TenantService tenantService;
-
+    @Resource
+    private FakeUserService fakeUserService;
 
     /**
      * TODO 要求支持多种支持登录方式
@@ -39,11 +41,7 @@ public class AdminLoginController {
     @GetMapping("/getInfo")
     public BaseResponse getLoginInfo(){
         LoginUserInfoVo.LoginUserInfoVoBuilder userInfoBuilder = LoginUserInfoVo.builder();
-//        User user = userService.findUserByUserName("admin");
-//        tenantService.findTenantByCode(user.getTenantCode());
-//        Long[] roleIds = user.getRoleIds();
-//        List<Role> roles = roleService.findRoleByIds(List.of(roleIds));
-        userInfoBuilder.user(null);
+        userInfoBuilder.user(fakeUserService.findUserByUserName("admin"));
         return BaseResponse.success(userInfoBuilder.build());
     }
 

@@ -21,7 +21,15 @@
                 </el-table-column>
                 <el-table-column label="组件类型"  >
                   <template v-slot="scope">
-                    <el-input type="text" v-model="scope.row.interfaceType"/>
+                    <el-select @change="interfaceTypeChange($event, scope.row)" :disabled="scope.row.status === 'published'" v-model="scope.row.interfaceType" placeholder="请选择">
+                      <el-option label="文本" value="input"></el-option>
+                      <el-option label="下拉选择" value="select"></el-option>
+                      <el-option label="文件上传" value="upload"></el-option>
+                      <el-option label="时间" value="date_picker"></el-option>
+                      <el-option label="文字" value="text"></el-option>
+                      <el-option label="数据源选择" value="data_source_select"></el-option>
+                      <el-option label="表单关联" value="form_data_select"></el-option>
+                    </el-select>
                   </template>
                 </el-table-column>
                 <el-table-column label="字段类型"  >
@@ -77,6 +85,7 @@
   import {saveDataSourceTable} from "@/api/data_source/dataSourceTable";
   import {getFormInfo,release} from '@/api/form'
   import {createChildTable} from '@/api/formTable'
+  import da from "element-ui/src/locale/lang/da";
   export default {
     data() {
       return {
@@ -110,6 +119,25 @@
             options:"{\"x-component\":\"Input\"}"
           })
         })
+      },
+      interfaceTypeChange(value,data){
+        console.log(data)
+        console.log(value)
+        if (value === 'input'){
+          data.options ="{\"x-component\":\"Input\"}"
+        }else if(value === 'select'){
+          data.options = '{\"x-component\":\"Select\",\"items\":[{\"label\":\"选项1\",\"value\":\"1\"}]}';
+        }else if(value === 'upload'){
+          data.options ="{\"x-component\":\"Upload\"}"
+        }else if(value === 'date_picker'){
+          data.options ="{\"x-component\":\"DatePicker\"}"
+        }else if(value === 'text'){
+          data.options ="{\"x-component\":\"StaticText\",\"default\":\"我是一个描述\"}"
+        }else if(value === 'data_source_select'){
+
+        }else if(value === 'form_data_select'){
+          data.options = '{\"x-component\":\"FormDataSelect\",\"x-component-props\":{\"type\":\"selection\"},\"business\":{\"dataSourceFrom\":{\"fromType\":\"formTableId\",\"fromTarget\":\"46f856d5e44e3c5cf3198c71254399fa\",\"fromBackValue\":\"#sum($id$)#\"}}}';
+        }
       },
       opendialogVisible(){
         this.dialogVisible = true

@@ -1,0 +1,12 @@
+{
+  "x-component": "RelatedQueryField",
+  "business": {
+    "dataSourceFrom": {
+      "fromType": "formTableId",
+      "fromTarget": "46f856d5e44e3c5cf3198c71254399fa",
+      "filedMethod": "sum",
+      "filed": "id",
+      "filterMethod": ""
+    }
+  }
+}
