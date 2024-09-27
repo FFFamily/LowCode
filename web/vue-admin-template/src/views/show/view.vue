@@ -3,7 +3,7 @@
     <!--内容区域-->
     <el-form ref="form" :model="submitInfo" label-width="80px">
       <el-form-item v-for="item in schemaList" :label="item.name">
-        <component v-model ="item.inputValue" :is='item.options["x-component"]' :info="item"></component>
+        <component  @modelValue="changeFetch($event,item.code)" :is='item.options["x-component"]' :info="item"></component>
       </el-form-item>
     </el-form>
     <!--底部按钮区域-->
@@ -24,6 +24,7 @@ import FormDataSelect from "@/views/show/other/FormDataSelect.vue";
 import Select from "@/views/show/other/Select.vue";
 import Upload from "@/views/show/other/Upload.vue";
 import DatePicker from "@/views/show/other/DatePicker.vue";
+import RelatedQuery from "@/views/show/other/RelatedQuery.vue";
 export default {
   data() {
     return {
@@ -44,7 +45,8 @@ export default {
     FormDataSelect,
     Select,
     Upload,
-    DatePicker
+    DatePicker,
+    RelatedQuery
   },
   watch: {},
   created() {
@@ -61,11 +63,10 @@ export default {
         this.form = response.data
         Object.keys(response.data.fields).forEach(field => {
           let table =  response.data.formTables.filter(_ => _.id === field)[0];
-          // console.log("对应的表为： ");
-          // console.log(table)
           if (table.type === "child"){
             this.schemaList = this.schemaList.concat({
               ...table,
+              code:table.tableName,
               options: "{\"x-component\": \"Table\"}"
             })
           }else {
@@ -77,12 +78,17 @@ export default {
         })
         this.schemaList.forEach(item => {
           item.options = JSON.parse(item.options)
-          console.log(item.options["x-component"]);
+          // console.log(item.options["x-component"]);
         })
       })
       config(this.formId,"view_page").then(response => {
-        this.buttonSchemaList = response.data
+        this.buttonSchemaList = response.data[0].options || []
       })
+    },
+    changeFetch(val,data){
+      console.log(val);
+      console.log(data)
+      this.submitInfo[data] = val
     },
     getFormShowRule(){
       getRuleByType(this.formId,"show").then(response => {
@@ -93,7 +99,8 @@ export default {
       })
     },
     buttonAction(item){
-
+      console.log(this.schemaList)
+      console.log(this.submitInfo)
     }
   }
 }

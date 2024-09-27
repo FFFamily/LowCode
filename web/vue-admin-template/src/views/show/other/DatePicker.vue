@@ -11,6 +11,11 @@ export default {
   },
   props:{
     info:Object
+  },
+  methods:{
+    changeMsg(){
+      this.$emit("modelValue",this.inputValue);
+    }
   }
 }
 </script>
@@ -20,11 +25,7 @@ export default {
 <!--    <span>{{name}}</span>-->
     <template>
       <div class="block">
-        <el-date-picker
-          v-model="inputValue"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
+        <el-date-picker @change="changeMsg" v-model="inputValue" type="date" placeholder="选择日期"></el-date-picker>
       </div>
     </template>
   </div>

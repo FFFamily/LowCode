@@ -1,13 +1,13 @@
-package com.rcszh.lowcode.core.aop;
+package com.rcszh.lowcode.admin.aop;
 
 import cn.hutool.json.JSONUtil;
+import com.rcszh.lowcode.admin.service.DynamicTableService;
 import com.rcszh.lowcode.core.entity.action.FormAction;
 import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.entity.form.FormTable;
 import com.rcszh.lowcode.core.enums.action.FormActionAssignmentModeEnum;
 import com.rcszh.lowcode.core.enums.action.FormConditionTypeEnum;
 import com.rcszh.lowcode.core.schema.FormActionConfigSchema;
-import com.rcszh.lowcode.core.service.DynamicTableService;
 import com.rcszh.lowcode.core.service.action.FormActionService;
 import com.rcszh.lowcode.core.service.action.FormConditionService;
 import com.rcszh.lowcode.core.service.form.FormTableService;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Aspect
 @Component
@@ -35,7 +34,7 @@ public class DynamicTableServiceAdvice {
     @Resource
     private FormTableService formTableService;
     // 定义一个切点：所有被GetMapping注解修饰的方法会织入advice
-    @Pointcut("execution(* com.rcszh.lowcode.core.service.DynamicTableService.doActionToDynamicTable(..))")
+    @Pointcut("execution(* com.rcszh.lowcode.admin.service.DynamicTableService.doActionToDynamicTable(..))")
     public void pointCut() {}
 
     // Before表示logAdvice将在目标方法执行前执行

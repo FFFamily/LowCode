@@ -9,8 +9,6 @@ export default {
     }
   },
   created() {
-    // console.log("=========== Text =============");
-    // console.log(parser(this.inputValue));
   },
   props:{
     info:Object

@@ -1,5 +1,6 @@
-package com.rcszh.lowcode.core.service;
+package com.rcszh.lowcode.admin.service;
 
+import com.rcszh.lowcode.admin.dto.show.FindRequest;
 import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
 import com.rcszh.lowcode.core.enums.action.FormActionTypeEnum;
 import com.rcszh.lowcode.orm.ORM;
@@ -82,5 +83,19 @@ public class DynamicTableService {
      */
     public void updateDynamicTableData(String tableName, Map<String, Object> tableInfo) {
         ORM.orm().tableName(tableName).update(tableInfo);
+    }
+
+    /**
+     * 查询数据
+     */
+    public Object getDynamicTableDataByFindQuery(FindRequest findRequest) {
+        String tableName = findRequest.getTableName();
+        List<String> tableFiled = findRequest.getTableFiled();
+        ORM orm = ORM.orm().tableName(tableName).columns(tableFiled).where(findRequest.getFilterCondition());
+        if (tableFiled.size() > 1){
+            return orm.selectList();
+        }else {
+            return orm.selectOneForObject(Object.class);
+        }
     }
 }

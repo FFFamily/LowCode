@@ -68,7 +68,7 @@ export default {
     selectChange(formId){
       this.selectForm.formId = formId;
       getFormInfo(formId).then(response => {
-        this.selectForm.tableName = response.data.formTables[0].tableName
+        this.selectForm.tableName = response.data.formTables.filter(_ => _.type === 'main')[0].tableName
       })
     },
     getTableConfig(){
@@ -77,7 +77,7 @@ export default {
           for(let i=0;i<response.data.length;i++){
             if(response.data[i].type === "list_show"){
               this.showConfig = JSON.parse(response.data[i].options)
-              console.log( this.showConfig)
+              // console.log( this.showConfig)
             }else if(response.data[i].type === "list_button"){
               this.showButtonConfig = JSON.parse(response.data[i].options)
             }

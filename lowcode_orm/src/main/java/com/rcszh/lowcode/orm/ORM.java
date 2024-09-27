@@ -3,6 +3,7 @@ package com.rcszh.lowcode.orm;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.hash.Hash;
 import cn.hutool.extra.spring.SpringUtil;
+import com.rcszh.lowcode.orm.entity.FilterCondition;
 import com.rcszh.lowcode.orm.module.SqlUtil;
 import jakarta.annotation.Resource;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class ORM {
     private static final String COLUMN_NAME_KEY = "${columnName!}";
     private static final String COLUMN_VALUE_KEY = "${columnValue!}";
     private static final String COLUMN_KEY = "${column!}";
+    private static final String QUERY_KEY = "${query!}";
     // 生成业务模型对应的数据库表模版
     private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME_KEY+ """
             (\s
@@ -49,6 +51,7 @@ public class ORM {
     // 查询
 //    private static final String SELECT_ALL_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY;
     private static final String SELECT_ALL_SQL = "SELECT * FROM "+ TABLE_NAME_KEY;
+    private static final String BASE_SELECT_SQL = "SELECT "+COLUMN_KEY+" FROM "+ TABLE_NAME_KEY +" WHERE "+QUERY_KEY;
     // 更新
     private static final String UPDATE_ONE_SQL = "UPDATE "+TABLE_NAME_KEY+" SET "+COLUMN_NAME_KEY+"="+COLUMN_VALUE_KEY+" WHERE id = "+ID_KEY;
     // 添加
@@ -61,6 +64,10 @@ public class ORM {
      * 表名
      */
     private String tableName;
+    /**
+     * 查询条件
+     */
+    private String queryWhere;
     /**
      * 表字段
      */
@@ -85,9 +92,17 @@ public class ORM {
     }
 
     /**
+     * 条件
+     */
+    public ORM where(List<FilterCondition> filterConditions){
+        this.queryWhere = filterConditions.stream().map(SqlUtil::convertFilterConfigToSql).collect(Collectors.joining("AND "));
+        return this;
+    }
+
+    /**
      * 列
      */
-    public ORM columns(String... column){
+    public ORM columns(List<String> column){
         this.columns = String.join(",",column);
         return this;
     }
@@ -145,6 +160,9 @@ public class ORM {
         return jdbcTemplate.queryForList(sql);
     }
 
+
+
+
     /**
      * 添加单个数据
      * @param tableInfo 表数据
@@ -201,4 +219,14 @@ public class ORM {
         }
     }
 
+    /**
+     * 指定类型查询
+     */
+    public <T> T selectOneForObject( Class<T> tClass) {
+        mapping.put(TABLE_NAME_KEY, tableName);
+        mapping.put(COLUMN_KEY, columns);
+        mapping.put(QUERY_KEY, queryWhere);
+        String sql = SqlUtil.replaceSQL(BASE_SELECT_SQL, mapping);
+        return jdbcTemplate.queryForObject(sql, tClass);
+    }
 }

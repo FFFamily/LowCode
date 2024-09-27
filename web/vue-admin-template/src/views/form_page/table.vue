@@ -29,6 +29,7 @@
                       <el-option label="文字" value="text"></el-option>
                       <el-option label="数据源选择" value="data_source_select"></el-option>
                       <el-option label="表单关联" value="form_data_select"></el-option>
+                      <el-option label="关联查询" value="related_query"></el-option>
                     </el-select>
                   </template>
                 </el-table-column>
@@ -85,7 +86,6 @@
   import {saveDataSourceTable} from "@/api/data_source/dataSourceTable";
   import {getFormInfo,release} from '@/api/form'
   import {createChildTable} from '@/api/formTable'
-  import da from "element-ui/src/locale/lang/da";
   export default {
     data() {
       return {
@@ -136,7 +136,9 @@
         }else if(value === 'data_source_select'){
 
         }else if(value === 'form_data_select'){
-          data.options = '{\"x-component\":\"FormDataSelect\",\"x-component-props\":{\"type\":\"selection\"},\"business\":{\"dataSourceFrom\":{\"fromType\":\"formTableId\",\"fromTarget\":\"46f856d5e44e3c5cf3198c71254399fa\",\"fromBackValue\":\"#sum($id$)#\"}}}';
+          data.options = `{\"x-component\":\"FormDataSelect\",\"x-component-props\":{\"type\":\"selection\"},\"business\":{\"dataSourceFrom\":{\"fromType\":\"formTableId\",\"fromTarget\":\"${data.formTableId}\",\"fromBackValue\":\"#sum($id$)#\"}}}`;
+        }else if (value === 'related_query'){
+          data.options = `{\"x-component\":\"RelatedQuery\",\"business\":{\"tableName\":\"form\",\"tableFiled\":[\"count(name)\"],\"filterCondition\":[{\"field\":\"name\",\"operator\":\"=\",\"value\":\"\\\"公司\\\"\"}]}}`
         }
       },
       opendialogVisible(){

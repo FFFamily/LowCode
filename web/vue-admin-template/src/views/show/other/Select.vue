@@ -13,6 +13,11 @@ export default {
   },
   props:{
     info:Object
+  },
+  methods:{
+    changeMsg(){
+      this.$emit("modelValue",this.inputValue);
+    }
   }
 }
 </script>
@@ -20,7 +25,7 @@ export default {
 <template>
   <div>
     <template>
-      <el-select v-model="inputValue" placeholder="请选择">
+      <el-select v-model="inputValue" @change="changeMsg" placeholder="请选择">
         <el-option v-for="item in items" :label="item.label" :value="item.value"></el-option>
       </el-select>
     </template>

@@ -56,6 +56,7 @@ export default {
       this.dataSourceDialogVisible = false
       let method = this.dataSourceFrom.fromBackValue;
       this.inputValue = hasMethod(method) ? MethodParser(method,this.selectionRow) : this.selectionRow[0][ArgParser[method]];
+      this.$emit("modelValue",this.inputValue);
     },
     handleSelectionChange(selection){
       this.selectionRow = selection

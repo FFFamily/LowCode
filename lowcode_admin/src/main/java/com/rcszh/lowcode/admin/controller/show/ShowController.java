@@ -1,8 +1,9 @@
 package com.rcszh.lowcode.admin.controller.show;
 
+import com.rcszh.lowcode.admin.dto.show.FindRequest;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import com.rcszh.lowcode.core.enums.action.FormActionTypeEnum;
-import com.rcszh.lowcode.core.service.DynamicTableService;
+import com.rcszh.lowcode.admin.service.DynamicTableService;
 import com.rcszh.lowcode.core.service.view.ViewFormService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,12 @@ public class ShowController {
     @GetMapping("/get/{tableName}/{fieldId}")
     public BaseResponse get(@PathVariable String tableName,@PathVariable String fieldId){
         return BaseResponse.success(dynamicTableService.getDynamicTableDataById(tableName,fieldId));
+    }
+
+    @ResponseBody
+    @PostMapping("/find")
+    public BaseResponse find(@RequestBody FindRequest findRequest){
+        return BaseResponse.success(dynamicTableService.getDynamicTableDataByFindQuery(findRequest));
     }
 
     @ResponseBody

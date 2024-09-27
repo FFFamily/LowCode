@@ -1,7 +1,9 @@
 package com.rcszh.lowcode.orm.module;
 
 import com.rcszh.lowcode.orm.SqlFieldConfig;
+import com.rcszh.lowcode.orm.entity.FilterCondition;
 import com.rcszh.lowcode.orm.enums.SqlFieldTypeEnum;
+import jakarta.servlet.FilterConfig;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,6 +38,13 @@ public class SqlUtil {
         Optional.ofNullable(sqlFieldConfig.getFieldType()).ifPresent(value -> sb.append(SqlFieldTypeEnum.getSqlFieldTypeEnum(value).getSqlType()));
         Optional.ofNullable(sqlFieldConfig.getIsNull()).ifPresent(value -> sb.append(value ? " null " : " not null "));
         return sb.toString();
+    }
+
+    /**
+     * 将过滤配置转为where sql 语句
+     */
+    public static String convertFilterConfigToSql(FilterCondition filterCondition) {
+        return filterCondition.getField() +" " + filterCondition.getOperator() + " " + filterCondition.getValue();
     }
 
 

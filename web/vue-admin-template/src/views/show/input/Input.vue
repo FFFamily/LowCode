@@ -11,14 +11,18 @@ export default {
   },
   props:{
     info:Object
+  },
+  methods:{
+    changeMsg(){
+      this.$emit("modelValue",this.inputValue);
+    }
   }
 }
 </script>
 
 <template>
   <div>
-<!--    <span>{{name}}</span>-->
-    <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
+    <el-input v-model="inputValue" @change="changeMsg" placeholder="请输入内容"></el-input>
   </div>
 
 </template>

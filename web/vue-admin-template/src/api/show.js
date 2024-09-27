@@ -31,6 +31,14 @@ export function add(tableName,data) {
   })
 }
 
+export function find(data) {
+  return request({
+    url: `${pre}/find`,
+    method: 'post',
+    data
+  })
+}
+
 export function del(tableName,fieldId) {
   return request({
     url: `${pre}/del/${tableName}/${fieldId}}`,

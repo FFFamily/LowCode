@@ -155,6 +155,15 @@ export default {
           }
         ])
         this.listButtonConfigRadio = true
+      }else if(viewConfig.type === "detail_button"){
+        this.buttonShowFieldList = []
+        this.buttonShowFieldList = this.buttonShowFieldList.concat([
+          {
+            buttonName:"保存",
+            buttonType:"save"
+          }
+        ])
+        this.listButtonConfigRadio = true
       }
       this.viewFormConfig = viewConfig;
     },
