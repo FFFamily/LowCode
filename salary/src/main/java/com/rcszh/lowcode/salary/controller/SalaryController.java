@@ -1,7 +1,7 @@
-package com.rcszh.framework.controller;
+package com.rcszh.lowcode.salary.controller;
 
-import com.rcszh.framework.dto.SalaryQueryParamDto;
-import com.rcszh.framework.service.SalaryService;
+import com.rcszh.lowcode.salary.dto.SalaryQueryParamDto;
+import com.rcszh.lowcode.salary.service.SalaryService;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +15,7 @@ public class SalaryController {
     @Resource
     private SalaryService salaryService;
     @PostMapping("/list")
-    public BaseResponse list(@RequestBody SalaryQueryParamDto salaryQueryParamDto) {
-        salaryService.getSalaryList(salaryQueryParamDto);
-        return BaseResponse.success();
+    public BaseResponse list(@RequestBody(required = false) SalaryQueryParamDto salaryQueryParamDto) {
+        return BaseResponse.success(salaryService.generateSalaryList(salaryQueryParamDto));
     }
 }

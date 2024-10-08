@@ -1,4 +1,4 @@
-package com.rcszh.framework.enums;
+package com.rcszh.lowcode.salary.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

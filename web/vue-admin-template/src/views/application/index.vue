@@ -1,58 +1,53 @@
 <template>
   <div class="app-container">
-    <el-button type="success" @click="openCreateApplicationDrawer">添加应用</el-button>
-    <br><br>
     <template>
-      <el-table
-        v-loading="listLoading"
-        :data="list"
-        style="width: 100%"
-      >
-        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="code" label="编码" width="180"></el-table-column>
-        <el-table-column prop="type" label="类型"></el-table-column>
+      <el-button @click="fetchData">生成</el-button>
+      <el-table v-loading="listLoading" :data="list" style="width: 100%">
+        <el-table-column prop="id" label="Id" ></el-table-column>
+        <el-table-column v-for="item in listConfig" :prop="item" :label="item" ></el-table-column>
       </el-table>
     </template>
-    <el-drawer
-      :before-close="handleClose"
-      :visible.sync="createApplicationDrawer"
-      title="应用嘻嘻">
-      <el-form :label-position="labelPosition" label-width="80px" :model="applicationFrom">
-        <el-form-item label="编码">
-          <el-input v-model="applicationFrom.code"></el-input>
-        </el-form-item>
-        <el-form-item label="应用名称">
-          <el-input v-model="applicationFrom.name"></el-input>
-        </el-form-item>
-        <el-form-item label="分类">
-          <el-input v-model="applicationFrom.type"/>
-        </el-form-item>
-        <el-button type="success" @click="createApplication">添加应用</el-button>
-      </el-form>
-    </el-drawer>
   </div>
 </template>
 
 <script>
-import {list, saveApplication} from '@/api/application'
+import {list} from '@/api/salary'
 
 export default {
   data() {
     return {
       list: null,
+      listConfig: [],
       listLoading: true,
       createApplicationDrawer: false,
       applicationFrom: {}
     }
   },
   created() {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData() {
       this.listLoading = true
       list().then(response => {
-        this.list = response.data
+
+        if (response.data.length > 0) {
+          let item = response.data[0]
+          let data = JSON.parse(item.data)
+          this.listConfig = data.map(_ => _.fieldName)
+          console.log(this.listConfig)
+        }
+
+        let res = response.data.map(_ => {
+          let data = JSON.parse(_.data) ;
+          delete _.data
+          return data.reduce((acc, item) => {
+            acc[item.fieldName] = item.fieldValue;
+            return acc;
+          }, {..._})
+        })
+        console.log(res);
+        this.list = res
         this.listLoading = false
       })
     },

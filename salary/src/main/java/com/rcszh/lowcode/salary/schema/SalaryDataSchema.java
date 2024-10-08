@@ -1,4 +1,4 @@
-package com.rcszh.framework.schema;
+package com.rcszh.lowcode.salary.schema;
 
 import lombok.Data;
 

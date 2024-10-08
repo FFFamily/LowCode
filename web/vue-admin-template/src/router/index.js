@@ -41,7 +41,13 @@ export const constantRoutes = [
         path: 'example',
         name: 'Example',
         component: () => import('@/views/application/index'),
-        meta: { title: '应用管理', icon: 'table' }
+        meta: { title: '薪资模块', icon: 'table' }
+      },
+      {
+        path: 'salaryConfig',
+        name: 'SalaryConfig',
+        component: () => import('@/views/application/config.vue'),
+        meta: { title: '薪资配置', icon: 'table' }
       }
     ]
   },

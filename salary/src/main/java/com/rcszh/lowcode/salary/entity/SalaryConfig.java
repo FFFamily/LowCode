@@ -1,4 +1,4 @@
-package com.rcszh.framework.entity;
+package com.rcszh.lowcode.salary.entity;
 
 import lombok.Data;
 
@@ -27,5 +27,5 @@ public class SalaryConfig {
     /**
      * 排序
      */
-    private String order;
+    private String configOrder;
 }

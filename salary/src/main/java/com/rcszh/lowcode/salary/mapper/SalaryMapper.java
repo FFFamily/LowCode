@@ -1,8 +1,7 @@
-package com.rcszh.framework.mapper;
+package com.rcszh.lowcode.salary.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rcszh.framework.entity.Salary;
-import com.rcszh.framework.entity.SalaryConfig;
+import com.rcszh.lowcode.salary.entity.Salary;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

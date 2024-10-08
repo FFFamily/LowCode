@@ -1,12 +1,13 @@
 create table a_test
 (
-    id        varchar(50) not null
+    id        varchar(50)  not null
         primary key,
-    test_id   varchar(50) not null,
-    create_by varchar(50) null,
-    create_at varchar(50) null,
-    update_by varchar(50) null,
-    update_at varchar(50) null
+    test_id   varchar(50)  not null,
+    create_by varchar(50)  null,
+    create_at varchar(50)  null,
+    update_by varchar(50)  null,
+    update_at varchar(50)  null,
+    code      varchar(255) null
 );
 
 create table application
@@ -38,12 +39,13 @@ create table bumne
 
 create table conpany
 (
-    id        varchar(50) not null
+    id        varchar(50)  not null
         primary key,
-    create_by varchar(50) null,
-    create_at varchar(50) null,
-    update_by varchar(50) null,
-    update_at varchar(50) null
+    create_by varchar(50)  null,
+    create_at varchar(50)  null,
+    update_by varchar(50)  null,
+    update_at varchar(50)  null,
+    code      varchar(255) null
 );
 
 create table core_data_source
@@ -164,6 +166,25 @@ create table form_table_field
     field_index    varchar(100) null
 );
 
+create table salary_config
+(
+    id           varchar(100) not null
+        primary key,
+    name         varchar(100) null,
+    type         varchar(100) null,
+    value        text         null,
+    group_id     varchar(100) null,
+    config_order int          null
+);
+
+create table salary_group
+(
+    id          varchar(100) not null
+        primary key,
+    name        varchar(100) null,
+    group_order int          null
+);
+
 create table sys_role
 (
     id             bigint auto_increment comment '角色ID'
@@ -214,17 +235,19 @@ create table sys_user
 
 create table test
 (
-    id        varchar(50)  not null
+    id         varchar(50)  not null
         primary key,
-    create_by varchar(50)  null,
-    create_at varchar(50)  null,
-    update_bt varchar(50)  null,
-    update_at varchar(50)  null,
-    company   varchar(255) null,
-    select_da varchar(255) null,
-    code      varchar(255) null,
-    time      varchar(255) null,
-    textgg    varchar(255) null
+    create_by  varchar(50)  null,
+    create_at  varchar(50)  null,
+    update_bt  varchar(50)  null,
+    update_at  varchar(50)  null,
+    company    varchar(255) null,
+    select_da  varchar(255) null,
+    code       varchar(255) null,
+    time       varchar(255) null,
+    textgg     varchar(255) null,
+    con        varchar(255) null,
+    select_sss varchar(255) null
 );
 
 create table view_form

@@ -1,7 +1,7 @@
-package com.rcszh.framework.service;
+package com.rcszh.lowcode.salary.service;
 
-import com.rcszh.framework.entity.SalaryGroup;
-import com.rcszh.framework.mapper.SalaryGroupMapper;
+import com.rcszh.lowcode.salary.entity.SalaryGroup;
+import com.rcszh.lowcode.salary.mapper.SalaryGroupMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

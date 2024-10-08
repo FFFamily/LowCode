@@ -1,22 +1,25 @@
-package com.rcszh.framework.controller;
+package com.rcszh.lowcode.salary.controller;
 
-import com.rcszh.framework.dto.SalaryConfigDto;
-import com.rcszh.framework.service.SalaryConfigService;
+import com.rcszh.lowcode.salary.dto.SalaryConfigDto;
+import com.rcszh.lowcode.salary.service.SalaryConfigService;
 import com.rcszh.lowcode.common.vo.BaseResponse;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("salary/config")
 public class SalaryConfigController {
     @Resource
     private SalaryConfigService salaryConfigService;
+
     @PostMapping("/add")
     public BaseResponse add(@RequestBody SalaryConfigDto config) {
         salaryConfigService.addConfig(config);
         return BaseResponse.success();
+    }
+
+    @GetMapping("/get")
+    public BaseResponse get() {
+        return BaseResponse.success(salaryConfigService.getSalaryConfig());
     }
 }

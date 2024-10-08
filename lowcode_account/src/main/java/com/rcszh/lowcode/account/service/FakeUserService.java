@@ -6,6 +6,8 @@ import com.rcszh.lowcode.account.mapper.FakeUserMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FakeUserService {
     @Resource
@@ -13,5 +15,9 @@ public class FakeUserService {
 
     public FakeUser findUserByUserName(String userName) {
         return fakeUserMapper.selectOne(new LambdaQueryWrapper<FakeUser>().eq(FakeUser::getUsername, userName));
+    }
+
+    public List<FakeUser> getAllUser() {
+        return fakeUserMapper.selectList(null);
     }
 }
