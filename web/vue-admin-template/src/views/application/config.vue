@@ -3,9 +3,9 @@
     <el-button type="text" @click="createGroupDialogVisible = true">新增模块</el-button>
     <el-form  :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
       <div v-for="item in group">
-        <el-divider content-position="left">少年包青天</el-divider>
+        <el-divider content-position="left">{{ item.name }}</el-divider>
         <el-form-item
-          v-for="(domain, index) in dynamicValidateForm.configs"
+          v-for="(domain, index) in item.configs"
           :label="'配置' + index"
           :key="domain.key"
           :prop="'domains.' + index + '.value'">
@@ -25,17 +25,17 @@
               <el-button @click="pushOperator('/',domain)">/</el-button>
               <el-button @click="pushParam(12,domain)">数值</el-button>
               <el-button v-for="(item,index) in dynamicValidateForm.configs" @click="pushParam(item.name,domain)">配置{{item.name}}</el-button>
-              <el-input  v-model="domain.value"></el-input>
+              <span>公式：</span> <el-tag v-for="tag in domain.value">{{tag.formulaValue}}</el-tag>
             </div>
           </div>
           <el-button @click.prevent="removeDomain(domain)">删除</el-button>
         </el-form-item>
+        <el-button @click="addDomain(item,item.id)">新增配置</el-button>
+<!--        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>-->
       </div>
-      <el-form-item>
+
         <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-        <el-button @click="addDomain">新增配置</el-button>
-        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
-      </el-form-item>
+
     </el-form>
 
 
@@ -68,7 +68,11 @@ export default {
         configs: []
       },
       formInline:{},
-      group:[],
+      group:[
+        {
+          configs:[]
+        }
+      ],
       groupOrder:0,
       dialogVisible: false,
       createGroupDialogVisible: false
@@ -81,16 +85,18 @@ export default {
     fetchConfig() {
       getConfig().then(res=>{
         res.data.salaryGroups.forEach(group=>{
+          group.configs = []
           for (let i = 0; i < res.data.configs.length; i++) {
             let config = res.data.configs[i]
             // console.log(config)
             if (config.groupId === group.id){
-              group.config = config
+              group.configs = config
             }
           }
         })
         this.group = res.data.salaryGroups;
-        // console.log(res.data)
+        // this.dynamicValidateForm.configs = res.data.configs
+        // console.log( this.group)
       })
     },
     createGroup(){
@@ -144,12 +150,16 @@ export default {
         this.dynamicValidateForm.configs.splice(index, 1)
       }
     },
-    addDomain() {
-      this.dynamicValidateForm.configs.push({
+    addDomain(domainEntity,groupId) {
+      if (!domainEntity.configs){
+        domainEntity.configs = []
+      }
+      domainEntity.configs.push({
         value: '',
-        groupId:"f51d32dcd6becfd45eb7ab963e81975f",
+        groupId:groupId,
         key: Date.now()
       });
+      console.log(this.group)
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
