@@ -12,6 +12,10 @@ public enum SalaryConfigTypeEnum {
     MANUAL_INPUT("manualInput"),
     // 公式计算
     FORMULA("formula"),
+    // 数据映射
+    DATA_MAPPING("dataMapping"),
+    // 系统配置
+    SYSTEM_CONFIG("systemConfig");
     ;
     private final String type;
 }

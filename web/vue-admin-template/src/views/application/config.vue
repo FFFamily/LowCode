@@ -1,13 +1,12 @@
 <template>
   <div class="app-container">
     <el-button type="text" @click="createGroupDialogVisible = true">新增模块</el-button>
-    <el-form  :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
+    <el-form  ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
       <div v-for="item in group">
         <el-divider content-position="left">{{ item.name }}</el-divider>
         <el-form-item
           v-for="(domain, index) in item.configs"
           :label="'配置' + index"
-          :key="domain.key"
           :prop="'domains.' + index + '.value'">
           <el-input v-model="domain.name"></el-input>
           <!--        <el-input v-model="domain.type"></el-input>-->
@@ -15,7 +14,17 @@
             <el-option  label="固定值" value="fixedValue"></el-option>
             <el-option  label="手动录入" value="manualInput"></el-option>
             <el-option  label="公式计算" value="formula"></el-option>
+            <el-option  label="数据映射" value="dataMapping"></el-option>
+            <el-option  label="系统配置" value="systemConfig"></el-option>
           </el-select>
+          <div  v-if="domain.type === 'dataMapping'">
+            <el-select v-model="domain.otherPro.mappingTarget" @change="dataMappingChange($event,domain)"  placeholder="请选择" value="">
+              <el-option  label="用户信息" value="user"></el-option>
+            </el-select>
+            <el-select v-model="domain.otherPro.mappingProperties" @change="dataMappingChange($event,domain)" placeholder="请选择" value="">
+              <el-option  label="基本工资" value="money"></el-option>
+            </el-select>
+          </div>
           <el-input v-if="domain.type === 'fixedValue'" v-model="domain.value"></el-input>
           <div v-if="domain.type === 'formula'">
             <div class="buttons">
@@ -24,11 +33,13 @@
               <el-button @click="pushOperator('*',domain)">*</el-button>
               <el-button @click="pushOperator('/',domain)">/</el-button>
               <el-button @click="pushParam(12,domain)">数值</el-button>
-              <el-button v-for="(item,index) in dynamicValidateForm.configs" @click="pushParam(item.name,domain)">配置{{item.name}}</el-button>
+<!--              <el-button v-for="(item,index) in dynamicValidateForm.configs" @click="pushParam(item.name,domain)">配置{{item.name}}</el-button>-->
               <span>公式：</span> <el-tag v-for="tag in domain.value">{{tag.formulaValue}}</el-tag>
             </div>
           </div>
-          <el-button @click.prevent="removeDomain(domain)">删除</el-button>
+
+
+<!--          <el-button @click.prevent="removeDomain(domain)">删除</el-button>-->
         </el-form-item>
         <el-button @click="addDomain(item,item.id)">新增配置</el-button>
 <!--        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>-->
@@ -37,8 +48,6 @@
         <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
 
     </el-form>
-
-
 
     <el-dialog
       title="新增模块"
@@ -64,13 +73,18 @@ import {addConfig,getConfig} from "@/api/salary/salaryConfig"
 export default {
   data() {
     return {
-      dynamicValidateForm: {
-        configs: []
-      },
       formInline:{},
       group:[
         {
-          configs:[]
+          configs:[
+            {
+              value: {} || [],
+              otherPro:{
+                mappingTarget:"",
+                mappingProperties:""
+              }
+            }
+          ]
         }
       ],
       groupOrder:0,
@@ -90,14 +104,20 @@ export default {
             let config = res.data.configs[i]
             // console.log(config)
             if (config.groupId === group.id){
-              group.configs = config
+              group.configs.push({
+                ...config,
+                otherPro:{}
+              })
             }
           }
         })
         this.group = res.data.salaryGroups;
         // this.dynamicValidateForm.configs = res.data.configs
-        // console.log( this.group)
+        console.log(this.group)
       })
+    },
+    dataMappingChange(value,domain){
+
     },
     createGroup(){
       this.formInline ={
@@ -131,25 +151,32 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.dynamicValidateForm.configs.forEach(item => {item.value = JSON.stringify(item.value)})
-          console.log(this.dynamicValidateForm)
-          addConfig(this.dynamicValidateForm).then(res => {
+          // this.dynamicValidateForm.configs.forEach(item => {item.value = JSON.stringify(item.value)})
 
+          let combinedArray = this.group.reduce((accumulator, currentValue) => {
+            return accumulator.concat(currentValue.configs);
+          }, []);
+          let form = {
+            configs: combinedArray
+          };
+          console.log(form)
+          addConfig(form).then(res => {
+              this.fetchConfig()
           })
         } else {
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    removeDomain(item) {
-      var index = this.dynamicValidateForm.configs.indexOf(item)
-      if (index !== -1) {
-        this.dynamicValidateForm.configs.splice(index, 1)
-      }
-    },
+    // resetForm(formName) {
+    //   this.$refs[formName].resetFields();
+    // },
+    // removeDomain(item) {
+    //   var index = this.dynamicValidateForm.configs.indexOf(item)
+    //   if (index !== -1) {
+    //     this.dynamicValidateForm.configs.splice(index, 1)
+    //   }
+    // },
     addDomain(domainEntity,groupId) {
       if (!domainEntity.configs){
         domainEntity.configs = []

@@ -24,6 +24,8 @@ public class SalaryService {
     private SalaryMapper salaryMapper;
     @Resource
     private FakeUserService fakeUserService;
+    @Resource
+    private SalaryParser salaryParser;
 
     /**
      * 生成薪资列表
@@ -31,15 +33,11 @@ public class SalaryService {
     public List<Salary> generateSalaryList(SalaryQueryParamDto salaryQueryParamDto) {
         // 拿到配置信息
         List<SalaryConfig> configs =  salaryConfigService.getConfigList();
-        List<SalaryDataSchema> salaryDataSchemas = SalaryParser.parserList(configs);
         // TODO 去获取考勤信息
         List<FakeUser> user = fakeUserService.getAllUser();
         List<Salary> result = new ArrayList<>();
         for (FakeUser fakeUser : user) {
-            String userId = fakeUser.getId();
-            Salary salary = new Salary();
-            salary.setUserId(userId);
-            salary.setData(JSONUtil.toJsonStr(salaryDataSchemas));
+            Salary salary = salaryParser.parserSalary(fakeUser,configs);
             result.add(salary);
         }
         return result;

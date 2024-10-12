@@ -20,4 +20,10 @@ public class FakeUserService {
     public List<FakeUser> getAllUser() {
         return fakeUserMapper.selectList(null);
     }
+
+    public FakeUser getById(String userId) {
+        return fakeUserMapper.selectById(userId);
+    }
+
+
 }

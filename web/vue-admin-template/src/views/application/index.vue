@@ -5,6 +5,11 @@
       <el-table v-loading="listLoading" :data="list" style="width: 100%">
         <el-table-column prop="id" label="Id" ></el-table-column>
         <el-table-column v-for="item in listConfig" :prop="item" :label="item" ></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
+          <template v-slot="scope">
+            <el-button @click="edit(scope.row)" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </template>
   </div>

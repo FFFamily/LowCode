@@ -15,9 +15,18 @@ public class SalaryConfigService {
     private SalaryConfigMapper salaryConfigMapper;
     @Resource
     private SalaryGroupService salaryGroupService;
+
+    /**
+     * TODO 要整合成批量
+     * 添加
+     */
     public void addConfig(SalaryConfigDto config) {
         for (SalaryConfig configConfig : config.getConfigs()) {
-            salaryConfigMapper.insert(configConfig);
+            if (configConfig.getId() == null) {
+                salaryConfigMapper.insert(configConfig);
+            }else {
+                salaryConfigMapper.updateById(configConfig);
+            }
         }
     }
 

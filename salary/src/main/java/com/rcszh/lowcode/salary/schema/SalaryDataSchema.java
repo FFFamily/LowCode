@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class SalaryDataSchema {
     private String fieldName;
-    private String fieldValue;
+    private Object fieldValue;
 }
