@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * ORM builder 构建器
+ * ORM builder 构建器 类似 SqlSession
  * TODO sql注入问题要解决
  */
 @Component
