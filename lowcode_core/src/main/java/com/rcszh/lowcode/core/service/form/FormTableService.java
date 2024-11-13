@@ -27,7 +27,7 @@ public class FormTableService {
      */
     public void initMainFormTable(FormTable formTable) {
         formTableMapper.insert(formTable);
-        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
+//        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
     }
 
     /**
@@ -35,7 +35,7 @@ public class FormTableService {
      */
     public void initChildFormTable(String mainTableName, FormTable formTable) {
         formTableMapper.insert(formTable);
-        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(mainTableName);
+//        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(mainTableName);
     }
     /**
      * 创建数据表（首次生成表单）
@@ -45,7 +45,7 @@ public class FormTableService {
      */
     public void createFormTable(FormTable formTable, List<FormTableField> formTableFields) {
         formTableMapper.insert(formTable);
-        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
+//        ORM.orm().tableName(formTable.getTableName()).createTemplateTable(null);
     }
 
     /**

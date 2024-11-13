@@ -39,7 +39,8 @@ public class DynamicTableService {
      * @return 获取所有业务对象列表数据
      */
     public List<Map<String, Object>> getRealTableDataList(String tableName) {
-        return ORM.orm().tableName(tableName).selectList();
+//        return ORM.orm().tableName(tableName).selectList();
+        return null;
     }
 
     /**
@@ -48,7 +49,8 @@ public class DynamicTableService {
      */
     public List<Map<String, Object>> getRealTableDataListByConfig(List<ViewFormConfig> listViewFormConfigs,String tableName) {
         // 展示配置
-        return ORM.orm().tableName(tableName).selectList();
+//        return ORM.orm().tableName(tableName).selectList();
+        return null;
     }
     /**
      * 添加业务对象数据
@@ -56,7 +58,7 @@ public class DynamicTableService {
      * @param tableInfo 数据信息
      */
     public void addDynamicTableData(String tableName, Map<String, Object> tableInfo) {
-        ORM.orm().tableName(tableName).insert(tableInfo);
+//        ORM.orm().tableName(tableName).insert(tableInfo);
     }
 
     /**
@@ -64,7 +66,7 @@ public class DynamicTableService {
      * @param tableName 业务对象数据库表名
      */
     public void deleteDynamicTableData(String tableName,String fieldId) {
-        ORM.orm().tableName(tableName).deletedById(fieldId);
+//        ORM.orm().tableName(tableName).deletedById(fieldId);
     }
 
     /**
@@ -73,7 +75,8 @@ public class DynamicTableService {
      * @param fieldId 业务对象数据库Id
      */
     public Map<String,Object> getDynamicTableDataById(String tableName, String fieldId) {
-        return ORM.orm().tableName(tableName).selectOneById(fieldId);
+//        return ORM.orm().tableName(tableName).selectOneById(fieldId);
+        return null;
     }
 
     /**
@@ -82,7 +85,7 @@ public class DynamicTableService {
      * @param tableInfo 要更新的业务对象数据
      */
     public void updateDynamicTableData(String tableName, Map<String, Object> tableInfo) {
-        ORM.orm().tableName(tableName).update(tableInfo);
+//        ORM.orm().tableName(tableName).update(tableInfo);
     }
 
     /**
@@ -91,11 +94,12 @@ public class DynamicTableService {
     public Object getDynamicTableDataByFindQuery(FindRequest findRequest) {
         String tableName = findRequest.getTableName();
         List<String> tableFiled = findRequest.getTableFiled();
-        ORM orm = ORM.orm().tableName(tableName).columns(tableFiled).where(findRequest.getFilterCondition());
-        if (tableFiled.size() > 1){
-            return orm.selectList();
-        }else {
-            return orm.selectOneForObject(Object.class);
-        }
+//        ORM orm = ORM.orm().tableName(tableName).columns(tableFiled).where(findRequest.getFilterCondition());
+//        if (tableFiled.size() > 1){
+//            return orm.selectList();
+//        }else {
+//            return orm.selectOneForObject(Object.class);
+//        }
+        return null;
     }
 }

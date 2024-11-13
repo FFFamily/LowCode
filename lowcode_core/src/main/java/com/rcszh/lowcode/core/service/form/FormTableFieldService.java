@@ -55,21 +55,21 @@ public class FormTableFieldService {
      */
     public void createField(String tableName, List<FormTableField> formTableFields) {
         // 更新真实的数据库字段
-        ORM.orm().tableName(tableName)
-                .updateTable(formTableFields
-                        .stream()
-                        // 过滤出新创建的字段
-                        // 只会生成 已保存||已创建 状态的字段
-                        .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
-                        // 有些组件不用生成字段信息
-                        .filter(item -> !filterList.contains(item.getInterfaceType()))
-                        .map(item -> {
-                        SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
-                        sqlFieldConfig.setFieldName(item.getCode());
-                        sqlFieldConfig.setFieldType(item.getType());
-                        sqlFieldConfig.setIsNull(true);
-                        return sqlFieldConfig;
-            }).collect(Collectors.toList()));
+//        ORM.orm().tableName(tableName)
+//                .updateTable(formTableFields
+//                        .stream()
+//                        // 过滤出新创建的字段
+//                        // 只会生成 已保存||已创建 状态的字段
+//                        .filter(item -> FormTableFieldStatusEnum.CREATED.getStatus().equals(item.getStatus()) ||  FormTableFieldStatusEnum.SAVED.getStatus().equals(item.getStatus()))
+//                        // 有些组件不用生成字段信息
+//                        .filter(item -> !filterList.contains(item.getInterfaceType()))
+//                        .map(item -> {
+//                        SqlFieldConfig sqlFieldConfig = new SqlFieldConfig();
+//                        sqlFieldConfig.setFieldName(item.getCode());
+//                        sqlFieldConfig.setFieldType(item.getType());
+//                        sqlFieldConfig.setIsNull(true);
+//                        return sqlFieldConfig;
+//            }).collect(Collectors.toList()));
         for (FormTableField formTableField : formTableFields) {
             if (formTableField.getId() != null){
                 // TODO 只能更新名称，其他的不能更新
