@@ -1,27 +1,29 @@
-package com.rcszh.lowcode.core.entity.view;
+package com.rcszh.lowcode.core.dto.view;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rcszh.lowcode.core.entity.view.ViewFormConfig;
+import com.rcszh.lowcode.core.schema.ViewConfigOptionsItem;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Optional;
+
 @Data
-@TableName("view_form_config")
-public class ViewFormConfig {
-    @TableId(type= IdType.ASSIGN_UUID)
+public class ViewFormConfigDto {
     private String id;
     /**
      * 视图id
      */
     private String viewFormId;
     /**
-     * 基础配置（父配置）
-     */
-    private String parentType;
-    /**
      * 配置类型：显示配置、搜搜配置、排序配置、 筛选配置、按钮配置、基础配置
      */
-    private String childType;
+    private String type;
     /**
      * 配置名称
      */
@@ -48,6 +50,13 @@ public class ViewFormConfig {
      * 基础设置：待定
      * 页面配置
      */
-    private String options;
+    private List<ViewConfigOptionsItem> optionList;
+
+    public ViewFormConfig convertToEntity() {
+        ViewFormConfig viewFormConfig = new ViewFormConfig();
+        BeanUtil.copyProperties(this, viewFormConfig);
+        Optional.ofNullable(this.getOptionList()).ifPresent(value -> viewFormConfig.setOptions(JSONUtil.parseArray(value).toString()));
+        return viewFormConfig;
+    }
 
 }

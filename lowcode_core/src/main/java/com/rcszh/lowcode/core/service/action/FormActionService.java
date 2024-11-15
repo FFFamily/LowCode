@@ -1,10 +1,13 @@
 package com.rcszh.lowcode.core.service.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rcszh.lowcode.core.entity.action.FormAction;
 import com.rcszh.lowcode.core.entity.action.FormActionCondition;
+import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.mapper.action.FormActionConditionMapper;
 import com.rcszh.lowcode.core.mapper.action.FormActionMapper;
+import com.rcszh.lowcode.core.mapper.action.FormConditionMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class FormActionService {
+public class FormActionService extends ServiceImpl<FormActionMapper, FormAction> {
     @Resource
     private FormActionMapper formActionMapper;
     @Resource
@@ -23,9 +26,9 @@ public class FormActionService {
      * 添加动作
      */
     public void addAction(FormAction formAction) {
-        if (formAction.getAcResource().equals(formAction.getAcTarget())){
-            throw new RuntimeException("源表单不能和动作表单相同");
-        }
+//        if (formAction.getAcResource().equals(formAction.getAcTarget())){
+//            throw new RuntimeException("源表单不能和动作表单相同");
+//        }
         formActionMapper.insert(formAction);
     }
 

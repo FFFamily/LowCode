@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class FormActionCondition {
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     private String actionId;
     private String conditionId;

@@ -1,13 +1,17 @@
 package com.rcszh.lowcode.core.service.form;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rcszh.lowcode.core.dto.FormTableFieldDto;
 import com.rcszh.lowcode.core.entity.FormDataField;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.enums.FormTableFieldStatusEnum;
 import com.rcszh.lowcode.core.enums.InterfaceTypeEnum;
 import com.rcszh.lowcode.core.enums.form.FormOptionsComponentEnum;
 import com.rcszh.lowcode.core.mapper.FormTableFieldMapper;
+import com.rcszh.lowcode.core.utils.UUIDUtils;
 import com.rcszh.lowcode.orm.ORM;
 import com.rcszh.lowcode.orm.SqlFieldConfig;
 import jakarta.annotation.Resource;
@@ -38,22 +42,27 @@ public class FormTableFieldService {
         return queryWrapper;
     }
 
-    public Map<String, List<FormTableField>> getFieldByFormIdToMap(String formId) {
+    public Map<String, List<FormTableFieldDto>> getFieldByFormIdToMap(String formId) {
         List<FormTableField> formTableFields = formTableFieldMapper.selectList(new LambdaQueryWrapper<FormTableField>().eq(FormTableField::getFormId, formId));
-        return formTableFields.stream().collect(Collectors.groupingBy(FormTableField::getFormTableId));
+        return formTableFields.stream()
+                .map(FormTableFieldDto::coverToDto)
+                .collect(Collectors.groupingBy(FormTableFieldDto::getFormTableId));
     }
 
     /**
      * 通过表单表id获取库表字段
      */
-    public  List<FormTableField> getFieldByTable(String formTableId) {
-        return formTableFieldMapper.selectList(new LambdaQueryWrapper<FormTableField>().eq(FormTableField::getFormTableId, formTableId));
+    public  List<FormTableFieldDto> getFieldByTable(String formTableId) {
+        return formTableFieldMapper.selectList(new LambdaQueryWrapper<FormTableField>().eq(FormTableField::getFormTableId, formTableId))
+                .stream()
+                .map(FormTableFieldDto::coverToDto)
+                .collect(Collectors.toList());
     }
 
     /**
      * 生成数据库字段配置信息，同时生成真实库表字段
      */
-    public void createField(String tableName, List<FormTableField> formTableFields) {
+    public void createField(String tableName, List<FormTableFieldDto> formTableFields) {
         // 更新真实的数据库字段
 //        ORM.orm().tableName(tableName)
 //                .updateTable(formTableFields
@@ -70,27 +79,27 @@ public class FormTableFieldService {
 //                        sqlFieldConfig.setIsNull(true);
 //                        return sqlFieldConfig;
 //            }).collect(Collectors.toList()));
-        for (FormTableField formTableField : formTableFields) {
+        for (FormTableFieldDto formTableField : formTableFields) {
             if (formTableField.getId() != null){
                 // TODO 只能更新名称，其他的不能更新
                 FormTableField oldFormTableField = formTableFieldMapper.selectById(formTableField.getId());
                 if (oldFormTableField == null){
                     throw new RuntimeException("程序错误，当前字段不存在");
                 }
-                if (!oldFormTableField.getCode().equals(formTableField.getCode())){
+                if (!oldFormTableField.getName().equals(formTableField.getName())){
                     throw new RuntimeException("已发布字段编码不能被修改");
                 }
-                if (!oldFormTableField.getType().equals(formTableField.getType())){
-                    throw new RuntimeException("已发布字段类型不能被修改");
-                }
-                if (!oldFormTableField.getInterfaceType().equals(formTableField.getInterfaceType())){
+//                if (!oldFormTableField.getJdbcType().equals(formTableField.getJdbcType())){
+//                    throw new RuntimeException("已发布字段类型不能被修改");
+//                }
+                if (!oldFormTableField.getComponent().equals(formTableField.getComponent())){
                     throw new RuntimeException("已发布字段组件类型不能被修改");
                 }
-                formTableFieldMapper.updateById(formTableField);
+                formTableFieldMapper.updateById(formTableField.coverToEntity());
             }else {
                 // 若是新增字段那么需要更新其状态
                 formTableField.setStatus(FormTableFieldStatusEnum.PUBLISHED.getStatus());
-                formTableFieldMapper.insert(formTableField);
+                formTableFieldMapper.insert(formTableField.coverToEntity());
             }
         }
     }
@@ -104,16 +113,18 @@ public class FormTableFieldService {
         formTableField.setFormId(formId);
         formTableField.setFormTableId(formTableId);
         // todo 这里的设置也是不可控制的，比如我修改了 ORM 那边的规则，忘记改这里的规则就会有问题
-        formTableField.setCode(mainTable+"_id");
-        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
+        formTableField.setName(mainTable+"_id");
+        formTableField.setComponent(InterfaceTypeEnum.INPUT.getType());
         formTableField.setName(mainTable+"_ID");
-        formTableField.setType("String");
+        formTableField.setJdbcType("String");
         formTableField.setStatus("published");
         HashMap<Object, Object> options = new HashMap<>();
         options.put("x-component","Input");
         formTableField.setOptions(JSONUtil.parse(options).toString());
         formTableFieldMapper.insert(formTableField);
     }
+
+
 
     /**
      * 生成初始化字段
@@ -123,30 +134,30 @@ public class FormTableFieldService {
         FormTableField formTableField = new FormTableField();
         formTableField.setFormId(formId);
         formTableField.setFormTableId(formTableId);
-        formTableField.setCode("id");
-        formTableField.setInterfaceType(InterfaceTypeEnum.INPUT.getType());
-        formTableField.setName("ID");
-        formTableField.setType("String");
+        formTableField.setName("id");
+        formTableField.setComponent(InterfaceTypeEnum.INPUT.getType());
+        formTableField.setLabel("ID");
+        formTableField.setJdbcType("String");
         formTableField.setStatus("published");
-        HashMap<Object, Object> options = new HashMap<>();
-        options.put("x-component","Input");
-        formTableField.setOptions(JSONUtil.parse(options).toString());
+        JSONObject obj = JSONUtil.createObj();
+        obj.putOpt("placeholder","请输入");
+        formTableField.setProps(obj.toString());
         formTableFieldMapper.insert(formTableField);
         formTableField.setId(null);
-        formTableField.setCode("create_by");
-        formTableField.setName("创建人");
+        formTableField.setName("create_by");
+        formTableField.setLabel("创建人");
         formTableFieldMapper.insert(formTableField);
         formTableField.setId(null);
-        formTableField.setCode("create_at");
-        formTableField.setName("创建时间");
+        formTableField.setName("create_at");
+        formTableField.setLabel("创建时间");
         formTableFieldMapper.insert(formTableField);
         formTableField.setId(null);
-        formTableField.setCode("update_by");
-        formTableField.setName("更新人");
+        formTableField.setName("update_by");
+        formTableField.setLabel("更新人");
         formTableFieldMapper.insert(formTableField);
         formTableField.setId(null);
-        formTableField.setCode("update_at");
-        formTableField.setName("更新时间");
+        formTableField.setName("update_at");
+        formTableField.setLabel("更新时间");
         formTableFieldMapper.insert(formTableField);
     }
 }

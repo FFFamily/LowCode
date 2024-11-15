@@ -1,14 +1,17 @@
 package com.rcszh.lowcode.core.service.action;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rcszh.lowcode.core.entity.action.FormActionCondition;
+import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.mapper.action.FormActionConditionMapper;
+import com.rcszh.lowcode.core.mapper.action.FormConditionMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FormActionConditionService {
+public class FormActionConditionService extends ServiceImpl<FormActionConditionMapper, FormActionCondition> {
     @Resource
     private FormActionConditionMapper formActionConditionMapper;
 

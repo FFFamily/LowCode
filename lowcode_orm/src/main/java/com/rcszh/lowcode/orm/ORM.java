@@ -28,12 +28,14 @@ public class ORM extends AbstractBaseORM {
         this.config = config;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<Map<String, Object>> selectList(SelectWrapper wrapper) {
+    public List<Map<String, Object>> selectListToMap(SelectWrapper wrapper) {
+        if (wrapper == null) {
+            wrapper = new SelectWrapper();
+        }
         HashMap<String,String> mapping = new HashMap<>();
         mapping.put(SqlConstant.TABLE_NAME_KEY, config.getTableName());
-        mapping.put(SqlConstant.COLUMN_KEY,"*");
+        mapping.put(SqlConstant.COLUMN_KEY,config.getSelectFields() == null ?  "*" : String.join(",", config.getSelectFields()));
         String selectSQL = SqlUtil.replaceSQL(SqlConstant.SELECT_SQL,mapping);
         String whereParam = SelectWrapperUtil.createWhereParam(wrapper);
         JdbcTemplate jdbcTemplate = config.getJdbcTemplate();
@@ -46,17 +48,21 @@ public class ORM extends AbstractBaseORM {
     }
 
     @Override
-    public <T> T selectOne(SelectWrapper param) {
-        return null;
+    public Map<String, Object> selectOneToMap(SelectWrapper wrapper) {
+        List<Map<String, Object>> list = selectListToMap(wrapper);
+        if (list.size() > 1){
+            throw new RuntimeException("查询SQL期望数量为1,结果为: "+list.size());
+        }
+        return list.getFirst();
     }
 
     @Override
-    public Map<String, Object> selectOneByIdWithMap(String fieldId) {
-        return Map.of();
+    public Map<String, Object> selectByIdToMap(String fieldId) {
+        return selectOneToMap(new SelectWrapper().eq(SqlConstant.TABLE_ID,fieldId));
     }
 
     @Override
-    public void insertWithMap(Map<String, Object> tableInfo) {
+    public void insertByMap(Map<String, Object> tableInfo) {
 
     }
 

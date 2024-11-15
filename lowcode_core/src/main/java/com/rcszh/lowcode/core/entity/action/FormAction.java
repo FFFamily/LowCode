@@ -1,5 +1,7 @@
 package com.rcszh.lowcode.core.entity.action;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
@@ -7,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class FormAction {
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 名称
@@ -19,13 +22,14 @@ public class FormAction {
     /**
      * 动作源
      */
-    private String acResource;
+//    private String acResource;
     /**
      * 动作目标（目标表单Id）
      */
-    private String acTarget;
+    private String acTargetTableId;
     /**
      * 动作配置
+     * {"dataList": [{"fieldName": "id", "fieldValue": "11", "assignmentMode": "fix_value"}]}
      */
     private String acConfig;
 }

@@ -2,6 +2,7 @@ package com.rcszh.lowcode.admin.controller.action;
 
 import com.rcszh.lowcode.admin.service.AdminActionService;
 import com.rcszh.lowcode.common.vo.BaseResponse;
+import com.rcszh.lowcode.core.dto.action.FormActionCreateDto;
 import com.rcszh.lowcode.core.entity.action.FormAction;
 import com.rcszh.lowcode.core.entity.dto.FormActionInfo;
 import com.rcszh.lowcode.core.service.action.FormConditionService;
@@ -17,10 +18,11 @@ public class FormActionController {
     @Resource
     private AdminActionService actionService;
     /**
-     * 添加
+     * 添加动作
      */
     @PostMapping("/add")
-    public BaseResponse add(@RequestBody FormAction formAction) {
-        return BaseResponse.success(actionService.addFormAction(formAction));
+    public BaseResponse add(@RequestBody FormActionCreateDto formAction) {
+        actionService.addFormAction(formAction);
+        return BaseResponse.success();
     }
 }

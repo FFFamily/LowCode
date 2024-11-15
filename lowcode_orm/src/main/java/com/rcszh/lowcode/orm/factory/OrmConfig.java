@@ -5,6 +5,8 @@ import com.rcszh.lowcode.orm.exceptions.OrmBuilderException;
 import lombok.Getter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+
 /**
  * ORM 构造器
  */
@@ -15,13 +17,17 @@ public class OrmConfig {
      */
     private String tableName;
     /**
+     * 查询字段
+     */
+    private List<String> selectFields;
+    /**
      * JDBC
      */
     private JdbcTemplate jdbcTemplate;
     /**
      * 私有构造
      */
-    private OrmConfig(){
+    private OrmConfig() {
 
     }
     /**

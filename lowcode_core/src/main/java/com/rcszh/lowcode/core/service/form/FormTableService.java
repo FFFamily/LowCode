@@ -1,10 +1,11 @@
 package com.rcszh.lowcode.core.service.form;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rcszh.lowcode.core.dto.FormTableFieldDto;
+import com.rcszh.lowcode.core.dto.form.FormTableDto;
 import com.rcszh.lowcode.core.entity.form.FormTable;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
 import com.rcszh.lowcode.core.mapper.FormTableMapper;
-import com.rcszh.lowcode.orm.ORM;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -93,8 +94,9 @@ public class FormTableService {
     /**
      * 添加或者更新表
      */
-    public void batchUpdateFormTable(List<FormTable> formTables, Map<String, List<FormTableField>> fields) {
-        formTables.forEach(formTable -> {
+    public void batchUpdateFormTable(List<FormTableDto> formTables) {
+        formTables.forEach(formTableDto -> {
+            FormTable formTable = formTableDto;
             String formTableId = formTable.getId();
             FormTable oldFormTable = formTableMapper.selectById(formTableId);
             if (oldFormTable == null) {

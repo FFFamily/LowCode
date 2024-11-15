@@ -1,5 +1,7 @@
 package com.rcszh.lowcode.core.entity.dto;
 
+import com.rcszh.lowcode.core.dto.FormTableFieldDto;
+import com.rcszh.lowcode.core.dto.form.FormTableDto;
 import com.rcszh.lowcode.core.entity.form.Form;
 import com.rcszh.lowcode.core.entity.form.FormTable;
 import com.rcszh.lowcode.core.entity.form.FormTableField;
@@ -20,9 +22,9 @@ public class FormInfo {
     /**
      * 表单对应的库表信息
      */
-    private List<FormTable> formTables;
+    private List<FormTableDto> formTables;
     /**
      * 库表字段信息
      */
-    private Map<String,List<FormTableField>> fields;
+//    private Map<String,List<FormTableFieldDto>> fields;
 }

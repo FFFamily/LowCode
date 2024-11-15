@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum InterfaceTypeEnum {
-    INPUT("input"), // 文本输入框
-    NUMBER("number"), // 数值
-    RADIO("radio"), // 单选框
-    SWITCH_BUTTON("switch_button"), // 开关按钮
+    INPUT("Input"), // 文本输入框
+    NUMBER("Number"), // 数值
+    RADIO("Radio"), // 单选框
+    SWITCH_BUTTON("SwitchButton"), // 开关按钮
     ;
     private final String type;
 }

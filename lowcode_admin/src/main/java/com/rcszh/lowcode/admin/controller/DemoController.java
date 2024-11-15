@@ -19,11 +19,11 @@ public class DemoController {
     private ORMFactory ormFactory;
     @GetMapping("/demo/test")
     public void test(){
-        List<Map<String, Object>> maps = ormFactory.createORM(
-                OrmConfig.config().tableName("test")
-        ).selectList(new SelectWrapper()
-                .eq("id", "1"));
-        System.out.println(maps);
+//        List<Map<String, Object>> maps = ormFactory.createORM(
+//                OrmConfig.config().tableName("test")
+//        ).selectList(new SelectWrapper()
+//                .eq("id", "1"));
+//        System.out.println(maps);
     }
 
 }

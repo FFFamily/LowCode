@@ -26,6 +26,15 @@ public class FormCondition {
      */
     private String cdType;
     /**
+     * 监控对象
+     */
+    private String cdResource;
+    /**
+     * 是否启用
+     */
+    private String cdEnable;
+
+    /**
      * 触发条件配置
      * {
      *     trEvent: 触发事件
@@ -38,9 +47,6 @@ public class FormCondition {
      *     }
      * }
      */
-    private String cdConfig;
-    /**
-     * 是否启用
-     */
-    private String cdEnable;
+//    private String cdConfig;
+
 }

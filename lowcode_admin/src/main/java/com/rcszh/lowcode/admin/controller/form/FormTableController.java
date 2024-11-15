@@ -2,6 +2,7 @@ package com.rcszh.lowcode.admin.controller.form;
 
 import com.rcszh.lowcode.admin.dto.form.TableInfo;
 import com.rcszh.lowcode.common.vo.BaseResponse;
+import com.rcszh.lowcode.core.dto.FormTableFieldDto;
 import com.rcszh.lowcode.core.entity.dto.FormInfo;
 import com.rcszh.lowcode.core.entity.form.Form;
 import com.rcszh.lowcode.core.entity.form.FormTable;
@@ -48,7 +49,7 @@ public class FormTableController {
         TableInfo tableInfo = new TableInfo();
         FormTable table = formTableService.getTableById(tableId);
         tableInfo.setTable(table);
-        List<FormTableField> fields = formTableFieldService.getFieldByTable(tableId);
+        List<FormTableFieldDto> fields = formTableFieldService.getFieldByTable(tableId);
         tableInfo.setFields(fields);
         return BaseResponse.success(tableInfo);
     }

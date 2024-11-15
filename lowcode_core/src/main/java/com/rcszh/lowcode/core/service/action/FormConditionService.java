@@ -1,6 +1,7 @@
 package com.rcszh.lowcode.core.service.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rcszh.lowcode.core.entity.action.FormCondition;
 import com.rcszh.lowcode.core.mapper.action.FormConditionMapper;
 import jakarta.annotation.Resource;
@@ -9,17 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FormConditionService {
+public class FormConditionService extends ServiceImpl<FormConditionMapper, FormCondition> {
     @Resource
     private FormConditionMapper formConditionMapper;
 
-    /**
-     * 添加
-     */
-    public String addFormCondition(FormCondition formCondition) {
-        formConditionMapper.insert(formCondition);
-        return formCondition.getId();
-    }
 
     /**
      * 根绝表单Id以及类型查询动作场景

@@ -3,6 +3,9 @@ package com.rcszh.lowcode.core.service.form;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rcszh.lowcode.common.constant.CommonConstant;
+import com.rcszh.lowcode.core.dto.FormTableFieldDto;
+import com.rcszh.lowcode.core.dto.form.FormTableDto;
 import com.rcszh.lowcode.core.entity.dto.FormInfo;
 import com.rcszh.lowcode.core.entity.form.*;
 import com.rcszh.lowcode.core.entity.view.ViewForm;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 表单
@@ -84,11 +88,14 @@ public class FormService {
     public FormInfo getFormInfoById(String formId) {
         FormInfo formInfo = new FormInfo();
         Form form = formMapper.selectById(formId);
-        List<FormTable> formTables = formTableService.getTableByFormId(formId);
-        Map<String, List<FormTableField>> tableFields = formTableFieldService.getFieldByFormIdToMap(formId);
+        List<FormTableDto> formTables = formTableService.getTableByFormId(formId).stream().map(FormTableDto::convertToDto).collect(Collectors.toList());
+        Map<String, List<FormTableFieldDto>> tableFields = formTableFieldService.getFieldByFormIdToMap(formId);
+        for (FormTableDto formTable : formTables) {
+            formTable.setChildren(tableFields.get(formTable.getId()));
+        }
         formInfo.setFormTables(formTables);
         formInfo.setForm(form);
-        formInfo.setFields(tableFields);
+//        formInfo.setFields(tableFields);
         return formInfo;
     }
 
@@ -105,17 +112,16 @@ public class FormService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void releaseForm(FormInfo formInfo) {
-        // 更新表单
         Form form = formInfo.getForm();
         // 更新发布状态
         form.setFormStatus(FormStatusEnum.PUBLISH.getStatus());
-        // 更新
+        // 更新表单
         formMapper.updateById(form);
         // 更新表单表
-        formTableService.batchUpdateFormTable(formInfo.getFormTables(),formInfo.getFields());
+        formTableService.batchUpdateFormTable(formInfo.getFormTables());
         // 更新表单字段信息
-        Map<String, List<FormTableField>> fields = formInfo.getFields();
-        for (Map.Entry<String, List<FormTableField>> entry : fields.entrySet()) {
+        Map<String, List<FormTableFieldDto>> fields = formInfo.getFormTables().stream().collect(Collectors.toMap(FormTable::getId,FormTableDto::getChildren));
+        for (Map.Entry<String, List<FormTableFieldDto>> entry : fields.entrySet()) {
             String tableId = entry.getKey();
             // 找到字段对应的表
             FormTable formTable = formInfo.getFormTables().stream().filter(item -> item.getId().equals(tableId)).findFirst().orElse(null);
@@ -137,6 +143,7 @@ public class FormService {
             viewForm.setName("默认查看视图");
             viewForm.setType(ViewFormTypeEnum.VIEW_PAGE.getType());
             viewForm.setSystemType(SystemTypeEnum.BUILT_IN.getType());
+            viewForm.setStatus(CommonConstant.YES);
             viewFormService.createViewFormConfig(viewForm);
             // 添加列表视图
             viewForm = new ViewForm();
@@ -144,6 +151,7 @@ public class FormService {
             viewForm.setName("默认列表视图");
             viewForm.setType(ViewFormTypeEnum.LIST_PAGE.getType());
             viewForm.setSystemType(SystemTypeEnum.BUILT_IN.getType());
+            viewForm.setStatus(CommonConstant.YES);
             viewFormService.createViewFormConfig(viewForm);
         }
     }

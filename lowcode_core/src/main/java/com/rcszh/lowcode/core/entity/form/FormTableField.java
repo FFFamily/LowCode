@@ -28,25 +28,32 @@ public class FormTableField {
     private String formTableId;
     /**
      * 字段编码（对应真实数据库字段）
+     * 原（code）
      */
-    private String code;
+    private String name;
     /**
      * 字段组件类型
      * type: input、text...
      */
-    private String interfaceType;
+    private String component;
     /**
      * 对应数据库类型
+     * 原 type
      */
-    private String type;
+    private String jdbcType;
     /**
      * 字段组件名称
+     * 原 name
      */
-    private String name;
+    private String label;
     /**
      * 状态
      */
     private String status;
+    /**
+     * 前端UI prop
+     */
+    private String props;
     /**
      * 字段配置（UI）
      */
